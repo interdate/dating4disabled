@@ -1,0 +1,32 @@
+Hobby:
+    type: entity
+    table: hobby
+    uniqueConstraints:
+        IX_hobbies:
+            columns:
+                - hobbyName
+    id:
+        hobbyid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: hobbyId
+            generator:
+                strategy: IDENTITY
+    fields:
+        hobbyname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: hobbyName
+    manyToMany:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: hobbyid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

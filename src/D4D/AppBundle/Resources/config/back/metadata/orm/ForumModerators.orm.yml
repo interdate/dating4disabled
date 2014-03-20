@@ -1,0 +1,25 @@
+ForumModerators:
+    type: entity
+    table: forum_moderators
+    indexes:
+        IDX_DA3BAB967830F151:
+            columns:
+                - forumId
+    id:
+        userid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: userId
+    oneToOne:
+        forumid:
+            targetEntity: ForumForums
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                forumId:
+                    referencedColumnName: forumId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

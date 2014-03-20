@@ -1,0 +1,64 @@
+Banners:
+    type: entity
+    table: banners
+    id:
+        bannerid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: bannerId
+            generator:
+                strategy: IDENTITY
+    fields:
+        bannername:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: bannerName
+        bannerfileext:
+            type: string
+            nullable: true
+            length: 3
+            fixed: false
+            column: bannerFileExt
+        bannerlink:
+            type: string
+            nullable: true
+            length: 2048
+            fixed: false
+            column: bannerLink
+        bannerlocation:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: bannerLocation
+        banneractive:
+            type: boolean
+            nullable: true
+            default: '1'
+            column: bannerActive
+        bannershowcount:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: bannerShowCount
+        bannerclickcount:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: bannerClickCount
+        bannerwidth:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: bannerWidth
+        bannerheight:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: bannerHeight
+    lifecycleCallbacks: {  }

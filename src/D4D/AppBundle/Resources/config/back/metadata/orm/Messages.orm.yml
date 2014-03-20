@@ -1,0 +1,65 @@
+Messages:
+    type: entity
+    table: messages
+    indexes:
+        _dta_index_messages_521_399340487__K4_K5_K9_K3:
+            columns:
+                - msgToId
+                - msgRead
+                - msgToDel
+                - msgFromId
+        IDX_DB021E96BD29638C:
+            columns:
+                - msgToId
+    id:
+        msgid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: msgId
+            generator:
+                strategy: IDENTITY
+    fields:
+        msgdate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: msgDate
+        msgfromid:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: msgFromId
+        msgread:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: msgRead
+        msgbody:
+            type: text
+            nullable: true
+            length: 8
+            fixed: false
+            column: msgBody
+        msgfromdel:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: msgFromDel
+        msgtodel:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: msgToDel
+    manyToOne:
+        msgtoid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                msgToId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

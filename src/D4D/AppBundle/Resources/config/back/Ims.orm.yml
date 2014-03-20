@@ -1,0 +1,33 @@
+D4D\AppBundle\Entity\Ims:
+    type: entity
+    table: ims
+    indexes:
+        IX_ims:
+            columns:
+                - imToId
+    id:
+        imfromid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: imFromId
+        imtoid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: imToId
+    fields:
+        imtext:
+            type: string
+            nullable: true
+            length: 4000
+            fixed: false
+            column: imText
+        imlasttime:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: imLastTime
+    lifecycleCallbacks: {  }

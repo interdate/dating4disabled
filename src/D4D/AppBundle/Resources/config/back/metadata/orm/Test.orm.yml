@@ -1,0 +1,19 @@
+Test:
+    type: entity
+    table: test
+    id:
+        testId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: test_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        val:
+            type: text
+            nullable: true
+            length: 16
+            fixed: false
+    lifecycleCallbacks: {  }

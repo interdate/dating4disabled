@@ -1,0 +1,24 @@
+D4D\AppBundle\Entity\Bodytype:
+    type: entity
+    table: bodyType
+    uniqueConstraints:
+        IX_bodyType:
+            columns:
+                - bodyTypeName
+    id:
+        bodytypeid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: bodyTypeId
+            generator:
+                strategy: IDENTITY
+    fields:
+        bodytypename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: bodyTypeName
+    lifecycleCallbacks: {  }

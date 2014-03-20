@@ -1,0 +1,40 @@
+Faq:
+    type: entity
+    table: faq
+    indexes:
+        IDX_E8FF75CC1DD98E82:
+            columns:
+                - faqCategoryId
+    id:
+        faqid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: faqId
+            generator:
+                strategy: IDENTITY
+    fields:
+        faqq:
+            type: string
+            nullable: false
+            length: 1300
+            fixed: false
+            column: faqQ
+        faqa:
+            type: string
+            nullable: false
+            length: 1300
+            fixed: false
+            column: faqA
+    manyToOne:
+        faqcategoryid:
+            targetEntity: Faqcategory
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                faqCategoryId:
+                    referencedColumnName: faqCategoryId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

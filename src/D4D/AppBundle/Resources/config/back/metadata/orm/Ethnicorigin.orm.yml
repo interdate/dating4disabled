@@ -1,0 +1,24 @@
+Ethnicorigin:
+    type: entity
+    table: ethnicOrigin
+    uniqueConstraints:
+        IX_ethnicOrigin:
+            columns:
+                - ethnicOriginName
+    id:
+        ethnicoriginid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: ethnicOriginId
+            generator:
+                strategy: IDENTITY
+    fields:
+        ethnicoriginname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: ethnicOriginName
+    lifecycleCallbacks: {  }

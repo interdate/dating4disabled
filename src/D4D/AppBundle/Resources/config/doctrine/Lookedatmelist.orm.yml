@@ -1,0 +1,31 @@
+D4D\AppBundle\Entity\Lookedatmelist:
+    type: entity
+    table: lookedAtMeList
+    indexes:
+        IDX_9BD8CACF4F00E114:
+            columns:
+                - listOwnerId
+    id:
+        listmemberid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: listMemberId
+    fields:
+        memberadddate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: memberAddDate
+    oneToOne:
+        listownerid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                listOwnerId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,24 @@
+Education:
+    type: entity
+    table: education
+    uniqueConstraints:
+        IX_education:
+            columns:
+                - educationName
+    id:
+        educationid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: educationId
+            generator:
+                strategy: IDENTITY
+    fields:
+        educationname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: educationName
+    lifecycleCallbacks: {  }

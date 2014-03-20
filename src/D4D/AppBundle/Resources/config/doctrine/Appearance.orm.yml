@@ -1,0 +1,24 @@
+D4D\AppBundle\Entity\Appearance:
+    type: entity
+    table: appearance
+    uniqueConstraints:
+        IX_appearance:
+            columns:
+                - appearanceName
+    id:
+        appearanceid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: appearanceId
+            generator:
+                strategy: IDENTITY
+    fields:
+        appearancename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: appearanceName
+    lifecycleCallbacks: {  }

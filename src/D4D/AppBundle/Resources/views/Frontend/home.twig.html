@@ -1,0 +1,14 @@
+{% extends "D4DAppBundle::backend.layout.html.twig" %}
+
+
+
+{% block secured %}
+<h1>SECURED</h1>
+<div class="secured">
+
+{% if is_granted("ROLE_SUPER_ADMIN") %}
+    Hi {{ app.user.username }}
+{% endif %}
+
+</div>
+{% endblock%}

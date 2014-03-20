@@ -1,0 +1,19 @@
+D4D\AppBundle\Entity\Usersonline:
+    type: entity
+    table: usersOnline
+    id:
+        userid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: userId
+            generator:
+                strategy: IDENTITY
+    fields:
+        lasttime:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: lastTime
+    lifecycleCallbacks: {  }

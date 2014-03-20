@@ -1,0 +1,24 @@
+Smoking:
+    type: entity
+    table: smoking
+    uniqueConstraints:
+        IX_smoking:
+            columns:
+                - smokingName
+    id:
+        smokingid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: smokingId
+            generator:
+                strategy: IDENTITY
+    fields:
+        smokingname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: smokingName
+    lifecycleCallbacks: {  }

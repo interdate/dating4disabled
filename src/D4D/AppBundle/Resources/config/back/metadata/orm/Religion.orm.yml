@@ -1,0 +1,24 @@
+Religion:
+    type: entity
+    table: religion
+    uniqueConstraints:
+        IX_religion:
+            columns:
+                - religionName
+    id:
+        religionid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: religionId
+            generator:
+                strategy: IDENTITY
+    fields:
+        religionname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: religionName
+    lifecycleCallbacks: {  }

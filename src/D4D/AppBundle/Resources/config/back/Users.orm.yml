@@ -1,0 +1,538 @@
+D4D\AppBundle\Entity\Users:
+    type: entity
+    table: users
+    indexes:
+        IX_pass:
+            columns:
+                - userPass
+        IX_country:
+            columns:
+                - userId
+                - countryCode
+        IX_region:
+            columns:
+                - regionCode
+        IX_latitude:
+            columns:
+                - latitude
+        IX_longitude:
+            columns:
+                - longitude
+        IDX_1483A5E9B0ADB4C9:
+            columns:
+                - maritalStatusId
+        IDX_1483A5E927C850A0:
+            columns:
+                - ethnicOriginId
+        IDX_1483A5E955133F56:
+            columns:
+                - religionId
+        IDX_1483A5E915604396:
+            columns:
+                - educationId
+        IDX_1483A5E9A7A9209E:
+            columns:
+                - occupationId
+        IDX_1483A5E9839B931:
+            columns:
+                - incomeId
+        IDX_1483A5E9E935BDC8:
+            columns:
+                - healthId
+        IDX_1483A5E9F7A4E837:
+            columns:
+                - mobilityId
+        IDX_1483A5E9122384E5:
+            columns:
+                - smokingId
+        IDX_1483A5E9FAEA4D3A:
+            columns:
+                - drinkingId
+        IDX_1483A5E9584A8157:
+            columns:
+                - appearanceId
+        IDX_1483A5E9B589F9F2:
+            columns:
+                - bodyTypeId
+        IDX_1483A5E940DBDC41:
+            columns:
+                - hairLengthId
+        IDX_1483A5E92ED74A8C:
+            columns:
+                - hairColorId
+        IDX_1483A5E9FBA4351D:
+            columns:
+                - eyesColorId
+        IDX_1483A5E9CCF181DB:
+            columns:
+                - sexPrefId
+    uniqueConstraints:
+        IX_email:
+            columns:
+                - userId
+        IX_nic:
+            columns:
+                - userNic
+    id:
+        userid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: userId
+            generator:
+                strategy: IDENTITY
+    fields:
+        useremail:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: userEmail
+        userpass:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: userPass
+        usernic:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: userNic
+        usergender:
+            type: boolean
+            nullable: true
+            column: userGender
+        userfname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: userfName
+        userlname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: userlName
+        userbirthday:
+            type: datetime
+            nullable: true
+            column: userBirthday
+        userchildren:
+            type: smallint
+            nullable: true
+            unsigned: false
+            column: userChildren
+        countrycode:
+            type: string
+            nullable: true
+            length: 2
+            fixed: false
+            column: countryCode
+        regioncode:
+            type: string
+            nullable: true
+            length: 2
+            fixed: false
+            column: regionCode
+        cityname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: cityName
+        zipcode:
+            type: string
+            nullable: true
+            length: 5
+            fixed: false
+            column: zipCode
+        usercityname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: userCityName
+        latitude:
+            type: float
+            nullable: true
+            precision: 53
+            scale: 0
+        longitude:
+            type: float
+            nullable: true
+            precision: 53
+            scale: 0
+        countryoforigincode:
+            type: string
+            nullable: true
+            length: 2
+            fixed: false
+            column: countryOfOriginCode
+        userhight:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: userHight
+        userweight:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: userWeight
+        userhobbies:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: userHobbies
+        useraboutme:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: userAboutMe
+        userlookingfor:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: userLookingFor
+        usernotcomlitedregistration:
+            type: boolean
+            nullable: false
+            default: '1'
+            column: userNotComlitedRegistration
+        userregistrationdate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: userRegistrationDate
+        userlastvisitdate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: userLastVisitDate
+        usernotactivated:
+            type: boolean
+            nullable: true
+            default: '1'
+            column: userNotActivated
+        userfrozen:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userFrozen
+        userblocked:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userBlocked
+        userwhyfrozen:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: userWhyFrozen
+        userprepaidpoints:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: userPrePaidPoints
+        userpaidstartdate:
+            type: datetime
+            nullable: true
+            column: userPaidStartDate
+        userpaidenddate:
+            type: datetime
+            nullable: true
+            column: userPaidEndDate
+        userip:
+            type: string
+            nullable: true
+            length: 15
+            fixed: false
+            column: userIp
+        usergetmsgtoemail:
+            type: boolean
+            nullable: true
+            default: '1'
+            column: userGetMsgToEmail
+        userfrontpagelist:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userFrontPageList
+        userdontsavesentmsg:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userDontSaveSentMsg
+        useradmincomment:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: userAdminComment
+        useradminmarked:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userAdminMarked
+        usersavedsearch:
+            type: string
+            nullable: true
+            length: 2000
+            fixed: false
+            column: userSavedSearch
+        usernotapproved:
+            type: boolean
+            nullable: true
+            default: '0'
+            column: userNotApproved
+        affiliateid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: affiliateId
+        useronlinestatus:
+            type: smallint
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: userOnlineStatus
+        long:
+            type: float
+            nullable: true
+            precision: 53
+            scale: 0
+        lat:
+            type: float
+            nullable: true
+            precision: 53
+            scale: 0
+        apppushtoken:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: appPushToken
+        salt:
+            type: string
+            nullable: true
+            length: 32
+            fixed: false
+    manyToOne:
+        maritalstatusid:
+            targetEntity: Maritalstatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                maritalStatusId:
+                    referencedColumnName: maritalStatusId
+            orphanRemoval: false
+        ethnicoriginid:
+            targetEntity: Ethnicorigin
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ethnicOriginId:
+                    referencedColumnName: ethnicOriginId
+            orphanRemoval: false
+        religionid:
+            targetEntity: Religion
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                religionId:
+                    referencedColumnName: religionId
+            orphanRemoval: false
+        educationid:
+            targetEntity: Education
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                educationId:
+                    referencedColumnName: educationId
+            orphanRemoval: false
+        occupationid:
+            targetEntity: Occupation
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                occupationId:
+                    referencedColumnName: occupationId
+            orphanRemoval: false
+        incomeid:
+            targetEntity: Income
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                incomeId:
+                    referencedColumnName: incomeId
+            orphanRemoval: false
+        healthid:
+            targetEntity: Health
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                healthId:
+                    referencedColumnName: healthId
+            orphanRemoval: false
+        mobilityid:
+            targetEntity: Mobility
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                mobilityId:
+                    referencedColumnName: mobilityId
+            orphanRemoval: false
+        smokingid:
+            targetEntity: Smoking
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                smokingId:
+                    referencedColumnName: smokingId
+            orphanRemoval: false
+        drinkingid:
+            targetEntity: Drinking
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                drinkingId:
+                    referencedColumnName: drinkingId
+            orphanRemoval: false
+        appearanceid:
+            targetEntity: Appearance
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                appearanceId:
+                    referencedColumnName: appearanceId
+            orphanRemoval: false
+        bodytypeid:
+            targetEntity: Bodytype
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                bodyTypeId:
+                    referencedColumnName: bodyTypeId
+            orphanRemoval: false
+        hairlengthid:
+            targetEntity: Hairlength
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                hairLengthId:
+                    referencedColumnName: hairLengthId
+            orphanRemoval: false
+        haircolorid:
+            targetEntity: Haircolor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                hairColorId:
+                    referencedColumnName: hairColorId
+            orphanRemoval: false
+        eyescolorid:
+            targetEntity: Eyescolor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                eyesColorId:
+                    referencedColumnName: eyesColorId
+            orphanRemoval: false
+        sexprefid:
+            targetEntity: Sexpref
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sexPrefId:
+                    referencedColumnName: sexPrefId
+            orphanRemoval: false
+    manyToMany:
+        characteristicid:
+            targetEntity: Characteristic
+            cascade: {  }
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: usercharacteristics
+                joinColumns:
+                    -
+                        name: userId
+                        referencedColumnName: userId
+                inverseJoinColumns:
+                    -
+                        name: characteristicId
+                        referencedColumnName: characteristicId
+            orderBy: null
+        hobbyid:
+            targetEntity: Hobby
+            cascade: {  }
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: userhobbies
+                joinColumns:
+                    -
+                        name: userId
+                        referencedColumnName: userId
+                inverseJoinColumns:
+                    -
+                        name: hobbyId
+                        referencedColumnName: hobbyId
+            orderBy: null
+        languageid:
+            targetEntity: Language
+            cascade: {  }
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: userlanguages
+                joinColumns:
+                    -
+                        name: userId
+                        referencedColumnName: userId
+                inverseJoinColumns:
+                    -
+                        name: languageId
+                        referencedColumnName: languageId
+            orderBy: null
+        lookingforid:
+            targetEntity: Lookingfor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: userid
+            joinTable:
+                name: userlookingfors
+                joinColumns:
+                    -
+                        name: userId
+                        referencedColumnName: userId
+                inverseJoinColumns:
+                    -
+                        name: lookingForId
+                        referencedColumnName: lookingForId
+            orderBy: null
+    lifecycleCallbacks: {  }

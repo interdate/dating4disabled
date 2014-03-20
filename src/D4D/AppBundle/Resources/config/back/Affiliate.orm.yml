@@ -1,0 +1,56 @@
+D4D\AppBundle\Entity\Affiliate:
+    type: entity
+    table: affiliate
+    id:
+        affiliateid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: affiliateId
+            generator:
+                strategy: IDENTITY
+    fields:
+        affiliatename:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: affiliateName
+        affiliatepass:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: affiliatePass
+        affiliatesite:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: affiliateSite
+        affiliatecontactname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: affiliateContactName
+        affiliatecontactinfo:
+            type: string
+            nullable: true
+            length: 1000
+            fixed: false
+            column: affiliateContactInfo
+        affiliatecomments:
+            type: string
+            nullable: true
+            length: 1000
+            fixed: false
+            column: affiliateComments
+        affiliatecount:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '0'
+            column: affiliateCount
+    lifecycleCallbacks: {  }

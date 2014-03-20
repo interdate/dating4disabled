@@ -1,0 +1,51 @@
+LangStrings:
+    type: entity
+    table: lang_strings
+    indexes:
+        IDX_950B2251B88774D7:
+            columns:
+                - lang_pageId
+    id:
+        langStringid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: lang_stringId
+            generator:
+                strategy: IDENTITY
+    fields:
+        langStringname:
+            type: string
+            nullable: true
+            length: 4000
+            fixed: false
+            column: lang_stringName
+    manyToOne:
+        langPageid:
+            targetEntity: LangPage
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lang_pageId:
+                    referencedColumnName: lang_pageId
+            orphanRemoval: false
+    manyToMany:
+        langid:
+            targetEntity: LangLanguages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: langStringid
+            joinTable:
+                name: lang_stringstranslated
+                joinColumns:
+                    -
+                        name: lang_stringId
+                        referencedColumnName: lang_stringId
+                inverseJoinColumns:
+                    -
+                        name: langId
+                        referencedColumnName: langId
+            orderBy: null
+    lifecycleCallbacks: {  }

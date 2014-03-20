@@ -1,0 +1,63 @@
+ForumPosts:
+    type: entity
+    table: forum_posts
+    indexes:
+        IDX_90291C2D7830F151:
+            columns:
+                - forumId
+    id:
+        postid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: postId
+            generator:
+                strategy: IDENTITY
+    fields:
+        rootid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: rootId
+        parentid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: parentId
+        userid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: userId
+        postsubject:
+            type: string
+            nullable: true
+            length: 2000
+            fixed: false
+            column: postSubject
+        postbody:
+            type: text
+            nullable: true
+            length: 8
+            fixed: false
+            column: postBody
+        postdate:
+            type: datetime
+            nullable: true
+            column: postDate
+        groupdate:
+            type: datetime
+            nullable: true
+            column: groupDate
+    manyToOne:
+        forumid:
+            targetEntity: ForumForums
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                forumId:
+                    referencedColumnName: forumId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

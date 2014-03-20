@@ -1,0 +1,39 @@
+{% extends '::base.twig.html' %}
+
+{% block title %}D4D - Control Panel{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="/assets/backend/libs/semantic/packaged/css/semantic.css" />
+	<link rel="stylesheet" href="/assets/backend/css/style.css" />
+{% endblock %}
+
+{% block js %}
+	<script src="/assets/backend/js/jquery.js"></script>        
+	<script src="/assets/backend/libs/semantic/packaged/javascript/semantic.js"></script>
+	<script src="/assets/backend/js/jquery.address.js"></script>
+	<script src="/assets/backend/js/main.js"></script>
+{% endblock %}
+
+{% block body%} 
+		<div id="wraper">
+			<div id="main">
+				<div id="main_wraper">								
+					<div id="content">					
+						
+						{% if is_granted("ROLE_ADMIN") %}							
+							{{ include ('D4DAppBundle:Backend:Common/top.twig.html') }}
+						{% endif %}
+						
+						{% block login %}{% endblock %}						
+						
+						<div id="desktop">
+						<!-- Start Users blocks -->
+						{% block users_statistics %}{% endblock %}
+						<!-- End Users blocks -->
+						</div>
+																	
+					</div>	
+				</div>	
+			</div>
+		</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+D4D\AppBundle\Entity\Images:
+    type: entity
+    table: images
+    indexes:
+        _dta_index_images_521_87671360__K2_K4_K5:
+            columns:
+                - userId
+                - imgMain
+                - imgValidated
+        IDX_E01FBE6A64B64DCC:
+            columns:
+                - userId
+    id:
+        imgid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: imgId
+            generator:
+                strategy: IDENTITY
+    fields:
+        imgmain:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: imgMain
+        imgvalidated:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: imgValidated
+    manyToOne:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                userId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

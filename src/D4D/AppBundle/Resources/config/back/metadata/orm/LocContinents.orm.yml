@@ -1,0 +1,19 @@
+LocContinents:
+    type: entity
+    table: loc_continents
+    id:
+        countrycode:
+            type: string
+            nullable: false
+            length: 2
+            fixed: false
+            id: true
+            column: countryCode
+        continentcode:
+            type: string
+            nullable: false
+            length: 2
+            fixed: false
+            id: true
+            column: continentCode
+    lifecycleCallbacks: {  }

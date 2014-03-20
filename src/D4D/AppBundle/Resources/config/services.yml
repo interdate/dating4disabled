@@ -1,0 +1,7 @@
+parameters:
+#    d4_d_app.example.class: D4D\AppBundle\Example
+
+services:
+#    d4_d_app.example:
+#        class: %d4_d_app.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

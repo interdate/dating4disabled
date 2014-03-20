@@ -1,0 +1,41 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block login %}
+
+<div id="login_wraper">
+	<form action="{{ path('admin_login_check') }}" method="post" id="login_form">	
+		{% if error %}    
+		     <div class="error rounded">	    	
+		    	{{error.message}}
+		  	</div>
+		{% endif %}			
+		<div class="ui form segment blue stacked">
+		  	<div class="field">
+		    	<label>Username</label>
+		    	<div class="ui left labeled icon input">
+		      		<input type="text" placeholder="Username" id="username" name="_username" value="{{ last_username }}">
+		      		<i class="user icon"></i>
+		      		<div class="ui corner label">
+		        		<i class="icon asterisk"></i>
+		      		</div>
+		      	</div>
+			</div>
+			<br /><br />
+		    <div class="field">
+				<label>Password</label>
+		    	<div class="ui left labeled icon input">
+		      		<input type="password" id="password" name="_password">
+		      		<i class="lock icon"></i>
+		      		<div class="ui corner label">
+		        		<i class="icon asterisk"></i>
+		      		</div>
+		    	</div>
+			</div>	  	
+		  	<br /><br />		  	
+		  	<div class="ui blue button raised" onclick="$('#login_form').submit();">Login</div>
+		</div>		
+		<input type="hidden" name="_target_path" value="/admin/users" />		
+	</form>
+</div>
+
+{% endblock %}

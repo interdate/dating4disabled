@@ -1,0 +1,41 @@
+Favoritelist:
+    type: entity
+    table: favoriteList
+    indexes:
+        _dta_index_favoriteList_521_1237579447__K2_K3_K1:
+            columns:
+                - listMemberId
+                - memberAddDate
+                - listOwnerId
+        IDX_A1E95DDE4F00E114:
+            columns:
+                - listOwnerId
+    id:
+        listmemberid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: listMemberId
+    fields:
+        memberadddate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: memberAddDate
+        showinprofile:
+            type: boolean
+            nullable: true
+            default: '1'
+            column: showInProfile
+    oneToOne:
+        listownerid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                listOwnerId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

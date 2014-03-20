@@ -1,0 +1,24 @@
+Sexpref:
+    type: entity
+    table: sexPref
+    uniqueConstraints:
+        IX_sexPref:
+            columns:
+                - sexPrefName
+    id:
+        sexprefid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: sexPrefId
+            generator:
+                strategy: IDENTITY
+    fields:
+        sexprefname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: sexPrefName
+    lifecycleCallbacks: {  }
