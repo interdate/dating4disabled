@@ -1,0 +1,30 @@
+D4D\AppBundle\Entity\LangPage:
+    type: entity
+    table: lang_page
+    uniqueConstraints:
+        IX_lang_page:
+            columns:
+                - lang_pageName
+    id:
+        langPageid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: lang_pageId
+            generator:
+                strategy: IDENTITY
+    fields:
+        langPagename:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: lang_pageName
+        langPagedesc:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: lang_pageDesc
+    lifecycleCallbacks: {  }

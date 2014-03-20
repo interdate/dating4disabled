@@ -1,0 +1,45 @@
+News:
+    type: entity
+    table: news
+    indexes:
+        IDX_1DD3995097A33CE7:
+            columns:
+                - langId
+    id:
+        newsitemid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: newsItemId
+            generator:
+                strategy: IDENTITY
+    fields:
+        newsitemsubject:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: newsItemSubject
+        newsitembody:
+            type: string
+            nullable: true
+            length: 4000
+            fixed: false
+            column: newsItemBody
+        newsitemdate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: newsItemDate
+    manyToOne:
+        langid:
+            targetEntity: LangLanguages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                langId:
+                    referencedColumnName: langId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

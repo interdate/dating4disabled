@@ -1,0 +1,45 @@
+Blogentries:
+    type: entity
+    table: blogEntries
+    indexes:
+        IDX_8E39C81BED85FE43:
+            columns:
+                - blogId
+    id:
+        entryid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: entryId
+            generator:
+                strategy: IDENTITY
+    fields:
+        entrysubject:
+            type: string
+            nullable: true
+            length: 1000
+            fixed: false
+            column: entrySubject
+        entrytext:
+            type: text
+            nullable: true
+            length: 8
+            fixed: false
+            column: entryText
+        entrydate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: entryDate
+    manyToOne:
+        blogid:
+            targetEntity: Blogs
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                blogId:
+                    referencedColumnName: blogId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

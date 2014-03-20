@@ -1,0 +1,49 @@
+D4D\AppBundle\Entity\Messages2:
+    type: entity
+    table: messages2
+    id:
+        msgid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: msgId
+            generator:
+                strategy: IDENTITY
+    fields:
+        msgdate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: msgDate
+        msgfromid:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: msgFromId
+        msgtoid:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: msgToId
+        msgread:
+            type: boolean
+            nullable: false
+            column: msgRead
+        msgbody:
+            type: string
+            nullable: true
+            length: 0
+            fixed: false
+            column: msgBody
+        msgfromdel:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: msgFromDel
+        msgtodel:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: msgToDel
+    lifecycleCallbacks: {  }

@@ -1,0 +1,24 @@
+Health:
+    type: entity
+    table: health
+    uniqueConstraints:
+        IX_health:
+            columns:
+                - healthName
+    id:
+        healthid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: healthId
+            generator:
+                strategy: IDENTITY
+    fields:
+        healthname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: healthName
+    lifecycleCallbacks: {  }

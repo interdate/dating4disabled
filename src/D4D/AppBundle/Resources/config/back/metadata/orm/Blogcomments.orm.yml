@@ -1,0 +1,70 @@
+Blogcomments:
+    type: entity
+    table: blogComments
+    indexes:
+        _dta_index_blogComments_521_1321771766__K2:
+            columns:
+                - blogId
+        IDX_3E56A8828B3CFEDC:
+            columns:
+                - entryId
+    id:
+        commentid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: commentId
+            generator:
+                strategy: IDENTITY
+    fields:
+        blogid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: blogId
+        parentcommentid:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: parentCommentId
+        userid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: userId
+        commentsubject:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: commentSubject
+        commenttext:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: commentText
+        commentdate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: commentDate
+        commentlevel:
+            type: integer
+            nullable: true
+            unsigned: false
+            default: '0'
+            column: commentLevel
+    manyToOne:
+        entryid:
+            targetEntity: Blogentries
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                entryId:
+                    referencedColumnName: entryId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

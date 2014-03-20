@@ -1,0 +1,44 @@
+Wordfilter:
+    type: entity
+    table: wordFilter
+    uniqueConstraints:
+        IX_wordFilters:
+            columns:
+                - wordFilterName
+    id:
+        wordfilterid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: wordFilterId
+            generator:
+                strategy: IDENTITY
+    fields:
+        wordfiltername:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            column: wordFilterName
+        isglobal:
+            type: boolean
+            nullable: false
+            default: '1'
+            column: isGlobal
+        ismessages:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: isMessages
+        ischat:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: isChat
+        isforum:
+            type: boolean
+            nullable: false
+            default: '0'
+            column: isForum
+    lifecycleCallbacks: {  }

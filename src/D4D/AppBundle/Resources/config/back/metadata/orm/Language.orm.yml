@@ -1,0 +1,32 @@
+Language:
+    type: entity
+    table: language
+    uniqueConstraints:
+        IX_language:
+            columns:
+                - languageName
+    id:
+        languageid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: languageId
+            generator:
+                strategy: IDENTITY
+    fields:
+        languagename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: languageName
+    manyToMany:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: languageid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

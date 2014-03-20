@@ -1,0 +1,41 @@
+app_service_encode_passwords:
+    pattern:  /service/encodePasswords
+    defaults: { _controller: D4DAppBundle:AppService:encodePasswords }
+    
+app_service_check_login:
+    pattern:  /service/checkLogin
+    defaults: { _controller: D4DAppBundle:AppService:checkLogin }    
+
+app_service_override_passwords:
+    pattern:  /service/overridePasswords
+    defaults: { _controller: D4DAppBundle:AppService:overridePasswords }
+    
+user_home:
+    path:     /home
+    defaults: { _controller: D4DAppBundle:Common\Security:secured }
+    
+user_login:
+    path:     /login
+    defaults: { _controller: D4DAppBundle:Common\Security:userLogin }
+    
+user_login_check:
+    path: /login_check 
+    
+user_logout:
+    path: /logout 
+    
+
+
+admin_home:   
+    path:     /admin/users
+    defaults: { _controller: D4DAppBundle:Backend\Users:statistics }
+
+admin_login:
+    path:     /admin/login
+    defaults: { _controller: D4DAppBundle:Common\Security:adminLogin }
+    
+admin_login_check:
+    path: /admin/login_check 
+
+admin_logout:
+    path: /admin/logout    

@@ -1,0 +1,46 @@
+D4D\AppBundle\Entity\LangErrors:
+    type: entity
+    table: lang_errors
+    uniqueConstraints:
+        IX_errorNum:
+            columns:
+                - lang_errorNum
+    id:
+        langErrorid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: lang_errorId
+            generator:
+                strategy: IDENTITY
+    fields:
+        langErrornum:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: lang_errorNum
+        langErrorname:
+            type: string
+            nullable: true
+            length: 4000
+            fixed: false
+            column: lang_errorName
+    manyToMany:
+        langid:
+            targetEntity: LangLanguages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: langErrorid
+            joinTable:
+                name: lang_errorstranslated
+                joinColumns:
+                    -
+                        name: lang_errorId
+                        referencedColumnName: lang_errorId
+                inverseJoinColumns:
+                    -
+                        name: langId
+                        referencedColumnName: langId
+            orderBy: null
+    lifecycleCallbacks: {  }

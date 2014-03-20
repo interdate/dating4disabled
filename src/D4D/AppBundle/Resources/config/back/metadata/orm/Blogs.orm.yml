@@ -1,0 +1,49 @@
+Blogs:
+    type: entity
+    table: blogs
+    indexes:
+        _dta_index_blogs_521_1177771253__K3_K1:
+            columns:
+                - userId
+                - blogId
+        IDX_F41BCA7064B64DCC:
+            columns:
+                - userId
+    id:
+        blogid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: blogId
+            generator:
+                strategy: IDENTITY
+    fields:
+        blogcategoryid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: blogCategoryId
+        blogname:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: blogName
+        blogdesc:
+            type: string
+            nullable: true
+            length: 1024
+            fixed: false
+            column: blogDesc
+    manyToOne:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                userId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

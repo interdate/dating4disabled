@@ -1,0 +1,28 @@
+D4D\AppBundle\Entity\Globalcontacts:
+    type: entity
+    table: globalContacts
+    indexes:
+        IX_globalContacts:
+            columns:
+                - contactToId
+        IDX_D5FA56B94EDE9C5:
+            columns:
+                - contactFromId
+    id:
+        contacttoid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: contactToId
+    oneToOne:
+        contactfromid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                contactFromId:
+                    referencedColumnName: userId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

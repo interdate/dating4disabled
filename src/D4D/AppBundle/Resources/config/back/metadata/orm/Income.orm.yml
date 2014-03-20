@@ -1,0 +1,24 @@
+Income:
+    type: entity
+    table: income
+    uniqueConstraints:
+        IX_income:
+            columns:
+                - incomeName
+    id:
+        incomeid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: incomeId
+            generator:
+                strategy: IDENTITY
+    fields:
+        incomename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: incomeName
+    lifecycleCallbacks: {  }

@@ -1,0 +1,21 @@
+RewriteEngine on
+
+<IfModule mod_php5.c>
+php_value max_execution_time 259200
+</IfModule>
+
+RewriteCond ${REQUEST_URI} ^.+$
+RewriteCond %{REQUEST_FILENAME} \.(gif|jpe?g|png|js|css|swf|php|ico|txt|pdf|xml)$ [OR]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -l
+RewriteRule ^ - [L]
+
+
+
+RewriteCond %{HTTP_HOST} ^dating4disabled.loc$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^dating4disabled.loc$
+RewriteCond %{REQUEST_URI} !web/app_dev.php
+RewriteRule (.*) /web/app_dev.php/$1 [L]
+
+

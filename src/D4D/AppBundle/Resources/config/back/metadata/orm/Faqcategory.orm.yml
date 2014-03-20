@@ -1,0 +1,38 @@
+Faqcategory:
+    type: entity
+    table: faqCategory
+    indexes:
+        IDX_9003F1B197A33CE7:
+            columns:
+                - langId
+    uniqueConstraints:
+        IX_faqCategory:
+            columns:
+                - faqCategoryName
+    id:
+        faqcategoryid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: faqCategoryId
+            generator:
+                strategy: IDENTITY
+    fields:
+        faqcategoryname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: faqCategoryName
+    manyToOne:
+        langid:
+            targetEntity: LangLanguages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                langId:
+                    referencedColumnName: langId
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

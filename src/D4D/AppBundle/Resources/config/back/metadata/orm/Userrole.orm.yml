@@ -1,0 +1,19 @@
+Userrole:
+    type: entity
+    table: userRole
+    id:
+        userId:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: user_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        roleId:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: role_id
+    lifecycleCallbacks: {  }

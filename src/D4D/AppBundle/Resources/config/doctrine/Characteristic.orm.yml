@@ -1,0 +1,32 @@
+D4D\AppBundle\Entity\Characteristic:
+    type: entity
+    table: characteristic
+    uniqueConstraints:
+        IX_characteristics:
+            columns:
+                - characteristicName
+    id:
+        characteristicid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: characteristicId
+            generator:
+                strategy: IDENTITY
+    fields:
+        characteristicname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: characteristicName
+    manyToMany:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: characteristicid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

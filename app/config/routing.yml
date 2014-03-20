@@ -1,0 +1,4 @@
+d4_d_app:
+    resource: "@D4DAppBundle/Resources/config/routing.yml"
+    prefix:   /
+

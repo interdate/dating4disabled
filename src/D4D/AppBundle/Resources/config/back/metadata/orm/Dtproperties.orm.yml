@@ -1,0 +1,41 @@
+Dtproperties:
+    type: entity
+    table: dtproperties
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+        property:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+            id: true
+    fields:
+        objectid:
+            type: integer
+            nullable: true
+            unsigned: false
+        value:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        uvalue:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        lvalue:
+            type: text
+            nullable: true
+            length: 16
+            fixed: false
+        version:
+            type: integer
+            nullable: false
+            unsigned: false
+            default: '0'
+    lifecycleCallbacks: {  }

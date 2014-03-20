@@ -1,0 +1,14 @@
+D4D\AppBundle\Entity\Oldusers:
+    type: entity
+    table: oldUsers
+    id:
+        useremail:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            id: true
+            column: userEmail
+            generator:
+                strategy: IDENTITY
+    lifecycleCallbacks: {  }

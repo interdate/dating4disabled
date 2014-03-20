@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2c0295f7b959d7cc894ee1a78d4f3b41",
+    "hash": "5ab18a3f7d67bd210f31282e4f25db28",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -903,6 +903,56 @@
             "time": "2012-12-21 11:40:51"
         },
         {
+            "name": "realestateconz/mssql-bundle",
+            "version": "dev-master",
+            "target-dir": "Realestate/MssqlBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/realestateconz/MssqlBundle.git",
+                "reference": "def7ba7eabd3791944afae445364d042c2dbd8f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/realestateconz/MssqlBundle/zipball/def7ba7eabd3791944afae445364d042c2dbd8f4",
+                "reference": "def7ba7eabd3791944afae445364d042c2dbd8f4",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2,>=2.2.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Realestate\\MssqlBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ken Golovin",
+                    "homepage": "https://github.com/pasinter"
+                },
+                {
+                    "name": "Realestate.co.nz",
+                    "homepage": "http://www.realestate.co.nz"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/realestateconz/MssqlBundle/contributors"
+                }
+            ],
+            "description": "Microsoft SQL Server Bundle for Symfony 2",
+            "keywords": [
+                "driver",
+                "mssql",
+                "sql server"
+            ],
+            "time": "2013-12-08 21:55:16"
+        },
+        {
             "name": "sensio/distribution-bundle",
             "version": "v2.3.4",
             "target-dir": "Sensio/Bundle/DistributionBundle",
@@ -1556,9 +1606,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "realestateconz/mssql-bundle": 20
+    },
     "platform": {
         "php": ">=5.3.3"
     },

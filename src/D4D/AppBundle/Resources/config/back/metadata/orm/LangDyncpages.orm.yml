@@ -1,0 +1,55 @@
+LangDyncpages:
+    type: entity
+    table: lang_dyncPages
+    id:
+        pageid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: pageId
+            generator:
+                strategy: IDENTITY
+    fields:
+        pagename:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: pageName
+        pagetitle:
+            type: string
+            nullable: true
+            length: 4000
+            fixed: false
+            column: pageTitle
+        pagebody:
+            type: text
+            nullable: true
+            length: 8
+            fixed: false
+            column: pageBody
+        pagetype:
+            type: string
+            nullable: true
+            length: 10
+            fixed: false
+            column: pageType
+    manyToMany:
+        langid:
+            targetEntity: LangLanguages
+            cascade: {  }
+            mappedBy: null
+            inversedBy: pageid
+            joinTable:
+                name: lang_dyncpagestranslated
+                joinColumns:
+                    -
+                        name: pageId
+                        referencedColumnName: pageId
+                inverseJoinColumns:
+                    -
+                        name: langId
+                        referencedColumnName: langId
+            orderBy: null
+    lifecycleCallbacks: {  }

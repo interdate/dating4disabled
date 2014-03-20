@@ -1,0 +1,45 @@
+D4D\AppBundle\Entity\PaymentsPayment:
+    type: entity
+    table: payments_payment
+    id:
+        paymentid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: paymentId
+            generator:
+                strategy: IDENTITY
+    fields:
+        paymentdate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: paymentDate
+        productid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: productId
+        amount:
+            type: decimal
+            nullable: true
+            precision: 8
+            scale: 2
+        tranzilaindex:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: tranzilaIndex
+        userid:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: userId
+        numofmonths:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: numOfMonths
+    lifecycleCallbacks: {  }

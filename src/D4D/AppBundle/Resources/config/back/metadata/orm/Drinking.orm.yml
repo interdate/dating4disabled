@@ -1,0 +1,24 @@
+Drinking:
+    type: entity
+    table: drinking
+    uniqueConstraints:
+        IX_drinking:
+            columns:
+                - drinkingName
+    id:
+        drinkingid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: drinkingId
+            generator:
+                strategy: IDENTITY
+    fields:
+        drinkingname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: drinkingName
+    lifecycleCallbacks: {  }

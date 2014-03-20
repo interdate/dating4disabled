@@ -1,0 +1,20 @@
+Mobility:
+    type: entity
+    table: mobility
+    id:
+        mobilityid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: mobilityId
+            generator:
+                strategy: IDENTITY
+    fields:
+        mobilityname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: mobilityName
+    lifecycleCallbacks: {  }

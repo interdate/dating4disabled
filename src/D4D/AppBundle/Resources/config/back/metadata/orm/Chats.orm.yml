@@ -1,0 +1,24 @@
+Chats:
+    type: entity
+    table: chats
+    id:
+        chatfromid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: chatFromId
+            generator:
+                strategy: IDENTITY
+    fields:
+        chatdate:
+            type: datetime
+            nullable: false
+            default: CURRENT_TIMESTAMP
+            column: chatDate
+        chattoid:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: chatToId
+    lifecycleCallbacks: {  }

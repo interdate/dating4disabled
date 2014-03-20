@@ -1,0 +1,32 @@
+D4D\AppBundle\Entity\Lookingfor:
+    type: entity
+    table: lookingFor
+    uniqueConstraints:
+        IX_lookingFors:
+            columns:
+                - lookingForId
+    id:
+        lookingforid:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: lookingForId
+            generator:
+                strategy: IDENTITY
+    fields:
+        lookingforname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: lookingForName
+    manyToMany:
+        userid:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: lookingforid
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }
