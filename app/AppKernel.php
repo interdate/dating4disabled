@@ -17,7 +17,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),        	
         	new Realestate\MssqlBundle\RealestateMssqlBundle(),
-        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new D4D\AppBundle\D4DAppBundle(),
         );
 

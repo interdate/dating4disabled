@@ -227,30 +227,6 @@ a{
 	clear:both;	
 }
 
-#getSideBar{
-	-webkit-transition: all 0.27s ease-out;
-	-moz-transition: all 0.27s ease-out;
-	-o-transition: all 0.27s ease-out;
-	-ms-transition: all 0.27s ease-out;
-	transition: all 0.27s ease-out;
-	
-	position: absolute;
-	top:20px;
-	left:-3px;
-}
-
-#getSideBar .button{
-	padding-right:0px;	
-}	
-
-#getSideBar .icon{
-	color:#fff;	
-}
-
-.move{
-	margin-left:275px;
-}
-
 /*
 #login_wraper .field{
 	margin-top: 15px;
@@ -268,7 +244,8 @@ a{
 	-webkit-box-sizing: border-box;
 	-box-sizing: border-box;
 	
-	padding: 20px;	
+	padding: 20px;
+		
 }
 
 .sideBarWraper .sidebar{
@@ -281,38 +258,8 @@ a{
   box-shadow: 0em 0.2em 0em inset;
 }
 
-.tabMenu .active .icon, .tabSegments a.active .icon{
+.tabMenu .active .icon{
 	color:#00aeff;
 }
 
-#statSidebar .label{
-	margin-top: -0.3em;
-	font-size: 0.7em;
-}
-
-#statWraper{
-	position:relative;
-	min-height:700px;
-	overflow: hidden;
-	top: 0px;
-	left: 0px;		
-}
-
-#statWraper h3{
-	margin-left: 35px;
-}
-
-#statSidebar{
-	left: 0px;
-	position: absolute;
-	background: #f9f9f9; 
-	opacity: .95;
-}
-
-
-#statSidebar .item{
-	/*color:#fff;*/
-	/*font-size:14px;*/
-	font-family: Arial;
-}
 
