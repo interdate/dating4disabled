@@ -13,8 +13,8 @@ RewriteRule ^ - [L]
 
 
 
-RewriteCond %{HTTP_HOST} ^dating4disabled.loc$ [NC,OR]
-RewriteCond %{HTTP_HOST} ^dating4disabled.loc$
+RewriteCond %{HTTP_HOST} ^d4d.com$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^d4d.com$
 RewriteCond %{REQUEST_URI} !web/app_dev.php
 RewriteRule (.*) /web/app_dev.php/$1 [L]
 

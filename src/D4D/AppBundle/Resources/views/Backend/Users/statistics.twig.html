@@ -7,7 +7,7 @@
 
 
 
-<h2 class="ui header">
+<h2 class="ui header floated left">
   <i class="users icon "></i>
   Manage Users
 </h2>
@@ -15,11 +15,8 @@
 
 
 
-
-
-
 <div class="tabMenu">
-	<div class="ui pointing secondary demo menu">
+	<div class="ui pointing secondary demo menu floated right">
 	    <a class="active item blue" data-tab="first">
 		    <i class="bar chart basic icon"></i>
 		    Statistics
@@ -35,26 +32,175 @@
 	</div>
 </div>	
 
-
-
-
 <div class="clear"></div>
-  
-	<div class="ui active tab segment" data-tab="first">
-	Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
+
+<div class="tabSegments">
+
+	<div class="ui active tab segment" data-tab="first" id="statWraper">
+	
+	<h3 class="ui header floated left">
+		<i class="basic users icon circular small"></i>
+		All Users
+	</h3>
+				
+		<table class="ui small table">
+			<thead>
+			    <tr>
+				    
+				    {#
+				    <th>{{ knp_pagination_sortable(pagination, 'ID', 'u.userId') }}</th>
+				    <th>{{ knp_pagination_sortable(pagination, 'Username', 'userNic') }}</th>
+				    <th>Age</th>
+				    <th>{{ knp_pagination_sortable(pagination, 'Email', 'userEmail') }}</th>
+				    #}
+				    
+				    <th>ID</th>				    
+				    <th>Age</th>
+				    <th>Username</th>
+				    <th>Email</th>
+				    <th>Paying</th>
+				    
+			  	</tr>
+		  	</thead>		
+		
+		  
+		  	<tbody>
+		  		{% for user in pagination %}
+				<tr>
+			      <td>{{ user.userId }}</td>
+			      <td>-</td>
+			      <td>{{ user.userNic }}</td>
+			      <td>{{ user.userEmail }}</td>
+			      <td>
+			      	<a class="item">
+			      		<i class="basic dollar icon"></i>
+			      	</a>
+			      </td>
+			    </tr>
+				{% endfor %}
+			    
+		    </tbody>
+		    
+		    
+		    <tfoot>
+		 		<tr>
+		 			<th colspan="4">
+		    			{{ knp_pagination_render(pagination) }}
+		 			</th>
+		 		</tr>
+		 	</tfoot>		    
+		  
+		</table>
+		
+		
+		
+		
+	
+		
+		<div id="getSideBar">
+			<div class="ui mini button blue">
+				<i class="list icon"></i>
+			</div>
+		</div> 		
+		
+		<div class="ui left sidebar small vertical menu blue" id="statSidebar">
+			
+			<a class="item active" href="/admin/users/statistics">
+			    <div class="ui small label blue">{{ pagination.getTotalItemCount }}</div>
+			    <i class="users basic icon"></i>			    
+			    All Users
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">594</div>
+			    <i class="male icon"></i>
+			    Male
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">52</div>
+			    <i class="female icon"></i>
+			    Female
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">421</div>
+			    <i class="photos basic icon"></i>
+			    With Photos
+			</a>
+			
+			
+			<a class="item">
+				<div class="ui small label">421</div>
+			    <i class="cancel circle basic icon"></i>
+			    Inactive			    
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">324</div>
+			    <i class="half empty star icon"></i>			    
+			    Not Completed Registration			    
+			</a>
+			
+			
+			
+			
+			<a class="item">
+				<div class="ui small label">421</div>
+			    <i class="warning icon"></i>
+			    Not Activated
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">421</div>
+			    <i class="thumbs down icon"></i>
+			    Not Approved
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">21</div>
+			    <i class="asterisk basic icon"></i>
+			    Frozen
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">7</div>
+			    <i class="block basic icon"></i>
+			    Blocked
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">1221</div>
+			    <i class="basic dollar icon"></i>
+			    Paying
+			</a>
+			
+			<a class="item">
+				<div class="ui small label">85</div>
+			    <i class="hide icon"></i>			    
+			    Not Approved Images
+			</a>
+			
+							
+		</div>
+	
 	</div>
+
 	<div class="ui tab segment" data-tab="second">
-	Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
+		Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
 	</div>
 	<div class="ui tab segment" data-tab="third">
-	There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
+		There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
 	</div>
-  
+	
+</div>
 
 
 
 
-<div class="ui divider"></div>
+	
+
+
 
 <!-- 
 <br /><br /><br /><br />
@@ -91,30 +237,7 @@ the creation of unique virtual addresses that can point to a website section or 
 
 
 
-<button id="getSideBar" class="">SideBar</button>
 
-
-<div style="position:relative;">
-
-<div class="ui left sidebar vertical menu">
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	<div class="item">ewrwe rwerwe rewr werewr</div>
-	
-</div>
-
-</div>
 
 
 {% endblock%}
