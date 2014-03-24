@@ -27,9 +27,9 @@ user_logout:
 
 
 admin_home:   
-    path:     /admin/users
+    path:     /admin/users/statistics
     defaults: { _controller: D4DAppBundle:Backend\Users:statistics }
-
+    
 admin_login:
     path:     /admin/login
     defaults: { _controller: D4DAppBundle:Common\Security:adminLogin }
@@ -38,4 +38,10 @@ admin_login_check:
     path: /admin/login_check 
 
 admin_logout:
-    path: /admin/logout    
+    path: /admin/logout
+    
+
+admin_users_statistics:   
+    path:     /admin/users/statistics/{value}
+    defaults: { _controller: D4DAppBundle:Backend\Users:statistics, value:1 }        
+
