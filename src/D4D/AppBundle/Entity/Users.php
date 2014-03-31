@@ -30,12 +30,7 @@ class Users implements userInterface, \Serializable
      * @var string
      */
     private $useremail;
-    
-    /**
-     * @var string
-     */
-    private $filter;
-
+        
     /**
      * @var string
      */
