@@ -16,9 +16,9 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),        	
-        	new Realestate\MssqlBundle\RealestateMssqlBundle(),
-        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new D4D\AppBundle\D4DAppBundle(),
+            new Realestate\MssqlBundle\RealestateMssqlBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new D4D\AppBundle\D4DAppBundle(),            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {            

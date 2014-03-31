@@ -45,3 +45,30 @@ admin_users_statistics:
     path:     /admin/users/statistics/{value}
     defaults: { _controller: D4DAppBundle:Backend\Users:statistics, value:1 }        
 
+admin_faq:
+  path:     /admin/faq
+  defaults: { _controller: D4DAppBundle:Backend\Faq:index }
+  
+admin_faq_edit:   
+    path:     /admin/faq/edit/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Faq:formFaq, id:0 page:1 }
+    
+admin_faq_add:   
+    path:     /admin/faq/add
+    defaults: { _controller: D4DAppBundle:Backend\Faq:formFaq }
+    
+admin_faq_delete:   
+    path:     /admin/faq/delete/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Faq:deleteFaq, id:0 page:1 }
+    
+admin_faq_category_edit:   
+    path:     /admin/faq/category/edit/{id}
+    defaults: { _controller: D4DAppBundle:Backend\Faq:formCategoty, id:0 }
+    
+admin_faq_category_add:   
+    path:     /admin/faq/category/add
+    defaults: { _controller: D4DAppBundle:Backend\Faq:formCategoty }
+    
+admin_faq_category_delete:   
+    path:     /admin/faq/category/delete/{id}
+    defaults: { _controller: D4DAppBundle:Backend\Faq:deleteCategory, id:0 }

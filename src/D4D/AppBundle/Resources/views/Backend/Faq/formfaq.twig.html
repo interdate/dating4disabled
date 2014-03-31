@@ -1,0 +1,134 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+
+{% block users_statistics %}
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        //$('.menu_item').removeClass('selected');
+        //$('.question').parent('.menu_item').addClass('selected');
+        $('.tabMenu .item').first().addClass('active');
+        $('.breadcrumb').css({'margin-top':'0px'});
+        $('.ui.dropdown').dropdown();
+    });
+</script>
+
+<h2 class="ui header floated left">
+  <i class="question icon"></i>
+  FAQ
+</h2>
+<div class="tabMenu">
+	<div class="ui pointing secondary demo menu floated right">            
+	    <a href="{{ faqurl }}" class="item blue">
+		    <i class="inbox icon"></i>
+		    Manage FAQ
+		</a>
+	    <a href="{{ faqurl }}#categories" class="item blue">
+		    <i class="open folder icon"></i>
+		    Categories
+		</a>            
+	</div>
+</div>	
+<div class="clear"></div>
+<div class="ui breadcrumb small">  
+  <a href="{{ faqurl }}" class="section blue">FAQ</a>
+  <div class="divider"> / </div>
+  <div class="active section">{{ action }} Faq</div>
+</div>
+<div class="tabSegments" id="faqWraper">
+    <div class="ui active tab" id="faq">
+        <div class="ui form blue stacked segment">
+            <h3 class="ui header floated left">
+                    <i class="{% if icon=='save' %}edit{% else %}{{ icon }}{% endif %} icon circular small"></i>
+                    {{ action }} Faq
+            </h3>
+            <div class="clear"></div>
+            {{ form_start(form, {'attr': {'id': 'faq_form'}}) }}
+            {{ form_errors(form) }}
+
+            <div class="field">
+                {{ form_label(form.faqcategoryid) }}                 
+                {{ form_widget(form.faqcategoryid) }}
+                
+            </div>
+            <div class="clear"></div>
+            
+            <div class="field">
+                {{ form_label(form.faqq) }}
+                <div class="textarea">
+                    {{ form_widget(form.faqq) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            
+            <div class="field">
+                {{ form_label(form.faqa) }}
+                <div class="textarea">
+                    {{ form_widget(form.faqa) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="clear"></div>
+            
+            <div class="ui labeled icon button blue small" onclick="$('#faq_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
+            
+            <input style="display: none;" id="faq_submit" type="submit" name="faq({{ action }})" value="{{ action }}"/>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+
+
+
+	
+
+
+
+<!-- 
+<br /><br /><br /><br />
+<div class="ui top attached tabular menu">
+  <a class="item active" data-tab="first">
+    <i class="bar chart basic icon"></i>
+    Statistics
+  </a>
+  <a class="item" data-tab="second">
+  	<i class="ordered list icon"></i>
+    Reports
+  </a>
+  <a class="item" data-tab="third">
+  	<i class="search icon"></i>
+    Search
+  </a>
+</div>
+
+<div class="ui tab bottom attached segment active" data-tab="first">
+The jQuery Address plugin provides powerful deep linking capabilities and allows the creation of unique virtual addresses that can point
+</div>
+<div class="ui tab bottom attached segment" data-tab="second">
+a website section or an application state. It enables a number of important capabilities including
+</div>
+<div class="ui tab bottom attached segment" data-tab="third">
+the creation of unique virtual addresses that can point to a website section or an application state. It enables a number of important capabilities including
+</div>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+{% endblock%}

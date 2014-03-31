@@ -1,0 +1,13 @@
+D4D\AppBundle\Entity\Faq:
+  properties:
+    faqq:
+      - NotBlank:
+            message: "Field Question is empty" 
+    faqa:
+      - NotBlank:
+            message: "Field Answer is empty"  
+            
+D4D\AppBundle\Entity\Faqcategory:
+    faqcategoryname:
+      - NotBlank:
+            message: "Field Category is empty"

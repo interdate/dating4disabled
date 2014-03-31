@@ -1,5 +1,6 @@
 D4D\AppBundle\Entity\Faq:
     type: entity
+    repositoryClass: D4D\AppBundle\Entity\FaqRepository
     table: faq
     indexes:
         IDX_E8FF75CC1DD98E82:

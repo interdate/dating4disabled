@@ -1,0 +1,149 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+
+{% block users_statistics %}
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        //$('.menu_item').removeClass('selected');
+        //$('.question').parent('.menu_item').addClass('selected');
+    });
+</script>
+
+<h2 class="ui header floated left">
+  <i class="question icon"></i>
+  FAQ
+</h2>
+
+
+
+
+<div class="tabMenu">
+	<div class="ui pointing secondary demo menu floated right">            
+	    <a class="active item blue" data-tab="faq">
+		    <i class="inbox icon"></i>
+		    Manage FAQ
+		</a>
+	    <a class="item blue" data-tab="categories">
+		    <i class="open folder icon"></i>
+		    Categories
+		</a>            
+	</div>
+</div>	
+
+<div class="clear"></div>
+
+<div class="tabSegments" id="faqWraper">
+	<div class="ui active tab segment" data-tab="faq">
+            <h3 class="ui header floated left">
+                    <i class="inbox icon circular small"></i>
+                    Manage FAQ
+            </h3>
+            <a class="right" href="/admin/faq/add"><div class="ui labeled icon button blue mini">
+                <i class="add inverted sign icon"></i>
+                Add FAQ
+            </div></a>       
+		<table class="ui small table">
+			<thead>
+			    <tr>
+				    
+				    {#
+				    <th>{{ knp_pagination_sortable(pagination, 'ID', 'u.userId') }}</th>
+				    <th>{{ knp_pagination_sortable(pagination, 'Username', 'userNic') }}</th>
+				    <th>Age</th>
+				    <th>{{ knp_pagination_sortable(pagination, 'Email', 'userEmail') }}</th>
+				    #}    
+				    <th>ID</th>				    
+				    <th>Category</th>
+				    <th>Question</th>
+				    <th>Answer</th>
+                                    <th width="35"></th>
+                                    <th width="35"></th>
+			  	</tr>
+		  	</thead>		
+		
+		  
+		  	<tbody>
+		  		{% for faq in pagination %}
+                            <tr>
+			      <td>{{ faq.faqid }}</td>
+			      <td>{{ faq.Faqcategoryid.Faqcategoryname }}</td>
+			      <td>{{ faq.faqq }}</td>
+			      <td>{{ faq.faqa }}</td>
+                              <td class="center"><a title="Edit" href="/admin/faq/edit/{{ faq.faqid }}/{{ page }}"><div><i class="edit blue large icon link"></i></div></a></td>
+                              <td class="center">
+                                  <a title="Delete" onclick="if (!confirm('Are you sure?')) return false;" href="/admin/faq/delete/{{ faq.faqid }}/{{ page }}">
+                                      <div><i class="trash blue large icon link"></i></div>
+                                  </a>
+                              </td>
+			    </tr>
+				{% endfor %}
+			    
+		    </tbody>
+		    
+		    
+		    <tfoot>
+		 		<tr>
+		 			<th colspan="6">
+                                        <div class="left">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                        <a class="right" href="/admin/faq/add">
+                                            <div class="ui labeled icon button blue mini">
+                                                <i class="add inverted sign icon"></i>
+                                                Add FAQ
+                                            </div>
+                                        </a> 
+		 			</th>
+		 		</tr>
+		 	</tfoot>		    
+		  
+		</table>		
+	
+	</div>	
+    
+        <div class="ui tab segment" data-tab="categories">
+            <h3 class="ui header floated left">
+                    <i class="basic open folder icon circular small"></i>
+                    Categories
+            </h3>
+            <a class="right" href="/admin/faq/category/add">
+                <div class="ui labeled icon button blue mini">
+                    <i class="inverted add sign icon"></i>
+                    Add Category
+                </div>
+            </a>
+            <div class="clear"></div>
+            <table class="ui small table category">
+			<thead>
+			    <tr>   
+				    <th width="35">ID</th>				    
+                                    <th>Category</th> 
+                                    <th width="40"></th>
+                                    <th width="40"></th>
+			  	</tr>
+		  	</thead>				
+		  	<tbody>
+		  		{% for cat in cats %}
+                            <tr>
+                                <td>{{ cat.faqcategoryid }}</td>
+                                <td>{{ cat.faqcategoryname }}</td>  
+                                <td class="center"><a title="Edit" href="/admin/faq/category/edit/{{ cat.faqcategoryid }}"><div><i class="edit blue large icon link"></i></div></a></td>
+                                <td class="center">
+                                    {% if cat.faqcategoryid!=15 %}
+                                    <a title="Delete" onclick="if (!confirm('Are you sure?')) return false;" href="/admin/faq/category/delete/{{ cat.faqcategoryid }}">
+                                        <div><i class="trash blue large icon link"></i></div>
+                                    </a>
+                                    {% endif %}
+                                </td>
+			    </tr>
+				{% endfor %}			    
+		    </tbody>		    		    		    		    		  
+		</table>	
+        </div>	
+</div>
+
+
+{% endblock%}

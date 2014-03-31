@@ -1,0 +1,31 @@
+{% extends "D4DAppBundle:Backend/Faq:faq.twig.html" %}
+
+
+
+{% block tabMenu %}
+    <a href="/admin/faq" class="active item blue">
+            <i class="grid layout icon"></i>
+            All FAQs
+        </a>
+    <a class="item blue" data-tab="first">
+            <i class="layout list icon"></i>
+            Faq Category
+        </a>
+{% endblock %}
+{% block title_button %}
+    <h3 class="ui header floated left">
+            <i class="basic question icon circular small"></i>
+            Faq Category
+    </h3>
+    <div class="ui button table_rbut">
+        Add Faq Category
+    </div>
+{% endblock %}
+{% block table_head %}    
+    <th>ID</th>				    
+    <th>Category</th>    				    
+{% endblock %} 
+{% block table_body %} 
+      <td>{{ faq.faqcategoryid }}</td>
+      <td>{{ faq.faqcategoryname }}</td>      	
+{% endblock %} 

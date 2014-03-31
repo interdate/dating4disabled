@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Faq
+ * @ORM\Entity(repositoryClass="D4D\AppBundle\Entity\FaqRepository")
  */
 class Faq
 {

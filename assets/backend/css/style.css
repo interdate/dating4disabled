@@ -316,3 +316,65 @@ a{
 	font-family: Arial;
 }
 
+#faqWraper .table_rbut{
+    float: right;
+    font-size: 12px;
+    text-transform: none;
+}
+
+#faqWraper .ui.tab.active{
+    margin-top: 0px;
+}
+
+.center{
+    text-align: center;
+}
+
+#faqWraper .center i{
+    margin-right: 0px;
+}
+
+#faqWraper .center i.edit{
+    margin-right: -5px;
+}
+
+#faq{
+    width: 435px;
+}
+
+#faq label{
+    width: 100px;
+    float: left;
+    line-height: 25px;
+}
+
+#faq #faqcategory_form label{ width: auto;}
+
+#faq select{
+    width: 200px;
+/*    margin-bottom: 10px;
+    margin-top: 4px;*/
+}
+
+#faq textarea{
+    width: 300px;
+    height: 100px;
+    /*margin-bottom: 4px;*/
+}
+
+.breadcrumb a{
+    color: #00aeff !important;
+}
+
+#faqWraper .ui.table.category{
+    width: 420px;
+}
+
+.textarea{
+    position: relative;   
+}
+
+.textarea > .ui.corner.label {
+top: 1px;
+right: 4px;
+}
