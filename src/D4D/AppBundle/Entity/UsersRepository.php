@@ -48,7 +48,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			);
 		}
 
-		return $this->find($user->getId());
+		return $this->find($user->getUserId());
 	}
 
 	public function supportsClass($class)
@@ -67,26 +67,22 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			->getQuery();
 		
 		return $query->getResult();
-<<<<<<< HEAD
-	} 
-=======
-	}
 
-	public function findByFilter($filter, $paginator){
+	} 
+
+	public function findByFilter($filter, $paginator, $page){
 		if(!$filter)
 			$filter = 'total';
-		
-		switch ($value){
+	
+		switch ($filter){
 			case 'total':
-				
-				$em    = $this->get('doctrine.orm.entity_manager');
 				$dql   = "SELECT u FROM D4DAppBundle:Users u";
-				$query = $em->createQuery($dql);
+				$query = $this->getEntityManager()->createQuery($dql);
 				 
-				$paginator  = $this->get('knp_paginator');
+				//$paginator  = $this->get('knp_paginator');
 				$users = $paginator->paginate(
 					$query,
-					$this->get('request')->query->get('page', 1), /*page number*/
+					$page,
 					20 /*limit per page*/
 				);				 
 				 
@@ -101,5 +97,5 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 	}
 	
 	
->>>>>>> a7f1cc718666faf7953574bfe2b3e33c63f9245f
+
 }

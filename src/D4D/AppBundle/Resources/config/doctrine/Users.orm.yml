@@ -1,6 +1,7 @@
 D4D\AppBundle\Entity\Users:
     type: entity
     table: users
+    repositoryClass: D4D\AppBundle\Entity\UsersRepository  
     indexes:
         IX_pass:
             columns:
