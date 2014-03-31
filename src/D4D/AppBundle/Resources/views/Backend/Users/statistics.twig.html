@@ -36,61 +36,139 @@
 
 <div class="tabSegments">
 
+	
 	<div class="ui active tab segment" data-tab="first" id="statWraper">
 	
-	<h3 class="ui header floated left">
-		<i class="basic users icon circular small"></i>
-		All Users
-	</h3>
+		<h3 class="ui header floated left">
+			<i class="basic users icon circular small"></i>
+			All Users
+		</h3>
+		
+		<div class="right">
+			<div class="ui bottom pointing dropdown labeled icon button blue mini" id="usersActions">
+				<i class="settings icon inverted"></i>
+				Actions With Selected
+				<div class="ui menu" id="usersMenuActions">
+					<div class="item"><i class="checkmark icon"></i>Activate</div>
+					<div class="item"><i class="cancel circle basic icon"></i>Deactivate</div>
+					<div class="item"><i class="star icon"></i>Complete Registration</div>
+					<div class="item"><i class="half empty star icon"></i>Incomplete Registration</div>
+					<div class="item"><i class="mail icon"></i>Send "Activation" Email</div>
+					<div class="item"><i class="block basic icon"></i>Block</div>
+					<div class="item"><i class="circle blank icon"></i>Unblock</div>
+					<div class="item"><i class="flag icon"></i>Flag Member </div>
+					<div class="item"><i class="empty flag icon"></i>Unflag Member</div>
+					<div class="item"><i class="thumbs up icon"></i>Approve</div>
+					<div class="item"><i class="thumbs down icon"></i>Unapproved</div>
+					<div class="item"><i class="trash icon"></i>Delete</div>
+					<div class="item"><i class="remove icon"></i>Block & Delete</div>
+					
+				</div>
+			</div>
+		</div>				
+		
+							
+		
 				
 		<table class="ui small table">
 			<thead>
 			    <tr>
 				    
 				    {#
-				    <th>{{ knp_pagination_sortable(pagination, 'ID', 'u.userId') }}</th>
-				    <th>{{ knp_pagination_sortable(pagination, 'Username', 'userNic') }}</th>
+				    <th>{{ knp_pagination_sortable(users, 'ID', 'u.userId') }}</th>
+				    <th>{{ knp_pagination_sortable(users, 'Username', 'userNic') }}</th>
 				    <th>Age</th>
-				    <th>{{ knp_pagination_sortable(pagination, 'Email', 'userEmail') }}</th>
+				    <th>{{ knp_pagination_sortable(users, 'Email', 'userEmail') }}</th>
 				    #}
 				    
-				    <th>ID</th>				    
-				    <th>Age</th>
-				    <th>Username</th>
-				    <th>Email</th>
-				    <th>Paying</th>
+				    <th>
 				    
+				    <div class="ui checkbox">
+						<input type="checkbox">
+						<label></label>
+					</div>
+				    
+				    </th>
+					<th>ID</th>				    
+					<th>Age</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Properties</th>
+					
+					<th><i class="location basic blue icon"></i></th>
+					<th><i class="photos basic blue icon"></i></th>					
+					<th><i class="chat blue icon"></i></th>					
+					<th><i class="edit blue icon"></i></th>
+					<th><i class="trash blue icon"></i></th> 
 			  	</tr>
 		  	</thead>		
 		
 		  
 		  	<tbody>
-		  		{% for user in pagination %}
+		  		{% for user in users %}
 				<tr>
-			      <td>{{ user.userId }}</td>
-			      <td>-</td>
-			      <td>{{ user.userNic }}</td>
-			      <td>{{ user.userEmail }}</td>
-			      <td>
-			      	<a class="item">
-			      		<i class="basic dollar icon"></i>
-			      	</a>
-			      </td>
-			    </tr>
-				{% endfor %}
-			    
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="test" >
+							<label></label>							
+						</div>
+					</td>
+					<td>{{ user.userId }}</td>
+					<td>35</td>
+					<td>{{ user.userNic }}</td>					
+					<td><div class="email">{{ user.userEmail }}</div></td>
+					
+			      	<td>
+			      		<i class="basic dollar green icon"></i>
+			      		<i class="half empty star icon"></i>
+						<i class="warning red icon"></i>
+						<i class="thumbs down icon"></i>
+					</td>					
+					
+										
+					<td>
+						
+						<!-- 
+						<div class="ui pointing dropdown icon">
+							<i class="location basic icon"></i>
+							<div class="menu">
+								<div class="item">United States of America</div>								
+							</div>
+						</div>
+						 -->
+						 
+						<i	class="location basic icon blue link"
+							data-content="United States of America" 
+							data-position="left center">
+						</i>
+							
+					</td>
+					
+					
+					<td><i class="photos basic blue link icon"></i></td>
+					<td><i class="chat blue link icon"></i></td>					
+					<td><i class="edit blue link icon"></i></td>
+					<td><i class="trash blue link icon"></i></td>
+				</tr>
+				{% endfor %}			    
 		    </tbody>
 		    
+		    <!-- 
+		    		<td><i class="asterisk basic purple icon"></i></td>
+					<td><i class="block basic red icon"></i></td>
+					<td><i class="cancel circle basic red icon"></i></td>
+		     -->
 		    
-		    <tfoot>
+		 	<tfoot>
 		 		<tr>
-		 			<th colspan="4">
-		    			{{ knp_pagination_render(pagination) }}
+		 			<th colspan="15">
+		    			{{ knp_pagination_render(users) }}
 		 			</th>
 		 		</tr>
 		 	</tfoot>		    
 		  
 		</table>
+		
 		
 		
 		
@@ -106,7 +184,7 @@
 		<div class="ui left sidebar small vertical menu blue" id="statSidebar">
 			
 			<a class="item active" href="/admin/users/statistics">
-			    <div class="ui small label blue">{{ pagination.getTotalItemCount }}</div>
+			    <div class="ui small label blue">{{ users.getTotalItemCount }}</div>
 			    <i class="users basic icon"></i>			    
 			    All Users
 			</a>
