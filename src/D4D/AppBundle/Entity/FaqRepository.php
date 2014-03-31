@@ -32,7 +32,7 @@ class FaqRepository extends EntityRepository{
         $cat_options = array();
         foreach ($categories as $cat){$cat_options[$cat->getFaqcategoryid()]=$cat->getFaqcategoryname();}
         $faq = ($id>0)?$repository->find($id):new Faq();        
-        $choice_option = array('label' => 'Category','choices' => $cat_options,'position' => 'first','mapped'   => false);
+        $choice_option = array('label' => 'Category','choices' => $cat_options,'mapped'   => false);
         if($id>0)$choice_option['data']=$faq->getFaqcategoryid()->getFaqcategoryid();
         $form = $obj->createForm(new FaqType(), $faq);
         $form->add('faqcategoryid', 'choice', $choice_option);
