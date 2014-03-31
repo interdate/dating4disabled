@@ -19,39 +19,10 @@ use D4D\AppBundle\Entity\Users;
 
 class UsersController extends Controller{
     
-    public function statisticsAction(Request $request, $value = false){
-
-    	if(!$value)
-    		$value = 'total';
-    	
-    	    	
-    	switch ($value){
-    		case 'total':
-    			
-    			$em    = $this->get('doctrine.orm.entity_manager');
-    			$dql   = "SELECT u FROM D4DAppBundle:Users u";
-    			$query = $em->createQuery($dql);
-    			
-    			$paginator  = $this->get('knp_paginator');
-    			$pagination = $paginator->paginate(
-    				$query,
-    				$this->get('request')->query->get('page', 1)/*page number*/,
-    				50/*limit per page*/
-    			);
-    			
-    			
-    			
-    			// parameters to template
-    			return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array('pagination' => $pagination));
-    			
-    			
-    			
-    			break;
-    		
-    		case 'male':
-    			break;
-    	}
-    	
-    	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html');
+    public function statisticsAction(Request $request, $filter = false){
+    	$paginator  = $this->get('knp_paginator');
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
+    	$users = $usersRepo->findByFilter($filter, $paginator);
+    	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array('users' => $users));
     }
 }

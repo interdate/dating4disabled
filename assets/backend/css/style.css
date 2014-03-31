@@ -374,6 +374,22 @@ a{
     position: relative;   
 }
 
+.table .email{
+	max-width:220px;
+	overflow:hidden;
+}
+
+#usersMenuActions{
+	background: #f9f9f9;
+	opacity: .9;
+}
+
+/*
+#usersActions .item, #usersActions .icon{
+	color: #fff;
+}
+*/
+
 .textarea > .ui.corner.label {
 top: 1px;
 right: 4px;
