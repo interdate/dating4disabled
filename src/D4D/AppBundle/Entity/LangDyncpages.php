@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * LangDyncpages
+ * @ORM\Entity(repositoryClass="D4D\AppBundle\Entity\LangDyncpagesRepository")
  */
 class LangDyncpages
 {

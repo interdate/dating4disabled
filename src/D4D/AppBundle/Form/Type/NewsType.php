@@ -5,16 +5,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
-//use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\Security\Core\SecurityContext;
 //use Doctrine\ORM\FaqRepository;
 
 //use D4D\AppBundle\Entity\Faq;
-use D4D\AppBundle\Entity\Faqcategory;
-use D4D\AppBundle\Entity\LangLanguages;
+use D4D\AppBundle\Entity\News;
 
-class FaqcategoryType extends AbstractType{
+class NewsType extends AbstractType{
     
     /**
      * Builds the AddUser form
@@ -24,13 +23,8 @@ class FaqcategoryType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options){  
         
-    	$builder->add('faqcategoryname', 'text', array('label' => 'Name of category',
-            'constraints' => array(
-//                        new NotBlank(),
-//                        new MinLength(4),
-            )
-            ));    
-       // $builder->add('langid', 'hidden', array('data' => 27,'mapped' => false));
+    	$builder->add('newsitemsubject', 'text', array('label' => 'Subject')); 
+        $builder->add('newsitembody', 'textarea', array('label' => 'Body','required' => false)); 
     }
        
     
@@ -38,7 +32,6 @@ class FaqcategoryType extends AbstractType{
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-   //         'data_class' => 'D4D\AppBundle\Entity\Faqcategory'
         ));
     }
     
@@ -48,7 +41,7 @@ class FaqcategoryType extends AbstractType{
      * @return string
      */
     public function getName(){
-        return 'faqcategory';
+        return 'news';
     }
 }
 ?>

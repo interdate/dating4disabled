@@ -1,5 +1,6 @@
 D4D\AppBundle\Entity\News:
     type: entity
+    repositoryClass: D4D\AppBundle\Entity\NewsRepository
     table: news
     indexes:
         IDX_1DD3995097A33CE7:

@@ -3,6 +3,9 @@ D4D\AppBundle\Entity\Faq:
     faqq:
       - NotBlank:
             message: "Field Question is empty" 
+      - Length:
+            min: 4
+            minMessage: "Field Category is empty"      
     faqa:
       - NotBlank:
             message: "Field Answer is empty"  
@@ -11,3 +14,34 @@ D4D\AppBundle\Entity\Faqcategory:
     faqcategoryname:
       - NotBlank:
             message: "Field Category is empty"
+      - Length:
+            min: 4
+            minMessage: "Field Category is empty"    
+            
+D4D\AppBundle\Entity\News:
+    newsitembody:
+      - NotBlank:
+            message: "Field Category is empty"
+      - Length:
+            min: 4
+            minMessage: "Field Category is empty"  
+    newsitemsubject:
+      - NotBlank:
+            message: "Field Subject is empty"
+      - Length:
+            min: 4
+            minMessage: "Field Category is empty"  
+                        
+D4D\AppBundle\Entity\LangDyncpages:
+    pagename:
+      - NotBlank:
+          message: "Bla-bla"
+    pagetitle:
+      - NotBlank:
+          message: "Bla-bla"
+    pagebody:
+      - NotBlank:
+            message: "Field Category is empty"
+      - Length:
+            min: 4
+            minMessage: "Field Category is empty"               

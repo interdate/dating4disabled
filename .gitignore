@@ -5,5 +5,11 @@
 /vendor/
 /app/config/parameters.yml
 /app/config/config.yml
+<<<<<<< HEAD
 /.gitignore
 /.htaccess
+=======
+/nbproject/*
+/.htaccess
+/.gitignore
+>>>>>>> b2311054e93f31080f3aff2cca0598596e7616d4
