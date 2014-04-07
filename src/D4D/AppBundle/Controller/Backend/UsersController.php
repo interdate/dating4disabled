@@ -20,11 +20,41 @@ use D4D\AppBundle\Entity\UsersRepository;
 
 class UsersController extends Controller{
     
-    public function statisticsAction(Request $request, $filter = false){
-    	$paginator  = $this->get('knp_paginator');
-    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    public function statisticsAction(Request $request, $filter = false){    	
     	$page = $this->get('request')->query->get('page', 1);
-    	$users = $usersRepo->findByFilter($filter, $paginator, $page);
-    	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array('users' => $users));
+    	$paginator  = $this->get('knp_paginator');
+    	
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    	$usersRepo->setFilter($filter);    	
+    	//$usersRepo->test();    	
+    	
+    	$geoip = $this->get('maxmind.geoip');
+    	
+    	$users = $usersRepo->getUsers($paginator, $page, $geoip);
+    	$statistics = $usersRepo->getStatistics();
+    	    	
+    	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array(
+    		'users' => $users, 
+    		'statistics' => $statistics,    			
+    	));
+    }
+    
+    public function actionsAction(Request $request, $filter = false, $action){
+    	$page = $this->get('request')->query->get('page', 1);
+    	$paginator  = $this->get('knp_paginator');
+    	 
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    	$usersRepo->setFilter($filter);
+
+    	 
+    	$geoip = $this->get('maxmind.geoip');
+    	 
+    	$users = $usersRepo->getUsers($paginator, $page, $geoip);
+    	$statistics = $usersRepo->getStatistics();
+    
+    	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array(
+    			'users' => $users,
+    			'statistics' => $statistics,
+    	));
     }
 }

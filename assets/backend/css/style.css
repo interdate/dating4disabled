@@ -285,10 +285,16 @@ a{
 	color:#00aeff;
 }
 
+
+#statWraper .label{
+	margin-top: 0.5em;
+}
+
 #statSidebar .label{
 	margin-top: -0.3em;
 	font-size: 0.7em;
 }
+
 
 #statWraper{
 	position:relative;

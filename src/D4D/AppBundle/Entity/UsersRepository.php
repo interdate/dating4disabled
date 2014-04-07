@@ -12,6 +12,14 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UsersRepository extends EntityRepository implements UserProviderInterface
 {
+	//public $filters = array('total', 'male', 'female');
+	protected $filter = 'total';
+
+	public function setFilter($filter){		
+		if($filter)
+			$this->filter = $filter;
+	}
+	
 	public function loadUserByUsername($username)
 	{
 		$q = $this
@@ -70,24 +78,363 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 
 	} 
 
-	public function findByFilter($filter, $paginator, $page){
-		if(!$filter)
-			$filter = 'total';
+	public function getUsers($paginator, $page, $geoip){
+		$dql = $this->getDQL();	
+		$query = $this->getEntityManager()->createQuery($dql);
+		$users = $paginator->paginate($query, $page, 20);
+		
+		$conn = $this->getEntityManager()->getConnection();
+				
+		foreach ($users as $user){			
+			$geoip->lookup($user->getUserip());
+			
+			$country = array( 
+				'code' => $geoip->getCountryCode(),
+				'name' => $geoip->getCountryName(),
+				//'city' => $geoip->getCity(),
+			);
+			
+			$user->setCountry($country);
+			
+			$sql = "SELECT userId FROM users WHERE userId = '" . $user->getUserid() . "' AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";			
+			$stmt = $conn->query($sql);
+			$stmt->execute();			
+			$user->setUserPaying(count($stmt->fetchAll()));
+			
+			
+		}
+		
+		return $users;		
+	}
 	
-		switch ($filter){
+	public function isPaying($userId){
+		
+		$conn = $this->getEntityManager()->getConnection();		
+		$stmt = $conn->query($sql);
+		$stmt->execute();
+		
+		
+		$sql = "SELECT userId FROM users WHERE userId=:userId AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam("userId", $userId, PDO::PARAM_INT);
+		$stmt->execute();
+		return count($stmt->fetchAll());
+	}
+	
+	public function getStatistics(){		
+		$sql = "EXEC admin_users_simpleStats";		
+		$conn = $this->getEntityManager()->getConnection();
+		$stmt = $conn->query($sql);
+		$stmt->execute();
+		
+		$result = $stmt->fetchAll();
+		$statistics['reports'] = $result[0];
+				
+		$stmt->nextRowset();		
+		$result = $stmt->fetchAll();
+		$statistics['filters'] = $result[0];
+		
+		return $statistics;
+	}
+	
+	
+	
+	public function getDQL(){
+		
+		switch ($this->filter){
 			case 'total':
 				$dql   = "SELECT u FROM D4DAppBundle:Users u";
-				$query = $this->getEntityManager()->createQuery($dql);
-				$users = $paginator->paginate($query, $page, 20);
 				break;
 		
 			case 'male':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 0";
+				break;
+		
+			case 'female':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 1";
+				break;
+				
+			case 'flagged':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.useradminmarked = 1";
+				break;
+				
+			case 'withPhotos':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotactivated = 1 OR u.userfrozen = 1 OR u.userblocked = 1 OR u.usernotapproved = 1";
+				break;
+				
+			case 'inactive':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotactivated = 1 OR u.userfrozen = 1 OR u.userblocked = 1 OR u.usernotapproved = 1";
+				break;
+					
+			case 'notCompletedRegistration':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotcomlitedregistration = 1";				
+				break;
+				
+			case 'notActivated':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotactivated = 1";
+				break;
+				
+			case 'notApproved':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotapproved = 1";
+				break;
+				
+			case 'frozen':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.userfrozen = 1";
+				break;
+				
+			case 'blocked':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.userblocked = 1";
+				break;
+				
+			case 'paying':				
+				
+				
+				$date = new \DateTime();
+				$date = $date->format("Y-m-d h:i:s");				
+				//$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.userpaidstartdate <= '" . $date . "' AND u.userpaidenddate >= '" . $date . "'";
+				
+				$dql = "
+					SELECT u 
+						FROM D4DAppBundle:Users u 
+						WHERE
+							(u.userprepaidpoints  > 0 AND u.userpaidstartdate > '" . $date . "')
+						OR 
+							(u.userprepaidpoints > 0 AND u.userpaidstartdate <= '" . $date . "' AND u.userpaidstartdate >= '"  . $date . "')					
+						OR
+							(u.userpaidstartdate <= '" . $date . "' AND u.userpaidenddate >= '" . $date . "')												
+									
+				";
+				
+				
+				//@prePaidPoints>0 and @paidStartDate>@date and @paidStartDate<=@paidEndDate
+				
+				/*
+				$dql = "SELECT 
+							u.userId, 
+							u.userNic, 
+							(SELECT dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING) 
+						FROM 
+							D4DAppBundle:Users u";
+				*/			
+						
+				
+/*
+				$sql = "SELECT u.userId, u.userNic, dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING FROM users u";
+				$conn = $this->getEntityManager()->getConnection();
+				$stmt = $conn->prepare($sql);
+				$stmt->execute();
+				$res = $stmt->fetchAll();
+				echo count($res) . "<br><br>";
+				foreach ($res as $user){
+					
+					var_dump($user);
+					echo "<br /><br />";
+					
+				}
+				
+				print_r($stmt->fetchAll());
+				die();
+				*/
+				break;
+
+				
+				
+					
+					
+		}
+		
+		return $dql;
+	}	
+	
+	public function getPageDefinitions(){
+		switch ($this->filter){
+			case 'total':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u";
+				break;
+		
+			case 'male':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 0";
+				break;
+		
+			case 'female':
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 1";
 				break;
 		}
-
-		return $users;		
+		
+		return $dql;
 	}
+	
+	
+	
+	public function test(){
+		
+		
+		$userGender = "0";
+		$value = null;
+		
+		$sql = "EXEC admin_users_search_sa ";
+		
+		for ($i = 0; $i < 65; $i++){
+			if($i == 25)
+				$sql .= '1';
+			elseif($i == 62)
+				$sql .= '20';
+			elseif($i == 63)
+				$sql .= '1';
+			else
+				$sql .= 'null';
+				
+			if($i < 64)
+				$sql .= ",";
+		}
+		
+		
+		echo $sql . '<br />';
+		
+		$conn = $this->getEntityManager()->getConnection();
+		//$stmt = $conn->prepare($sql);
+		/*
+		for ($i = 1; $i <= 65; $i++){
+				
+			if($i == 25)
+				$stmt->bindParam($i, $userGender);
+			else
+				$stmt->bindParam($i, $value);
+				
+		}
+		*/
+		
+		$stmt = $conn->query($sql);
+		$stmt->execute();
+		//print_r($stmt->fetchAll());
+		//die();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		$rowset = $stmt->fetchAll();
+		var_dump($rowset);
+		$stmt->nextRowset();
+		
+		
+		
+		
+		do {			
+			$rowset = $stmt->fetchAll();
+			var_dump($rowset);			
+		} while ($stmt->nextRowset());
+		
+		die();
+			
+		$i = 0;
+		while($result = $stmt->fetch(\PDO::FETCH_ASSOC) or $i < 10) {
+			var_dump($result);
+			echo '<br />';
+			$i++;
+		}
+		die();
+	}
+	
+	
 	
 	
 
 }
+
+
+
+
+/*
+				$em = $this->getEntityManager();
+				$conn = $em->getConnection();
+				
+				$userGender = "0";
+				$value = false;
+				
+				$sql = "EXEC admin_users_search_sa";
+				
+				for ($i = 0; $i < 65; $i++){
+					$sql .= "?";
+					
+					if($i < 64)
+						$sql .= ",";
+				}
+				
+				$stmt = $conn->prepare($sql);
+				
+				for ($i = 1; $i <= 65; $i++){
+					
+					if($i == 25)
+						$stmt->bindParam($i, $userGender);					
+					else
+						$stmt->bindParam($i, $value);
+					
+				}
+				
+				
+				//$stmt->bindParam(1, $userId);				
+				$stmt->execute();
+				print_r($stmt->fetchAll());
+				
+				die();
+				 
+				$i = 0;
+				while($result = $stmt->fetch(\PDO::FETCH_ASSOC) or $i < 10) {
+					var_dump($result);
+					echo '<br />';
+					$i++;
+				}
+				die();
+  
+  
+*/
+
+
+
+
+
+

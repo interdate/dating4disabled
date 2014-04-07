@@ -9,6 +9,9 @@ app_service_check_login:
 app_service_override_passwords:
     pattern:  /service/overridePasswords
     defaults: { _controller: D4DAppBundle:AppService:overridePasswords }
+
+
+
     
 user_home:
     path:     /home
@@ -26,6 +29,7 @@ user_logout:
     
 
 
+
 admin_home:   
     path:     /admin/users/statistics
     defaults: { _controller: D4DAppBundle:Backend\Users:statistics }
@@ -41,9 +45,18 @@ admin_logout:
     path: /admin/logout
     
 
+
+
 admin_users_statistics:   
-    path:     /admin/users/statistics/{value}
-    defaults: { _controller: D4DAppBundle:Backend\Users:statistics, value:1 }        
+    path:     /admin/users/statistics/{filter}
+    defaults: { _controller: D4DAppBundle:Backend\Users:statistics, filter:1 }
+            
+admin_users_statistics_action:   
+    path:     /admin/users/statistics/{filter}/{action}
+    defaults: { _controller: D4DAppBundle:Backend\Users:actions, filter:1, action:2 }
+
+
+
 
 admin_faq:
   path:     /admin/faq

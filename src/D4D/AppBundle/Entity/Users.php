@@ -356,7 +356,23 @@ class Users implements userInterface, \Serializable
      * @OneToOne(targetEntity="Roles")
      * @JoinColumn(name="role_id", referencedColumnName="id")
      **/
-    private $role;  
+    private $role; 
+
+    
+    
+    /**
+     * @var array
+     */
+    private $country;
+    
+    
+    /**
+     * @var boolean
+     */
+    private $userUserPaying;
+    
+    
+    
     
 
     /**
@@ -1963,6 +1979,57 @@ class Users implements userInterface, \Serializable
     public function getRoleId()
     {
     	return $this->roleId;
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * Set country
+     *
+     * @param integer $country
+     * @return Users
+     */
+    public function setCountry($country)
+    {
+    	$this->country = $country;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get country
+     *
+     * @return array
+     */
+    public function getCountry()
+    {
+    	return $this->country;
+    }
+    
+    /**
+     * Set userUserPaying
+     *
+     * @param integer $userUserPaying
+     * @return Users
+     */
+    public function setUserPaying($userUserPaying)
+    {
+    	$this->userUserPaying = $userUserPaying;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get userUserPaying
+     *
+     * @return boolean
+     */    
+    public function getUserPaying()
+    {
+    	return $this->userUserPaying;
     }
     
     
