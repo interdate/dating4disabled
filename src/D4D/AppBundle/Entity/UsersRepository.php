@@ -78,22 +78,14 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			case 'total':
 				$dql   = "SELECT u FROM D4DAppBundle:Users u";
 				$query = $this->getEntityManager()->createQuery($dql);
-				 
-				//$paginator  = $this->get('knp_paginator');
-				$users = $paginator->paginate(
-					$query,
-					$page,
-					20 /*limit per page*/
-				);				 
-				 
+				$users = $paginator->paginate($query, $page, 20);
 				break;
 		
 			case 'male':
 				break;
 		}
 
-		return $users;
-		
+		return $users;		
 	}
 	
 	
