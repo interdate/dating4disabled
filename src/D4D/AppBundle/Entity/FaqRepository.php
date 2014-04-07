@@ -24,16 +24,19 @@ class FaqRepository extends EntityRepository{
         return $pagination;
     }
     
-    public function bildFaqForm ($obj,$id=0){
+    public function bildFaqForm ($obj, $id = 0){
         
         $doctrine = $obj->getDoctrine();
         $repository = $doctrine->getRepository('D4DAppBundle:Faq');
         $categories = $doctrine->getRepository('D4DAppBundle:Faqcategory')->findAll();
         $cat_options = array();
-        foreach ($categories as $cat){$cat_options[$cat->getFaqcategoryid()]=$cat->getFaqcategoryname();}
-        $faq = ($id>0)?$repository->find($id):new Faq();        
-        $choice_option = array('label' => 'Category','choices' => $cat_options,'mapped'   => false);
-        if($id>0)$choice_option['data']=$faq->getFaqcategoryid()->getFaqcategoryid();
+        foreach ($categories as $cat){ 
+            $cat_options[ $cat->getFaqcategoryid() ] = $cat->getFaqcategoryname(); 
+        }
+        $faq = ($id > 0) ? $repository->find($id) : new Faq();        
+        $choice_option = array('label' => 'Category', 'choices' => $cat_options, 'required' => false, 'mapped'   => false);
+        if($id > 0) 
+            $choice_option['data'] = $faq->getFaqcategoryid()->getFaqcategoryid();
         $form = $obj->createForm(new FaqType(), $faq);
         $form->add('faqcategoryid', 'choice', $choice_option);
         return $form;

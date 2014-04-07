@@ -5,13 +5,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+#use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\FaqRepository;
 
-//use D4D\AppBundle\Entity\Faq;
-//use D4D\AppBundle\Entity\Faqcategory;
 
 class FaqType extends AbstractType{
     
@@ -32,6 +30,7 @@ class FaqType extends AbstractType{
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+  //          'attr' => array('novalidate' => 'novalidate')
         ));
     }
     

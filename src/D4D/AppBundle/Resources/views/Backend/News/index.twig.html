@@ -1,0 +1,72 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block users_statistics %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //$('.menu_item').removeClass('selected');
+            //$('.question').parent('.menu_item').addClass('selected');
+        });
+    </script>
+    <h2 class="ui header floated left">
+      <i class="calendar icon"></i>
+      News
+    </h2>
+    <div class="clear"></div>
+    <div class="tabSegments" id="newsWraper">
+	<div class="ui active tab segment" >
+            <h3 class="ui header floated left">
+                    <i class="book icon circular small"></i>
+                    Manage News
+            </h3>
+            <a class="right" href="/admin/news/add"><div class="ui labeled icon button blue mini">
+                <i class="add inverted sign icon"></i>
+                Add News
+            </div></a>       
+            <table class="ui small table">
+                <thead>
+                    <tr>				  
+                        <th>Date</th>				    
+                        <th>Subject</th>                        
+                        <th width="35"></th>
+                        <th width="35"></th>
+                    </tr>
+                </thead>						  
+                <tbody>
+                  {% for news in pagination %}
+                    <tr>
+                      <td>{{ news.newsitemdate|date('d/m/Y') }}</td>
+                      <td>{{ news.newsitemsubject }}</td>
+                      <td class="center">
+                          <a title="Edit" href="/admin/news/edit/{{ news.newsitemid }}/{{ page }}">
+                              <div><i class="edit blue large icon link"></i></div>
+                          </a>
+                      </td>
+                      <td class="center">
+                          <a title="Delete" onclick="if (!confirm('Are you sure?')) return false;" href="/admin/news/delete/{{ news.newsitemid }}/{{ page }}">
+                              <div><i class="trash blue large icon link"></i></div>
+                          </a>
+                      </td>
+                    </tr>
+                  {% endfor %}			    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="6">
+                        <div class="left">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                        <a class="right" href="/admin/news/add">
+                            <div class="ui labeled icon button blue mini">
+                                <i class="add inverted sign icon"></i>
+                                Add News
+                            </div>
+                        </a> 
+                        </th>
+                    </tr>
+                </tfoot>		    		  
+            </table>			
+	</div>	
+    
+        
+    </div>
+{% endblock%}

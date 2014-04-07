@@ -1,5 +1,6 @@
 D4D\AppBundle\Entity\LangDyncpages:
     type: entity
+    repositoryClass: D4D\AppBundle\Entity\LangDyncpagesRepository
     table: lang_dyncPages
     id:
         pageid:
