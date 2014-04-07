@@ -39,19 +39,21 @@ class UsersController extends Controller{
     	));
     }
     
-    public function actionsAction(Request $request, $filter = false, $action){
+    public function actionsAction(Request $request, $filter = false, $action){    	
     	$page = $this->get('request')->query->get('page', 1);
     	$paginator  = $this->get('knp_paginator');
     	 
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
     	$usersRepo->setFilter($filter);
-
+    	$usersRepo->execute($action);
+    	
+    	
     	 
-    	$geoip = $this->get('maxmind.geoip');
-    	 
+    	$geoip = $this->get('maxmind.geoip');    	 
+    	
     	$users = $usersRepo->getUsers($paginator, $page, $geoip);
     	$statistics = $usersRepo->getStatistics();
-    
+    	
     	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array(
     			'users' => $users,
     			'statistics' => $statistics,

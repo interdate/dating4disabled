@@ -107,20 +107,6 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $users;		
 	}
 	
-	public function isPaying($userId){
-		
-		$conn = $this->getEntityManager()->getConnection();		
-		$stmt = $conn->query($sql);
-		$stmt->execute();
-		
-		
-		$sql = "SELECT userId FROM users WHERE userId=:userId AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";
-		$stmt = $this->db->prepare($sql);
-		$stmt->bindParam("userId", $userId, PDO::PARAM_INT);
-		$stmt->execute();
-		return count($stmt->fetchAll());
-	}
-	
 	public function getStatistics(){		
 		$sql = "EXEC admin_users_simpleStats";		
 		$conn = $this->getEntityManager()->getConnection();
@@ -244,25 +230,20 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		}
 		
 		return $dql;
-	}	
-	
-	public function getPageDefinitions(){
-		switch ($this->filter){
-			case 'total':
-				$dql   = "SELECT u FROM D4DAppBundle:Users u";
+	}
+
+	public function execute($action){
+		switch ($action){
+			case 'activate':
+				
 				break;
-		
-			case 'male':
-				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 0";
-				break;
-		
-			case 'female':
-				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usergender = 1";
+				
+			case 'deactivate':
 				break;
 		}
-		
-		return $dql;
 	}
+	
+	
 	
 	
 	
