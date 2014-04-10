@@ -49,8 +49,8 @@
             </h3>
             <div class="clear"></div>
             {{ form_start(form, {'attr': {'id': 'faq_form'}}) }}
-            {{ form_errors(form) }}            
             
+            {{ form_errors(form.newsitemsubject) }}                        
             <div class="field">
                 {{ form_label(form.newsitemsubject) }}
                 <div class="ui small input">
@@ -62,6 +62,7 @@
             </div>
             <div class="clear"></div>
             
+            {{ form_errors(form.newsitembody) }}
             <div class="field">
                 {{ form_label(form.newsitembody) }}
                 <div class="clear"></div>

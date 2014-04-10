@@ -85,8 +85,8 @@
         {{ block('choice_widget_options') }}
     </select>
     <div class="ui selection dropdown">
-        {% for group_label, choice in options %}{% if choice is selectedchoice(value) or (choice.value==15 and value is empty) %}
-        <div class="text">{{ choice.label|trans({}, translation_domain) }} </div>
+        {% for group_label, choice in options %}{% if choice is selectedchoice(value) or (choice.value==empty_value|trans({}, translation_domain) and value is empty) %}
+        <div class="text">{{ choice.label|trans({}, translation_domain) }}</div>
         <input {{ block('widget_attributes') }} type="hidden" value="{{ choice.value }}">
         {% endif %}{% endfor %}
         <i class="dropdown icon"></i>
@@ -117,7 +117,10 @@
 
 {% block checkbox_widget %}
 {% spaceless %}
-    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+ <div class="ui checkbox"> 
+    <input type="checkbox"{% if value is defined %} name="{{ full_name }}" value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <label></label>
+ </div>
 {% endspaceless %}
 {% endblock checkbox_widget %}
 
@@ -355,15 +358,15 @@
 {% block form_errors %}
 {% spaceless %}
     {% if errors|length > 0 %}
-    <ul>
+    
         {% for error in errors %}
-            <li>{{ error.message }}</li>
+            <div class="error">{{ error.message }}</div>
         {% endfor %}
-    </ul>
+    
     {% endif %}
 {% endspaceless %}
 {% endblock form_errors %}
-
+    
 {% block form_rest %}
 {% spaceless %}
     {% for child in form %}

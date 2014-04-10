@@ -63,7 +63,7 @@ admin_faq:
   
 admin_faq_edit:   
     path:     /admin/faq/edit/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Faq:formFaq, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Faq:formFaq, id:0, page:1 }
     
 admin_faq_add:   
     path:     /admin/faq/add
@@ -71,7 +71,7 @@ admin_faq_add:
     
 admin_faq_delete:   
     path:     /admin/faq/delete/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Faq:deleteFaq, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Faq:deleteFaq, id:0, page:1 }
     
 admin_faq_category_edit:   
     path:     /admin/faq/category/edit/{id}
@@ -94,7 +94,7 @@ admin_news:
   
 admin_news_edit:   
     path:     /admin/news/edit/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\News:formNews, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\News:formNews, id:0, page:1 }
     
 admin_news_add:   
     path:     /admin/news/add
@@ -102,7 +102,7 @@ admin_news_add:
     
 admin_news_delete:   
     path:     /admin/news/delete/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\News:deleteNews, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\News:deleteNews, id:0, page:1 }
 
 
 
@@ -113,7 +113,7 @@ admin_pages:
   
 admin_pages_edit:   
     path:     /admin/pages/edit/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Page:formPage, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Page:formPage, id:0, page:1 }
     
 admin_pages_add:   
     path:     /admin/pages/add
@@ -121,4 +121,23 @@ admin_pages_add:
     
 admin_pages_delete:   
     path:     /admin/pages/delete/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Page:deletePage, id:0 page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Page:deletePage, id:0, page:1 }
+
+
+
+
+admin_banners:
+  path:     /admin/banners
+  defaults: { _controller: D4DAppBundle:Backend\Banners:index }
+
+admin_banners_edit:   
+    path:     /admin/banners/edit/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Banners:bannerForm, id:0, page:1 }
+    
+admin_banners_add:   
+    path:     /admin/banners/add
+    defaults: { _controller: D4DAppBundle:Backend\Banners:bannerForm }
+
+admin_banners_delete:   
+    path:     /admin/banners/delete/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Banners:bannerDelete, id:0, page:1 }

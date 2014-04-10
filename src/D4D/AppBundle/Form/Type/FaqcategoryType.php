@@ -25,10 +25,10 @@ class FaqcategoryType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options){  
         
     	$builder->add('faqcategoryname', 'text', array('label' => 'Name of category',
-            'constraints' => array(
+//            'constraints' => array(
 //                        new NotBlank(),
 //                        new MinLength(4),
-            )
+//            )
             ));    
        // $builder->add('langid', 'hidden', array('data' => 27,'mapped' => false));
     }

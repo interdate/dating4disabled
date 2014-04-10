@@ -49,8 +49,8 @@
             </h3>
             <div class="clear"></div>
             {{ form_start(form, {'attr': {'id': 'pages_form'}}) }}
-            {{ form_errors(form) }}            
-            
+                    
+            {{ form_errors(form.pagename) }}    
             <div class="field">
                 {{ form_label(form.pagename) }}
                 <div class="ui small input">
@@ -62,6 +62,7 @@
             </div>
             <div class="clear"></div>
             
+            {{ form_errors(form.pagetitle) }}  
             <div class="field">
                 {{ form_label(form.pagetitle) }}
                 <div class="ui small input">
@@ -73,6 +74,7 @@
             </div>
             <div class="clear"></div>
             
+            {{ form_errors(form.pagebody) }}
             <div class="field">
                 {{ form_label(form.pagebody) }}
                 <div class="clear"></div>

@@ -88,11 +88,13 @@ class FaqController extends Controller{
         $faqCategory = ($id>0) ? $repository->find($id) : new Faqcategory();
         $request = $this->get('request');
         $form = $this->createForm(new FaqcategoryType(), $faqCategory);        
-        if ($request->isMethod('POST')) {                         
+        if ($request->isMethod('POST')) { 
+            //$form->bindR
             $form->bind($request);
             if($form->isValid()){ 
-                $em = $doctrine->getManager();   
-                $em->persist($faqCategory);	    	
+                $em = $doctrine->getManager(); 
+                $faq = ($id>0) ? $repository->find($id) : new Faqcategory();
+                $em->persist($faq);	    	
                 $em->flush();                
                 return $this->redirect($this->generateUrl('admin_faq') . '#categories');
             }

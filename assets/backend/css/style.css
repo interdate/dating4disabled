@@ -53,7 +53,11 @@ a{
 	padding-right: 20px;
 	margin: 15px 0 15px 0;	
 	color: #fff;
-	text-shadow: 0 1px 0 #000;		
+	text-shadow: 0 1px 0 #000;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        -khtml-border-radius:5px;
+        border-radius:5px;
 }
 
 .error{
@@ -68,7 +72,12 @@ a{
 	
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-box-sizing: border-box;			
+	-box-sizing: border-box;
+        
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        -khtml-border-radius:5px;
+        border-radius:5px;
 }
 
 #wraper{
@@ -348,10 +357,19 @@ a{
     width: 435px;
 }
 
-#faq label{
+#faq label, #bannersWraper .line label{
     width: 100px;
     float: left;
     line-height: 25px;
+}
+
+#bannersWraper .line .input{ width: 50%; }
+
+.form#bannersWraper{ width: 440px; }
+
+.list#bannersWraper table img,.list#bannersWraper table object{
+    max-width: 200px;
+    max-height: 60px;
 }
 
 #faq #faqcategory_form label{ width: auto;}

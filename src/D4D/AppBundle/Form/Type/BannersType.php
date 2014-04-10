@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\FaqRepository;
 
 
-class FaqType extends AbstractType{
+class BannersType extends AbstractType{
     
     /**
      * Builds the AddUser form
@@ -21,8 +21,17 @@ class FaqType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options){  
         
-    	$builder->add('faqq', 'textarea', array('label' => 'Question'));
-        $builder->add('faqa', 'textarea', array('label' => 'Answer'));     
+    	$builder->add('bannername', 'text', array('label' => 'Name'));
+        $builder->add('bannerlink', 'text', array('label' => 'Link'));
+        $builder->add('bannerlocation', 'choice', array(
+                    'label' => 'Location', 'choices' => array(0 => 'Left', 1 => 'Center', 2 => 'Right'), 
+                    'empty_value' => 0, 'required' => false
+                ));
+        $builder->add('banneractive', 'checkbox', array('label' => 'Active', 'required'  => false));
+        $builder->add('bannerwidth', 'text', array('label' => 'Width'));
+        $builder->add('bannerheight', 'text', array('label' => 'Height'));
+        $builder->add('bannerfileext', 'file', array('label' => 'File','data' => ''));
+        //$builder->add('faqa', 'textarea', array('label' => 'Answer'));     
     }
        
     
@@ -30,7 +39,7 @@ class FaqType extends AbstractType{
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'attr' => array('novalidate' => 'novalidate')
+            //'attr' => array('novalidate' => 'novalidate')
         ));
     }
     
@@ -40,7 +49,7 @@ class FaqType extends AbstractType{
      * @return string
      */
     public function getName(){
-        return 'faq';
+        return 'banner';
     }
 }
 ?>

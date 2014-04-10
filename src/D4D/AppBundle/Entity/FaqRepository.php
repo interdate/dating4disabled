@@ -19,7 +19,7 @@ class FaqRepository extends EntityRepository{
         $pagination = $paginator->paginate(
                 $query,
                 $obj->get('request')->query->get('page', 1),
-                10
+                30
         );  
         return $pagination;
     }
@@ -34,7 +34,7 @@ class FaqRepository extends EntityRepository{
             $cat_options[ $cat->getFaqcategoryid() ] = $cat->getFaqcategoryname(); 
         }
         $faq = ($id > 0) ? $repository->find($id) : new Faq();        
-        $choice_option = array('label' => 'Category', 'choices' => $cat_options, 'required' => false, 'mapped'   => false);
+        $choice_option = array('label' => 'Category', 'choices' => $cat_options, 'required' => false, 'mapped'   => false, 'empty_value' => 15);
         if($id > 0) 
             $choice_option['data'] = $faq->getFaqcategoryid()->getFaqcategoryid();
         $form = $obj->createForm(new FaqType(), $faq);

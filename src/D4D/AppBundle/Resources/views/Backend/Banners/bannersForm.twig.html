@@ -1,0 +1,123 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block users_statistics %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //$('.menu_item').removeClass('selected');
+            //$('.question').parent('.menu_item').addClass('selected');
+            //$('.tabMenu .item').first().addClass('active');
+            $('.breadcrumb').css({'margin-top':'0px'});
+            $('.ui.dropdown').dropdown(); 
+            $('.ui.checkbox').checkbox('{{ checkbox }}');
+        });
+    </script>
+<h2 class="ui header floated left">
+  <i class="flag icon"></i>
+  Banners
+</h2>	
+<div class="clear"></div>
+
+<div class="ui breadcrumb small">  
+  <a href="{{ bannersUrl }}" class="section blue">Banners</a>
+  <div class="divider"> / </div>
+  <div class="active section">{{ action }} Banner</div>
+</div>
+<div class="tabSegments form" id="bannersWraper">
+    <div class="ui active tab">
+        <div class="ui form blue stacked segment">
+            
+            <h3 class="ui header floated left">
+                    <i class="{% if icon=='save' %}edit{% else %}{{ icon }}{% endif %} icon circular small"></i>
+                    {{ action }} Banner
+            </h3>
+            <div class="clear"></div>
+            {{ form_start(form, {'attr': {'id': 'faq_form'}}) }}
+            
+            {{ form_errors(form.bannername) }}                        
+            <div class="field">
+                {{ form_label(form.bannername) }}
+                <div class="ui small input">
+                    {{ form_widget(form.bannername) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            
+            {{ form_errors(form.bannerlink) }}
+            <div class="field">
+                {{ form_label(form.bannerlink) }}
+                <div class="clear"></div>
+                <div class="ui small input">
+                    {{ form_widget(form.bannerlink) }}  
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>        
+            <div class="clear"></div>
+            <div class="field line">
+                {{ form_label(form.bannerlocation) }}                 
+                {{ form_widget(form.bannerlocation) }}
+                
+            </div>
+            <div class="clear"></div>
+            <div class="field line"> 
+                {{ form_label(form.banneractive) }}                  
+                {{ form_widget(form.banneractive) }}                    
+            </div>
+            <div class="clear"></div>
+            
+            {{ form_errors(form.bannerwidth) }}                        
+            <div class="field line">
+                {{ form_label(form.bannerwidth) }}
+                <div class="ui small input">
+                    {{ form_widget(form.bannerwidth) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            
+            {{ form_errors(form.bannerheight) }}                        
+            <div class="field line">
+                {{ form_label(form.bannerheight) }}
+                <div class="ui small input">
+                    {{ form_widget(form.bannerheight) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>    
+            
+            {{ form_errors(form.bannerfileext) }}                        
+            <div class="field line">
+                {{ form_label(form.bannerfileext) }}
+                <div class="ui small input">
+                    {{ form_widget(form.bannerfileext) }}
+                    <div class="ui corner label">
+                            <i class="icon asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>   
+            {% if image!='' %}
+                {% if image.ext!='swf' %}
+                    <img src="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"/>
+                {% else %} 
+                    <object data="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"></object>
+                {% endif %}
+            {% endif %}
+            <div class="clear"></div>   
+            <div class="ui labeled icon button blue small" onclick="$('#news_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
+            
+            <input style="display: none;" id="news_submit" type="submit" name="news({{ action }})" value="{{ action }}"/>
+            {{ form_end(form) }}
+            
+        </div>
+    </div>
+</div>
+{% endblock%}
