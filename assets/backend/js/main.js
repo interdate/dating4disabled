@@ -1,8 +1,18 @@
 $(document).ready(
-	function(){
-		
+	function(){		
+                            
 		$('.tabMenu .menu .item').tab();
-		$('.ui.checkbox').checkbox('disable');
+		//$('.ui.checkbox').checkbox('disable');
+                
+                $('.ui.checkbox').checkbox({
+                       disable: true,
+                       onEnable: function(){
+                               $(this).parents('tr').addClass("selectedRow");
+                       },
+                       onDisable: function(){
+                               $(this).parents('tr').removeClass("selectedRow");
+                       }
+               });
 		
 		$('#selectAll').click(function(){
 			$(this).checkbox('toggle');
@@ -55,8 +65,8 @@ $(document).ready(
 			var action = $(this).attr('id');
 			alert(action);
 		});
-		
-		
+                
+                    
 	}
 );
 

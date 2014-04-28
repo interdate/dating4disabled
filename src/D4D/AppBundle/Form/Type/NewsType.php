@@ -8,9 +8,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\Security\Core\SecurityContext;
-//use Doctrine\ORM\FaqRepository;
-
-//use D4D\AppBundle\Entity\Faq;
 use D4D\AppBundle\Entity\News;
 
 class NewsType extends AbstractType{
@@ -31,8 +28,9 @@ class NewsType extends AbstractType{
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection' => false,
-        ));
+            //'csrf_protection'   => false,  
+            //'attr' => array('novalidate' => 'novalidate'),
+        ));        
     }
     
     /**

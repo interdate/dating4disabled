@@ -20,26 +20,23 @@ class FaqRepository extends EntityRepository{
                 $query,
                 $obj->get('request')->query->get('page', 1),
                 30
-        );  
+        );
+        
         return $pagination;
     }
     
-    public function bildFaqForm ($obj, $id = 0){
+    public function getFormParameters ($id, $router, $page = 1){ 
         
-        $doctrine = $obj->getDoctrine();
-        $repository = $doctrine->getRepository('D4DAppBundle:Faq');
-        $categories = $doctrine->getRepository('D4DAppBundle:Faqcategory')->findAll();
-        $cat_options = array();
-        foreach ($categories as $cat){ 
-            $cat_options[ $cat->getFaqcategoryid() ] = $cat->getFaqcategoryname(); 
-        }
-        $faq = ($id > 0) ? $repository->find($id) : new Faq();        
-        $choice_option = array('label' => 'Category', 'choices' => $cat_options, 'required' => false, 'mapped'   => false, 'empty_value' => 15);
-        if($id > 0) 
-            $choice_option['data'] = $faq->getFaqcategoryid()->getFaqcategoryid();
-        $form = $obj->createForm(new FaqType(), $faq);
-        $form->add('faqcategoryid', 'choice', $choice_option);
-        return $form;
+        $parameters = ($page == 1) ? array() : array('page' => $page);
+        $backUrl = $router->generate('admin_faq', $parameters);        
+        $action = ($id>0) ? 'Edit' : 'Add';            
+        $formIcon = ($id>0) ? 'save' : 'add sign';
+        $buttonValue = ($id>0) ? 'Save' : 'Add';
+
+        return array(   'action' => $action, 
+                        'faqurl' => $backUrl, 
+                        'icon' => $formIcon, 
+                        'button' => $buttonValue);
     }
     
 }

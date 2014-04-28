@@ -24,68 +24,54 @@ class BannersController extends Controller{
     public function indexAction(){        
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository('D4DAppBundle:Banners');
+        
         $banners = $repository->findAllPagination($this);
         $page = $this->get('request')->query->get('page', 1);
+        
         return $this->render('D4DAppBundle:Backend/Banners:index.twig.html', array('pagination' => $banners, 'page' => $page));
     }
     
-    public function bannerFormAction($id = 0, $page = 1){
+    public function formAction($id = 0, $page = 1){
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository('D4DAppBundle:Banners');        
-        $Banners = ($id > 0) ? $repository->find($id) : new Banners();
-        $bannerfileext = ($id > 0) ? $Banners->getBannerfileext() : false;
+        
+        $banner = ($id > 0) ? $repository->find($id) : new Banners();
+        $bannerfileext = ($id > 0) ? $banner->getBannerfileext() : false;
         $request = $this->get('request');
-        $form = $this->createForm(new BannersType(), $Banners);
-        $parameters = ($page == 1) ? array() : array('page' => $page);
-        $backUrl = $this->generateUrl('admin_banners',$parameters);
-        if($id > 0){
-            $form->add('bannerfileext', 'file', array('label' => 'File','data' => '', 'required' => false));
-        }
+        $form = $this->createForm(new BannersType(), $banner);
+        
+        if($id > 0) $form->add('bannerfileext', 'file', array('label' => 'File','data' => '', 'required' => false));
+        $formOptions = $repository->getFormOptions($id, $page, $this->get('router'));
+        
         if ($request->isMethod('POST')) {                         
             $form->bind($request);
             if($form->isValid()){ 
-                $files = $request->files;
-                foreach ($files as $uploadedFile){
-                    $file = $uploadedFile['bannerfileext'];
-                    //var_dump($file);die;
-                    if($file){
-                        $name = $file->getClientOriginalName();  
-                        $nameArray = explode('.', $name);
-                        $bannerfileext = $nameArray[1];
-                    }
-                }
-                $em = $doctrine->getManager();   
-                if($bannerfileext) $Banners->setBannerfileext($bannerfileext);
-                $em->persist($Banners);	    	
-                $em->flush();   
-                if($file){
-                    $file->move($repository->getBannersPath($_SERVER['DOCUMENT_ROOT']), $Banners->getBannerid() . '.' . $bannerfileext);
-                    chmod($repository->getBannersPath($_SERVER['DOCUMENT_ROOT']) . $Banners->getBannerid() . '.' . $bannerfileext, 0777);
-                }
-                return $this->redirect($backUrl);
+                $save = $repository->saveBanner($banner, $request->files, $bannerfileext);
+                if($save) return $this->redirect($formOptions['bannersUrl']);
             }
-        }
-        $optionsForm = $repository->getOptionsForm($id);
-        $optionsForm['form'] = $form->createView();
-        $optionsForm['bannersUrl'] = $backUrl;
-        return $this->render('D4DAppBundle:Backend/Banners:bannersForm.twig.html', $optionsForm);
+        }    
+        
+        $formOptions['form'] = $form->createView();
+        return $this->render('D4DAppBundle:Backend/Banners:bannersForm.twig.html', $formOptions);
     }
 
-    public function bannerDeleteAction($id = 0, $page = 1){
+    public function deleteAction($id = 0, $page = 1){
         if($id > 0) {
             $em = $this->getDoctrine()->getManager();
             $bannerRepo = $em->getRepository('D4DAppBundle:Banners');
+            
             $banner = $bannerRepo->find($id);
             $parameters = ($page == 1) ? array() : array('page' => $page);
+            
             if($banner) { 
                 $image = $bannerRepo->getBannersPath($_SERVER['DOCUMENT_ROOT']) . $id . '.' . $banner->getBannerfileext();
                 if(file_exists($image));
                     unlink($image);
                 $em->remove($banner);
-                $em->flush();
-                
+                $em->flush();                
             }
         }
+        
         return $this->redirect($this->generateUrl('admin_banners',$parameters));
     }
 }

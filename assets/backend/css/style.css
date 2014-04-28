@@ -61,11 +61,12 @@ a{
 }
 
 .error{
+        padding: 8px 15px;
 	width:100%;  
-	height:40px;
+	/*height:40px;*/
 	background: #ff7f7a;
-	line-height: 40px;
-	padding-left: 20px;
+	/*line-height: 40px;*/
+	/*padding-left: 20px;*/
 	margin: 15px 0 15px 0;
 	color: #fff;
 	text-shadow: 0 1px 0 #000;
@@ -406,6 +407,10 @@ a{
 #usersMenuActions{
 	background: #f9f9f9;
 	opacity: .9;
+}
+
+.breadcrumb{
+    margin-top: 0px;
 }
 
 /*

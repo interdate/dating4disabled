@@ -24,14 +24,13 @@ class BannersType extends AbstractType{
     	$builder->add('bannername', 'text', array('label' => 'Name'));
         $builder->add('bannerlink', 'text', array('label' => 'Link'));
         $builder->add('bannerlocation', 'choice', array(
-                    'label' => 'Location', 'choices' => array(0 => 'Left', 1 => 'Center', 2 => 'Right'), 
-                    'empty_value' => 0, 'required' => false
-                ));
+            'label' => 'Location', 'choices' => array(0 => 'Left', 1 => 'Center', 2 => 'Right'), 
+            'empty_value' => 0, 'required' => false
+        ));
         $builder->add('banneractive', 'checkbox', array('label' => 'Active', 'required'  => false));
-        $builder->add('bannerwidth', 'text', array('label' => 'Width'));
-        $builder->add('bannerheight', 'text', array('label' => 'Height'));
-        $builder->add('bannerfileext', 'file', array('label' => 'File','data' => ''));
-        //$builder->add('faqa', 'textarea', array('label' => 'Answer'));     
+        $builder->add('bannerwidth', 'integer', array('label' => 'Width'));
+        $builder->add('bannerheight', 'integer', array('label' => 'Height'));
+        $builder->add('bannerfileext', 'file', array('label' => 'File','data' => ''));    
     }
        
     
