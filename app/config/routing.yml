@@ -1,4 +1,10 @@
 d4_d_app:
     resource: "@D4DAppBundle/Resources/config/routing.yml"
     prefix:   /
+    
+CCDNForumForumBundle:
+    resource: "@CCDNForumForumBundle/Resources/config/routing.yml"
 
+ccdn_homepage:
+    pattern: /forum
+    defaults: { _controller: CCDNForumForumBundle:UserCategory:index, _locale: en, forumName: default }
