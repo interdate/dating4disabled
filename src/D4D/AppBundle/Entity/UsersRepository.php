@@ -11,13 +11,16 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UsersRepository extends EntityRepository implements UserProviderInterface
-{
-	//public $filters = array('total', 'male', 'female');
-	protected $filter = 'total';
+{	
+	protected $filter;
 
 	public function setFilter($filter){		
 		if($filter)
 			$this->filter = $filter;
+	}
+	
+	public function getFilter(){
+		return $this->filter;
 	}
 	
 	public function loadUserByUsername($username)
@@ -35,7 +38,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			$user = $q->getSingleResult();
 		} catch (NoResultException $e) {
 			$message = sprintf(
-					'Unable to find an active admin OkDealAdminBundle:User object identified by "%s".',
+					'Unable to find an active admin D4DAppBundle:Users object identified by "%s".',
 					$username
 			);
 			throw new UsernameNotFoundException($message, 0, $e);
@@ -49,10 +52,10 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$class = get_class($user);
 		if (!$this->supportsClass($class)) {
 			throw new UnsupportedUserException(
-					sprintf(
-							'Instances of "%s" are not supported.',
-							$class
-					)
+				sprintf(
+					'Instances of "%s" are not supported.',
+					$class
+				)
 			);
 		}
 
@@ -75,16 +78,14 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			->getQuery();
 		
 		return $query->getResult();
-
 	} 
 
 	public function getUsers($paginator, $page, $geoip){
 		$dql = $this->getDQL();	
 		$query = $this->getEntityManager()->createQuery($dql);
-		$users = $paginator->paginate($query, $page, 20);
+		$users = $paginator->paginate($query, $page, 20);		
+		$conn = $this->getEntityManager()->getConnection();				
 		
-		$conn = $this->getEntityManager()->getConnection();
-				
 		foreach ($users as $user){			
 			$geoip->lookup($user->getUserip());
 			
@@ -101,8 +102,15 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			$stmt->execute();			
 			$user->setUserPaying(count($stmt->fetchAll()));
 			
+			$date = new \DateTime();
+			$date = $date->format("Y-m-d h:i:s");
 			
-		}
+			$sql = "SELECT dbo.getAge(u.userBirthday, GETDATE()) as age FROM users u WHERE userId = '" . $user->getUserid() . "'";
+			$stmt = $conn->query($sql);
+			$stmt->execute();
+			$result = $stmt->fetch();
+			$user->setAge($result['age']);
+		}		
 		
 		return $users;		
 	}
@@ -123,7 +131,80 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $statistics;
 	}
 	
+	public function search($data){
+		$sql = "EXEC admin_users_search_sa ";
 	
+		$userid = (!empty($data['userid'])) ? $data['userid'] : 'null';
+		$sql .=  $userid . ",";	
+	
+		//$notActivated = (!empty($data['usernotactivated'])) ? $data['usernotactivated'] : 'null';
+		$sql .=  $data['usernotactivated'] . ",";
+		$sql .=  $data['usernotcomlitedregistration'] . ",";
+		$sql .=  $data['usernotapproved'] . ",";		
+		$sql .=  $data['userfrozen'] . ",";
+		$sql .=  $data['userblocked'] . ","; // 
+		$sql .=  "null" . ","; // front page list
+		$sql .=  "null" . ","; // show only images
+		$sql .=  "null" . ","; // paing
+		$sql .=  "null" . ","; // paid start 1
+		$sql .=  "null" . ","; // paid start 2
+		$sql .=  "null" . ","; // paid end 1
+		$sql .=  "null" . ","; // paid end 2
+		$sql .=  "null" . ","; // Reg date 1
+		$sql .=  "null" . ","; // Reg date 2
+		$sql .=  "null" . ","; // Last Visit 1
+		$sql .=  "null" . ","; // Last Visit 2
+		$sql .=  "null" . ","; // Birthday 1
+		$sql .=  "null" . ","; // Birthday 2
+		$sql .=  $data['useremail'] . ",";
+		$sql .=  $data['usernic'] . ",";
+		$sql .=  $data['userfname'] . ",";
+		$sql .=  $data['userlname'] . ",";
+		$sql .=  $data['userGender'] . ",";
+		$sql .=  "null" . ","; //Age1
+		$sql .=  "null" . ","; //Age2
+		$sql .=  $data['maritalstatusid'] . ",";
+		$sql .=  "null" . ","; //Children
+		$sql .=  "null" . ","; // Origin country
+		$sql .=  $data['languageid'] . ","; // Languages
+		$sql .=  $data['100'] . ","; //Ethnic
+		$sql .=  $data['100'] . ","; //Religion
+		$sql .=  $data['100'] . ","; //Education
+		$sql .=  $data['100'] . ","; //Occupation
+		$sql .=  $data['100'] . ","; //Income
+		$sql .=  $data['100'] . ","; //Health
+		$sql .=  $data['100'] . ","; //Mobility
+		$sql .=  $data['100'] . ","; // Looking For		
+		$sql .=  $data['100'] . ","; // Smoking
+		$sql .=  $data['100'] . ","; // Drinking
+		$sql .=  $data['100'] . ","; // Appearence		
+		$sql .=  $data['100'] . ","; // Hight 1
+		$sql .=  $data['100'] . ","; // Hight 2		
+		
+		$sql .=  $data['100'] . ","; // Weight 1
+		$sql .=  $data['100'] . ","; // Weight 2
+		$sql .=  $data['100'] . ","; // Body Type
+		$sql .=  $data['100'] . ","; // Hair Length
+		$sql .=  $data['100'] . ","; // Hair Color
+		$sql .=  $data['100'] . ","; // Eyes Color		
+		$sql .=  $data['100'] . ","; // Characteristic
+		$sql .=  $data['100'] . ","; // Hobbies
+		$sql .=  $data['100'] . ","; // Sex Pref
+		$sql .=  $data['100'] . ","; // User IP
+		
+		$sql .=  $data['100'] . ","; // Affiliate Id
+		$sql .=  $data['100'] . ","; // Country Code
+		$sql .=  $data['100'] . ","; // Region Code
+		$sql .=  $data['100'] . ","; // City Name
+		$sql .=  $data['100'] . ","; // longitude_1
+		$sql .=  $data['100'] . ","; // latitude_1
+		$sql .=  $data['100'] . ","; // latitude_h
+		$sql .=  $data['100'] . ","; // longitude_h
+		$sql .=  $data['100'] . ","; // Per Page
+		$sql .=  $data['100'] . ","; // page
+		
+		//echo $sql;	
+	}	
 	
 	public function getDQL(){
 		
@@ -145,7 +226,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 				break;
 				
 			case 'withPhotos':
-				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.usernotactivated = 1 OR u.userfrozen = 1 OR u.userblocked = 1 OR u.usernotapproved = 1";
+				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE  u.userid IN (SELECT DISTINCT IDENTITY(i.userid) FROM D4DAppBundle:Images i)";
 				break;
 				
 			case 'inactive':
@@ -172,13 +253,9 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 				$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.userblocked = 1";
 				break;
 				
-			case 'paying':				
-				
-				
+			case 'paying':
 				$date = new \DateTime();
-				$date = $date->format("Y-m-d h:i:s");				
-				//$dql   = "SELECT u FROM D4DAppBundle:Users u WHERE u.userpaidstartdate <= '" . $date . "' AND u.userpaidenddate >= '" . $date . "'";
-				
+				$date = $date->format("Y-m-d h:i:s");
 				$dql = "
 					SELECT u 
 						FROM D4DAppBundle:Users u 
@@ -191,228 +268,96 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 									
 				";
 				
-				
 				//@prePaidPoints>0 and @paidStartDate>@date and @paidStartDate<=@paidEndDate
+				//$sql = "SELECT u.userId, u.userNic, dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING FROM users u";
 				
-				/*
-				$dql = "SELECT 
-							u.userId, 
-							u.userNic, 
-							(SELECT dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING) 
-						FROM 
-							D4DAppBundle:Users u";
-				*/			
-						
-				
-/*
-				$sql = "SELECT u.userId, u.userNic, dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING FROM users u";
-				$conn = $this->getEntityManager()->getConnection();
-				$stmt = $conn->prepare($sql);
-				$stmt->execute();
-				$res = $stmt->fetchAll();
-				echo count($res) . "<br><br>";
-				foreach ($res as $user){
-					
-					var_dump($user);
-					echo "<br /><br />";
-					
-				}
-				
-				print_r($stmt->fetchAll());
-				die();
-				*/
-				break;
-
-				
-				
-					
-					
+				break;					
 		}
 		
 		return $dql;
 	}
 
-	public function execute($action){
-		switch ($action){
-			case 'activate':
-				
-				break;
-				
-			case 'deactivate':
-				break;
+	public function execute($action, $usersIds){
+		
+		if(!$action or !$usersIds)
+			return false;
+		
+		$usersIdsString = implode(",", $usersIds);
+		$conn = $this->getEntityManager()->getConnection();
+		
+		if($action == 'delete' or $action == 'blockAndDelete'){
+			$blockAndDelete = ($action == 'blockAndDelete') ? 1 : 0;			
+			$sql = "EXEC admin_users_de_all ?,?";			
+			$stmt = $conn->prepare($sql);
+			$stmt->bindParam(1, $usersIdsString);
+			$stmt->bindParam(2, $blockAndDelete);
 		}
-	}
-	
+		else{			
+			$actionArr = explode("_", $action);
+			$field = $actionArr[0];
+			$value = $actionArr[1];			
+			$pageName = null;			
+			$sql = "EXEC admin_users_setBitStatus ?,?,?,?";			
+			$stmt = $conn->prepare($sql);
+			$stmt->bindParam(1, $usersIdsString);
+			$stmt->bindParam(2, $field);
+			$stmt->bindParam(3, $value);
+			$stmt->bindParam(4, $pageName);
+		}
+		
+		$stmt->execute();
+	}	
 	
 	
 	
 	
 	public function test(){
-		
-		
-		$userGender = "0";
-		$value = null;
-		
 		$sql = "EXEC admin_users_search_sa ";
 		
 		for ($i = 0; $i < 65; $i++){
-			if($i == 25)
-				$sql .= '1';
-			elseif($i == 62)
+			if($i == 62)
 				$sql .= '20';
+			
 			elseif($i == 63)
 				$sql .= '1';
+			elseif($i == 64)
+				$sql .= ' "AND" ';
 			else
 				$sql .= 'null';
 				
 			if($i < 64)
 				$sql .= ",";
-		}
-		
+		}		
 		
 		echo $sql . '<br />';
 		
-		$conn = $this->getEntityManager()->getConnection();
-		//$stmt = $conn->prepare($sql);
-		/*
-		for ($i = 1; $i <= 65; $i++){
-				
-			if($i == 25)
-				$stmt->bindParam($i, $userGender);
-			else
-				$stmt->bindParam($i, $value);
-				
-		}
-		*/
-		
+		$conn = $this->getEntityManager()->getConnection();		
 		$stmt = $conn->query($sql);
 		$stmt->execute();
-		//print_r($stmt->fetchAll());
-		//die();
 		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		$rowset = $stmt->fetchAll();
-		var_dump($rowset);
-		$stmt->nextRowset();
-		
-		
-		
-		
-		do {			
-			$rowset = $stmt->fetchAll();
-			var_dump($rowset);			
-		} while ($stmt->nextRowset());
-		
-		die();
-			
 		$i = 0;
-		while($result = $stmt->fetch(\PDO::FETCH_ASSOC) or $i < 10) {
-			var_dump($result);
-			echo '<br />';
-			$i++;
-		}
-		die();
+		
+		do {
+			$rowset = $stmt->fetchAll();
+			//var_dump($rowset);			
+			if($i == 1){
+				return $rowset;
+				
+				foreach( $rowset as $row){
+					//$user = new Users($row['userId']);
+					$user = $this->find($row['userId']);
+					$users[] = $user;
+				}				
+				return $users;				
+			}				
+			$i++; 
+		} while ($stmt->nextRowset());
 	}
-	
-	
-	
-	
 
 }
 
 
 
-
-/*
-				$em = $this->getEntityManager();
-				$conn = $em->getConnection();
-				
-				$userGender = "0";
-				$value = false;
-				
-				$sql = "EXEC admin_users_search_sa";
-				
-				for ($i = 0; $i < 65; $i++){
-					$sql .= "?";
-					
-					if($i < 64)
-						$sql .= ",";
-				}
-				
-				$stmt = $conn->prepare($sql);
-				
-				for ($i = 1; $i <= 65; $i++){
-					
-					if($i == 25)
-						$stmt->bindParam($i, $userGender);					
-					else
-						$stmt->bindParam($i, $value);
-					
-				}
-				
-				
-				//$stmt->bindParam(1, $userId);				
-				$stmt->execute();
-				print_r($stmt->fetchAll());
-				
-				die();
-				 
-				$i = 0;
-				while($result = $stmt->fetch(\PDO::FETCH_ASSOC) or $i < 10) {
-					var_dump($result);
-					echo '<br />';
-					$i++;
-				}
-				die();
-  
-  
-*/
 
 
 

@@ -20,8 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Users implements userInterface, \Serializable
 {
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\userId
+     * @ORM\Column(type="integer")     
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userid;
@@ -353,8 +352,8 @@ class Users implements userInterface, \Serializable
     
     
     /**
-     * @OneToOne(targetEntity="Roles")
-     * @JoinColumn(name="role_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Roles")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      **/
     private $role; 
 
@@ -371,6 +370,11 @@ class Users implements userInterface, \Serializable
      */
     private $userUserPaying;
     
+    /**
+     * @var integer
+     */
+    private $age;
+    
     
     
     
@@ -385,8 +389,7 @@ class Users implements userInterface, \Serializable
         $this->languageid = new ArrayCollection();
         $this->lookingforid = new ArrayCollection();
         
-        $this->salt = md5(uniqid(null, true));       
-        
+        $this->salt = md5(uniqid(null, true));
     }
 
     /**
@@ -2032,6 +2035,29 @@ class Users implements userInterface, \Serializable
     	return $this->userUserPaying;
     }
     
+    
+    /**
+     * Set age
+     *
+     * @param integer $age
+     * @return Users
+     */
+    public function setAge($age)
+    {
+    	$this->age = $age;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get age
+     *
+     * @return integer
+     */
+    public function getAge()
+    {
+    	return $this->age;
+    }
     
     
     

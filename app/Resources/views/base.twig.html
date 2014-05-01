@@ -10,7 +10,9 @@
     </head>
     
     <body>    
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block body %}{% endblock %}        
+        {% block javascripts %}{% endblock %}        
+        <input type="hidden" id="currentRoute" value="{{ path(app.request.attributes.get('_route')) }}">
+        <input type="hidden" id="currentUri" value="{{ app.request.uri }}">        
     </body>
 </html>

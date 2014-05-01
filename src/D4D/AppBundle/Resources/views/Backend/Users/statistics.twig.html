@@ -6,7 +6,7 @@
 
 
 
-	{% if app.request.get('filter') == '' %}
+	{% if app.request.get('filter') == 'total' %}
 		{% set pageTitle = 'All Users' %}
 		{% set pageIcon = 'users basic' %}
 		{% set allUsersActiveItem = 'active' %}
@@ -128,7 +128,9 @@
 	{% endif %}
 	
 
-
+<input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
+<input type="hidden" id="page" value="{{ page }}" />
+<input type="hidden" id="profileRoute" value="{{ path('admin_users_profile') }}" />
 
 <h2 class="ui header floated left">
   <i class="users icon "></i>
@@ -136,19 +138,17 @@
 </h2>
 
 
-
-
 <div class="tabMenu">
 	<div class="ui pointing secondary demo menu floated right">
-	    <a class="active item blue" data-tab="first">
+	    <a class="active item blue" href="{{path('admin_home')}}">
 		    <i class="bar chart basic icon"></i>
 		    Statistics
 		</a>
-	    <a class="item blue" data-tab="second">
+	    <a class="item blue">
 		    <i class="ordered list icon"></i>
 		    Reports
 		</a>
-	    <a class="item blue" data-tab="third">
+	    <a class="item blue" href="{{path('admin_users_search')}}">
 		    <i class="search icon"></i>
 		    Search
 		</a>
@@ -159,7 +159,7 @@
 
 <div class="tabSegments">
 	
-	<div class="ui active tab segment" data-tab="first" id="statWraper">
+	<div class="ui active tab segment" id="statWraper">
 	
 		<h3 class="ui header floated left">			
 			<i class="{{pageIcon}} icon circular small"></i>
@@ -173,6 +173,22 @@
 				<i class="settings icon inverted"></i>
 				Actions With Selected
 				<div class="ui menu" id="usersMenuActions">
+				
+					<div class="item" id="userNotActivated_0"><i class="checkmark icon"></i>Activate</div>
+					<div class="item" id="userNotActivated_1"><i class="cancel circle basic icon"></i>Deactivate</div>
+					<div class="item" id="userNotComlitedRegistration_0"><i class="star icon"></i>Complete Registration</div>
+					<div class="item" id="userNotComlitedRegistration_1"><i class="half empty star icon"></i>Incomplete Registration</div>
+					<!-- <div class="item" id="sendActivationEmail"><i class="mail icon"></i>Send "Activation" Email</div> -->
+					<div class="item" id="userBlocked_1"><i class="block basic icon"></i>Block</div>
+					<div class="item" id="userBlocked_0"><i class="circle blank icon"></i>Unblock</div>
+					<div class="item" id="userAdminMarked_1"><i class="flag icon"></i>Flag User </div>
+					<div class="item" id="userAdminMarked_0"><i class="empty flag icon"></i>Unflag User</div>
+					<div class="item" id="userNotApproved_0"><i class="thumbs up icon"></i>Approve</div>
+					<div class="item" id="userNotApproved_1"><i class="thumbs down icon"></i>Unapproved</div>
+					<div class="item" id="delete"><i class="trash icon"></i>Delete</div>
+					<div class="item" id="blockAndDelete"><i class="remove icon"></i>Block & Delete</div>
+					
+					<!-- 
 					<div class="item" id="activate"><i class="checkmark icon"></i>Activate</div>
 					<div class="item" id="dectivate"><i class="cancel circle basic icon"></i>Deactivate</div>
 					<div class="item" id="completeRegistration"><i class="star icon"></i>Complete Registration</div>
@@ -186,13 +202,19 @@
 					<div class="item" id="unapproved"><i class="thumbs down icon"></i>Unapproved</div>
 					<div class="item" id="delete"><i class="trash icon"></i>Delete</div>
 					<div class="item" id="blockAndDelete"><i class="remove icon"></i>Block & Delete</div>
-					
+					 -->					
 				</div>
 			</div>
+			
+			<form action="#" id="usersIdsForm" method="post">
+				<input type="hidden" id="usersIds" name="usersIds[]" value="" />
+								
+			</form>
+			
 		</div>				
 		
 				
-		<table class="ui small table">
+		<table class="ui small table users">
 			<thead>
 			    <tr>
 				    
@@ -218,7 +240,7 @@
 					<th>Email</th>
 					<th>Properties</th>
 					
-					<th><i class="location basic blue icon"></i></th>
+					<th><i class="location basic purple icon"></i></th>
 					<th><i class="photos basic blue icon"></i></th>					
 					<th><i class="chat blue icon"></i></th>					
 					<th><i class="edit blue icon"></i></th>
@@ -229,52 +251,79 @@
 		  
 		  	<tbody>
 		  		{% for user in users %}
-				<tr>
+				<tr class="userRow">
 					<td>
 						<div class="ui checkbox">
-							<input type="checkbox" name="test" >
+							<input type="checkbox" value="{{user.userId}}" >
 							<label></label>							
 						</div>
 					</td>
-					<td>{{ user.userId }}</td>
-					<td>35</td>
+					<td class="userId">{{ user.userId }}</td>
+					<td>{{ user.age }}</td>
 					<td>{{ user.userNic }}</td>					
 					<td><div class="email">{{ user.userEmail }}</div></td>
 					
-			      	<td>			      		
+			      	<td class="props">			      		
 			      		
 			      		{% if user.userGender == 0 %}
-			      			<i class="male icon"></i>
+			      			<i class="male link icon" 
+			      				data-content="Male" 
+								data-position="top center">
+							</i>
 			      		{% else %}
-			      			<i class="female icon"></i>
+			      			<i class="female link icon" 
+			      				data-content="Female" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userPaying == 1 %} 			      			
-			      			<i class="basic dollar green icon"></i>
+			      			<i class="basic dollar green link icon" 
+			      				data-content="Paid subscription" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userAdminMarked == 1 %}
-			      			<i class="block flag purple icon"></i>
+			      			<i class="block flag purple link icon" 
+			      				data-content="Flagged user" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userNotComlitedRegistration == 1 %}
-			      			<i class="half empty star icon"></i>
+			      			<i class="half empty star link icon" 
+			      				data-content="Not completed registration" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userNotActivated == 1 %}
-			      			<i class="warning red icon"></i>
+			      			<i class="warning red link icon" 
+			      				data-content="Not activated" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userNotApproved == 1 %}
-			      			<i class="thumbs down icon"></i>
+			      			<i class="thumbs down link icon" 
+			      				data-content="Not approved" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userFrozen == 1 %}
-			      			<i class="asterisk basic purple icon"></i>
+			      			<i class="asterisk basic purple link icon" 
+			      				data-content="Frozen" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 			      		
 			      		{% if user.userBlocked == 1 %}
-			      			<i class="block basic red icon"></i>
+			      			<i class="block basic red link icon" 
+			      				data-content="Blocked" 
+								data-position="top center">
+							</i>
 			      		{% endif %}
 						
 					</td>					
@@ -291,7 +340,7 @@
 						</div>
 						 -->
 						 
-						<i	class="location basic icon blue link"
+						<i class="location basic icon purple link"
 							data-content="{{user.country.name}}" 
 							data-position="left center">
 						</i>
@@ -304,6 +353,18 @@
 					<td><i class="edit blue link icon"></i></td>
 					<td><i class="trash blue link icon"></i></td>
 				</tr>
+				<tr class="hidden">
+					<td colspan="11" class="profileWraper">
+						<div class="ui inverted dimmer">
+						    <div class="ui text large loader">Loading</div>
+						</div>											
+						
+						<div class="profile" id="profile_{{user.userId}}">
+							
+						</div>	
+					</td>
+				
+				</tr>				
 				{% endfor %}			    
 		    </tbody>
 		    
@@ -327,7 +388,96 @@
 			<div class="ui mini button blue">
 				<i class="list icon"></i>
 			</div>
+		</div>
+		
+		<div class="ui left sidebar small vertical menu blue" id="statSidebar">	
+			
+			<a class="item {{ allUsersActiveItem }}" href="/admin/users/statistics">
+			    <div class="ui small label {{ allUsersActiveLabel }}"></div>
+			    <i class="users basic icon"></i>			    
+			    All Users
+			</a>
+			
+			<a class="item {{maleActiveItem}}" href="/admin/users/statistics/male">
+				<div class="ui small label {{maleActiveLabel}}"></div>
+			    <i class="male icon"></i>
+			    Male
+			</a>
+			
+			<a class="item {{femaleActiveItem}}" href="/admin/users/statistics/female">			
+				<div class="ui small label {{femaleActiveLabel}}"></div>
+			    <i class="female icon"></i>
+			    Female
+			</a>
+			
+			<a class="item {{flaggedActiveItem}}" href="/admin/users/statistics/flagged">
+				<div class="ui small label {{flaggedActiveLabel}}"></div>
+			    <i class="flag icon"></i>
+			    Flagged
+			</a>
+			
+			<a class="item {{withPhotosActiveItem}}" href="/admin/users/statistics/withPhotos">
+				<div class="ui small label {{withPhotosActiveLabel}}"></div>
+			    <i class="photos basic icon"></i>
+			    With Photos
+			</a>
+			
+			<a class="item {{inactiveActiveItem}}" href="/admin/users/statistics/inactive">			
+				<div class="ui small label {{inactiveActiveLabel}}"></div>
+			    <i class="cancel circle basic icon"></i>
+			    Inactive			    
+			</a>
+			
+			<a class="item {{notCompletedRegistrationActiveItem}}" href="/admin/users/statistics/notCompletedRegistration">
+				<div class="ui small label {{notCompletedRegistrationActiveLabel}}"></div>
+			    <i class="half empty star icon"></i>			    
+			    Not Completed Registration			    
+			</a>
+			
+						
+			<a class="item {{notActivatedActiveItem}}" href="/admin/users/statistics/notActivated">			
+				<div class="ui small label {{notActivatedActiveLabel}}"></div>
+			    <i class="warning icon"></i>
+			    Not Activated
+			</a>
+			
+			<a class="item {{notApprovedActiveItem}}" href="/admin/users/statistics/notApproved">
+				<div class="ui small label {{notApprovedActiveLabel}}"></div>
+			    <i class="thumbs down icon"></i>
+			    Not Approved
+			</a>
+			
+			<a class="item {{frozenActiveItem}}" href="/admin/users/statistics/frozen">
+				<div class="ui small label {{frozenActiveLabel}}"></div>
+			    <i class="asterisk basic icon"></i>
+			    Frozen
+			</a>
+			
+			<a class="item {{blockedActiveItem}}" href="/admin/users/statistics/blocked">
+				<div class="ui small label {{blockedActiveLabel}}"></div>
+			    <i class="block basic icon"></i>
+			    Blocked
+			</a>
+			
+			<a class="item {{payingActiveItem}}" href="/admin/users/statistics/paying">
+				<div class="ui small label {{payingActiveLabel}}"></div>
+			    <i class="basic dollar icon"></i>
+			    Paying
+			</a>
+			
+			
+			
+			<a class="item">
+				<div class="ui small label"></div>
+			    <i class="hide icon"></i>			    
+			    Not Approved Images
+			</a>
+			
+							
 		</div> 		
+		
+		{#
+		<!-- 
 		
 		<div class="ui left sidebar small vertical menu blue" id="statSidebar">	
 			
@@ -414,57 +564,193 @@
 			
 							
 		</div>
+		
+		-->
+		
+		#}
 	
+	</div>	
+	
+	
+</div>
+
+
+
+
+
+
+
+<div class="ui modal">
+	<i class="close icon"></i>
+	
+	<h2 class="ui header">
+	  <i class="photos basic icon"></i>
+	  <div class="content">
+	    Alexjohn
+	    <div class="sub header">Manage User Images.</div>
+	  </div>
+	</h2>
+	
+	<div class="content userImagesWraper">
+	
+		<div class="preview">
+		
+			<div class="ui four connected items">
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				
+			</div>	
+			
+			<div class="ui four connected items">
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				<div class="item">
+					<img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg" style="width:110px;height:110px;">
+				</div>
+				
+			</div>
+		
+		</div>
+		
+		<div class="ui divider vertical"><!-- <i class="photos circular basic icon"></i> --></div>  
+		
+		<div class="imageWraper" id="imageWraper">
+		
+		<!-- 
+			<div class="ui stackable items">
+			  <div class="item">
+			    <div class="image">
+			      <img src="http://dating4disabled.com/userpics/thumbz/90543.jpg">
+			      <a class="like ui corner label">
+			        <i class="like icon"></i>
+			      </a>
+			    </div>
+			  </div>
+			 </div> 
+		 -->
+		
+		
+		
+		
+			
+			
+			<div style="margin:0px auto 0px auto;width:300px;">
+			
+			
+				<div class="ui one connected items">
+					<div class="item">
+						
+						
+						<div style="width:300px; height:300px;">					
+							
+							<div class="ui cube shape">
+							  <div class="sides">
+							    <div class="active side">
+							      
+							       <div class="center">
+							          <img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg">
+							           <a class="like ui corner label">
+								        <i class="external url icon"></i>
+								      </a>
+							       </div>
+							      
+							    </div>
+							    
+							    <div class="side">
+							      
+							       <div class="center">
+							          <img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg">
+							       </div>
+							      
+							    </div>
+							    
+							    <div class="side">
+							      
+							     <div class="center">
+							          <img class="rounded ui image" src="http://dating4disabled.com/userpics/thumbz/90543.jpg">
+							       </div>
+							      
+							    </div>
+							 
+							  </div>
+							</div>
+						
+						</div>
+						
+						
+						<div class="clear"></div>
+						
+						<div style="width:300px;">
+							<div class="left">				
+						
+												
+								<div class="ui labeled icon button green mini">
+									<i class="inverted thumbs up icon"></i>
+									Approve
+								</div>
+								
+								<div class="clear"></div>
+								
+								<div class="ui labeled icon button red mini">
+									<i class="inverted thumbs down icon"></i>
+									Unapproved
+								</div>
+							
+							
+							</div>
+							<div class="right">
+							
+								<div class="ui labeled icon button blue mini">
+									<i class="inverted save icon"></i>
+									Set Main
+								</div>
+								
+								<div class="clear"></div>
+								<div class="right">
+									<div class="ui labeled icon button red mini">
+										<i class="inverted trash icon"></i>
+										Remove
+									</div>
+								</div>
+								
+							</div>	
+							
+							<div class="clear"></div>
+						</div>
+						
+						
+					</div>
+				</div>
+			
+			</div>
+			
+			
+			
+		</div>
+										
 	</div>
-
-	<div class="ui tab segment" data-tab="second">
-		Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
-	</div>
-	<div class="ui tab segment" data-tab="third">
-		There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
-	</div>
-	
 	
 	
 	
 	
 </div>
-
-
-
-
-	
-
-
-
-<!-- 
-<br /><br /><br /><br />
-<div class="ui top attached tabular menu">
-  <a class="item active" data-tab="first">
-    <i class="bar chart basic icon"></i>
-    Statistics
-  </a>
-  <a class="item" data-tab="second">
-  	<i class="ordered list icon"></i>
-    Reports
-  </a>
-  <a class="item" data-tab="third">
-  	<i class="search icon"></i>
-    Search
-  </a>
-</div>
-
-<div class="ui tab bottom attached segment active" data-tab="first">
-The jQuery Address plugin provides powerful deep linking capabilities and allows the creation of unique virtual addresses that can point
-</div>
-<div class="ui tab bottom attached segment" data-tab="second">
-a website section or an application state. It enables a number of important capabilities including
-</div>
-<div class="ui tab bottom attached segment" data-tab="third">
-the creation of unique virtual addresses that can point to a website section or an application state. It enables a number of important capabilities including
-</div>
- -->
-
 
 
 

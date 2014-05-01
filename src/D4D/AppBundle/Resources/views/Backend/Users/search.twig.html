@@ -1,0 +1,711 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+{% block users_search %}	
+	
+
+<input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
+
+<h2 class="ui header floated left">
+  <i class="users icon "></i>
+  Manage Users
+</h2>
+
+
+<div class="tabMenu">
+	<div class="ui pointing secondary demo menu floated right">
+	    <a class="item blue" href="{{path('admin_home')}}">
+		    <i class="bar chart basic icon"></i>
+		    Statistics
+		</a>
+	    <a class="item blue">
+		    <i class="ordered list icon"></i>
+		    Reports
+		</a>
+	    <a class="active item blue" href="{{path('admin_users_search')}}">
+		    <i class="search icon"></i>
+		    Search
+		</a>
+	</div>
+</div>	
+
+<div class="clear"></div>
+
+<div class="tabSegments">
+
+	<div class="ui active tab segment">
+	
+		<h3 class="ui header floated left">			
+			<i class="search icon circular small"></i>
+			Search
+		</h3>
+		
+		<div class="clear"></div>
+		
+		<div class="profile">
+		
+					<form action="{{ path(app.request.attributes.get('_route')) }}" method="post">
+					
+						<div class="ui top attached tabular menu userProfileTabs">
+							<a class="active item" data-tab="tab0">
+						    	Props
+						    </a>
+							<a class="item" data-tab="tab1">
+						    	General Info
+						    </a>
+						    <a class="item" data-tab="tab2">
+						    	Background
+						    </a>
+						    
+						    <a class="item" data-tab="tab3">
+						    	Appearance
+						    </a>
+						    <a class="item" data-tab="tab4">
+						    	Personality
+						    </a>
+						    
+						    <a class="item" data-tab="tab5">
+						    	Disability Info
+						    </a>
+						   						    
+						</div>
+						
+						<div class="ui bottom attached stacked segment">
+							<!-- Props -->
+							<div class="ui form active" data-tab="tab0">
+															
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usernotactivated) }}							
+										{{ form_widget(form.usernotactivated) }}
+				    				</div>
+				    				
+				    				<div class="field">
+				    					{{ form_label(form.usernotcomlitedregistration) }}							
+										{{ form_widget(form.usernotcomlitedregistration) }}
+				    				</div>
+				    				
+				    				<div class="field">
+				    					{{ form_label(form.usernotapproved) }}							
+										{{ form_widget(form.usernotapproved) }}
+				    				</div>				    				
+				    								    												
+								</div>	
+															
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">
+									<div class="field">
+				    					{{ form_label(form.userblocked) }}							
+										{{ form_widget(form.userblocked) }}
+				    				</div>								
+								
+									<div class="field">
+				    					{{ form_label(form.userfrozen) }}							
+										{{ form_widget(form.userfrozen) }}
+				    				</div>					    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.useradminmarked) }}							
+										{{ form_widget(form.useradminmarked) }}
+				    				</div>
+				    			
+				    								    												
+								</div>						
+													
+							</div>
+							
+							<!-- General information -->
+							<div class="ui form hidden" data-tab="tab1">
+															
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usernic) }}							
+										{{ form_widget(form.usernic) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userfname) }}							
+										{{ form_widget(form.userfname) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userlname) }}							
+										{{ form_widget(form.userlname) }}
+				    				</div>
+				    								    												
+								</div>	
+															
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.useremail) }}							
+										{{ form_widget(form.useremail) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.zipcode) }}							
+										{{ form_widget(form.zipcode) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userchildren) }}							
+										{{ form_widget(form.userchildren) }}
+				    				</div>
+				    			
+				    								    												
+								</div>								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usergender) }}							
+										{{ form_widget(form.usergender) }}
+				    				</div>
+				    				
+				    				<div class="field">
+				    					{{ form_label(form.userbirthday) }}							
+										{{ form_widget(form.userbirthday) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.countrycode) }}							
+										{{ form_widget(form.countrycode) }}
+				    				</div>				    				
+				    			
+				    					
+				    								    												
+								</div>								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set itemsNumber = form.sexprefid|length %}
+								{% set columnsNumber = 4 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
+								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.sexprefid) }}
+						    						
+						    			{% for item in form.sexprefid %}
+						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}
+						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+														
+						    			{% endfor %}							
+										
+					    			</div>
+					    		</div>							
+							</div>
+							
+							
+							<!-- Background -->
+							<div class="ui form hidden" data-tab="tab2">
+						    	
+								{% set itemsNumber = form.ethnicoriginid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.ethnicoriginid) }}						    						
+						    			{% for item in form.ethnicoriginid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set itemsNumber = form.religionid|length %}
+								{% set columnsNumber = 5 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.religionid) }}						    						
+						    			{% for item in form.religionid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set itemsNumber = form.educationid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.educationid) }}						    						
+						    			{% for item in form.educationid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set itemsNumber = form.incomeid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.incomeid) }}						    						
+						    			{% for item in form.incomeid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								
+								
+																
+								{% set itemsNumber = form.maritalstatusid|length %}
+								{% set columnsNumber = 2 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.maritalstatusid) }}						    						
+						    			{% for item in form.maritalstatusid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR15">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>								
+								
+								{% set itemsNumber = form.languageid|length %}
+								{% set columnsNumber = 5 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.languageid) }}						    						
+						    			{% for item in form.languageid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}
+					    			</div>
+					    		</div>
+							
+							
+							
+							</div>
+								
+								
+								
+								
+							
+							<!-- Appearance -->
+							<div class="ui form hidden" data-tab="tab3">
+							
+								{% set itemsNumber = form.appearanceid|length %}
+								{% set columnsNumber = 3 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.appearanceid) }}						    						
+						    			{% for item in form.appearanceid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		
+					    		{% set itemsNumber = form.bodytypeid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.bodytypeid) }}						    						
+						    			{% for item in form.bodytypeid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set itemsNumber = form.hairlengthid|length %}
+								{% set columnsNumber = 7 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.hairlengthid) }}						    						
+						    			{% for item in form.hairlengthid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set itemsNumber = form.haircolorid|length %}
+								{% set columnsNumber = 5 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.haircolorid) }}						    						
+						    			{% for item in form.haircolorid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		
+					    		{% set itemsNumber = form.eyescolorid|length %}
+								{% set columnsNumber = 6 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.eyescolorid) }}						    						
+						    			{% for item in form.eyescolorid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>
+								
+							</div>
+							
+							
+							
+							<!-- Personality And Interests -->
+							<div class="ui form hidden" data-tab="tab4">
+							
+								{% set itemsNumber = form.smokingid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.smokingid) }}						    						
+						    			{% for item in form.smokingid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set itemsNumber = form.drinkingid|length %}
+								{% set columnsNumber = 4 %} 
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}								
+								
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.drinkingid) }}						    						
+						    			{% for item in form.drinkingid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+													<div class="ui checkbox">
+														{{ form_widget(item) }}														
+														{{ form_label(item) }}							
+													</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+						    					</div>						    							
+						    				{% endif %}
+						    			{% endfor %}	
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+						    	{% set itemsNumber = form.hobbyid|length %}
+								{% set columnsNumber = 3 %}
+								{% set numberInColumn = 9 %}
+										
+								<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.hobbyid) }}						    			
+						    			{% for item in form.hobbyid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+												<div class="ui checkbox">
+													{{ form_widget(item) }}														
+													{{ form_label(item) }}							
+												</div>
+													<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+							    				</div>						    							
+							    			{% endif %}													
+						    			{% endfor %}
+					    			</div>
+					    		</div>					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    		
+					    		{% set itemsNumber = form.characteristicid|length %}
+								{% set columnsNumber = 3 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
+					    		
+					    		<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.characteristicid) }}						    			
+						    			{% for item in form.characteristicid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+												<div class="ui checkbox">
+													{{ form_widget(item) }}														
+													{{ form_label(item) }}							
+												</div>
+												<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+							    				</div>						    							
+							    			{% endif %}													
+						    			{% endfor %}
+					    			</div>
+					    		</div>
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set itemsNumber = form.lookingforid|length %}
+								{% set columnsNumber = 3 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
+					    		
+					    		<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.lookingforid) }}
+						    			{% for item in form.lookingforid %}
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}					    							
+												<div class="ui checkbox">
+													{{ form_widget(item) }}														
+													{{ form_label(item) }}							
+												</div>
+												<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+							    				</div>						    							
+							    			{% endif %}
+						    			{% endfor %}
+					    			</div>
+					    		</div>						
+							</div>
+							
+							
+							
+							<div class="ui form hidden" data-tab="tab5">
+							
+							
+								{% set itemsNumber = form.healthid|length %}
+								{% set columnsNumber = 2 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
+					    		
+					    		<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.healthid) }}						    			
+						    			{% for item in form.healthid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+												<div class="ui checkbox">
+													{{ form_widget(item) }}														
+													{{ form_label(item) }}							
+												</div>
+												<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+							    				</div>						    							
+							    			{% endif %}													
+						    			{% endfor %}
+					    			</div>
+					    		</div>
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set itemsNumber = form.mobilityid|length %}
+								{% set columnsNumber = 2 %}
+								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
+					    		
+					    		<div class="ui one fields">
+									<div class="field">
+						    			{{ form_label(form.mobilityid) }}						    			
+						    			{% for item in form.mobilityid %}						    						
+						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
+						    					<div class="left marR22">						    							
+						    				{% endif %}						    												    							
+												<div class="ui checkbox">
+													{{ form_widget(item) }}														
+													{{ form_label(item) }}							
+												</div>
+												<div class="clear"></div>
+											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
+							    				</div>						    							
+							    			{% endif %}													
+						    			{% endfor %}
+					    			</div>
+					    		</div>
+					    		
+							
+							</div>
+							
+						</div>
+							
+							
+						<div class="right">
+							<div class="ui labeled icon button blue small usersSearch">
+								<i class="inverted search icon"></i>
+								Search
+							</div>
+							
+						</div>
+						
+						
+						
+					</form>	
+			</div>
+			
+			
+			
+			
+		
+	
+		
+	</div>
+	
+</div>
+
+{% endblock%}
