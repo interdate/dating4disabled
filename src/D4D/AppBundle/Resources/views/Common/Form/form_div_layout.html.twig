@@ -1,7 +1,7 @@
 {# Widgets #}
 
 {% block form_widget %}
-{% spaceless %}
+{% spaceless %}    
     {% if compound %}
         {{ block('form_widget_compound') }}
     {% else %}
@@ -116,11 +116,8 @@
 {% endblock choice_widget_options %}
 
 {% block checkbox_widget %}
-{% spaceless %}
- <div class="ui checkbox"> 
-    <input type="checkbox"{% if value is defined %} name="{{ full_name }}" value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-    <label></label>
- </div>
+{% spaceless %}  
+    <input type="checkbox"{% if value is defined %} name="{{ full_name }}" value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />    
 {% endspaceless %}
 {% endblock checkbox_widget %}
 

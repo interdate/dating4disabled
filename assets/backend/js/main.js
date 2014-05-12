@@ -66,6 +66,18 @@ $(document).ready(
 			alert(action);
 		});
                 
+                $('.forumUrl .ui.dropdown').dropdown({
+			'on':'hover',
+			'delay': {
+				show: 100,
+				hide: 100
+			},
+			'duration' : 150,
+                        onChange:function(value, text){
+                            window.location = value;
+                        }
+		});
+                
                     
 	}
 );

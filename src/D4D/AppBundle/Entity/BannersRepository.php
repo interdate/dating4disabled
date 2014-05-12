@@ -20,12 +20,21 @@ class BannersRepository extends EntityRepository{
         ); 
         
         foreach($pagination as $i => $banner){
-            if($banner->getBannerlocation()==0)		
-               $pagination[$i]->location = "Left";
-            elseif($banner->getBannerlocation()==1)
-                $pagination[$i]->location = "Center";
-            elseif($banner->getBannerlocation()==2)		
-                $pagination[$i]->location = "Right";
+            $location = array();
+            $array = $banner->getBannerlocation();
+            if(in_array(0, $array))		
+               $location[] = "Left";
+            if(in_array(1, $array))
+                $location[] = "Center";
+            if(in_array(2, $array))		
+                $location[] = "Right";
+            if(in_array(3, $array))		
+                $location[] = "Fixed right";
+            if(in_array(4, $array))		
+                $location[] = "Fixed left";
+            if(in_array(5, $array))		
+                $location[] = "User profile";
+            $pagination[$i]->location = implode(', ', $location);
             $pagination[$i]->activeClass = (($banner->getBanneractive()=='1') ? 'green checkmark' : 'red cancel circle basic');  
             $pagination[$i]->image = $this->getBannersPath() . $banner->getBannerid() . '.' . $banner->getBannerfileext();
         }

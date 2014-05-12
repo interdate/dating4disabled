@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "214dc11a595caf70262e3213cd510c88",
+    "hash": "3fb85611fd76d6d1c64c52445e36e0f9",
     "packages": [
         {
             "name": "codeconsortium/ccdn-component-bb-code",
