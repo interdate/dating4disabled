@@ -141,3 +141,44 @@ admin_banners_add:
 admin_banners_delete:   
     path:     /admin/banners/delete/{id}/{page}
     defaults: { _controller: D4DAppBundle:Backend\Banners:delete, id:0, page:1 }
+    
+    
+    
+
+admin_templates:
+  path:     /admin/templates
+  defaults: { _controller: D4DAppBundle:Backend\Page:index, type:template }
+  
+admin_templates_edit:   
+    path:     /admin/templates/edit/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Page:form, id:0, page:1, type:template }
+    
+admin_templates_add:   
+    path:     /admin/templates/add
+    defaults: { _controller: D4DAppBundle:Backend\Page:form, type:template }
+    
+admin_templates_delete:   
+    path:     /admin/templates/delete/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Page:delete, id:0, page:1, type:template }
+
+
+
+
+admin_globals:
+    path:     /admin/globals
+    defaults: { _controller: D4DAppBundle:Backend\Globals:index }
+  
+  
+  
+
+admin_settings:
+    path:     /admin/settings
+    defaults: { _controller: D4DAppBundle:Backend\Settings:index }
+  
+admin_settings_edit:   
+    path:     /admin/settings/edit/{id}
+    defaults: { _controller: D4DAppBundle:Backend\Settings:edit, id:0 }
+  
+admin_pay:   
+    path:     /admin/users/pay
+    defaults: { _controller: D4DAppBundle:Backend\Users:test }

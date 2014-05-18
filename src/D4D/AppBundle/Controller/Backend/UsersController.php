@@ -59,4 +59,10 @@ class UsersController extends Controller{
     			'statistics' => $statistics,
     	));
     }
+    
+    public function testAction(){
+        $usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    	$usersRepo->pay();
+        die;
+    }
 }

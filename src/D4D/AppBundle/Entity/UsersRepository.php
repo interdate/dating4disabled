@@ -359,6 +359,75 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		}
 		die();
 	}
+        
+        public function pay(){
+               $sql = "EXEC admin_user_pay_ss ";
+               $sql .= '23334,';
+               for ($i = 0; $i < 7; $i++){
+//                       if($i == 62)
+//                               $sql .= '20';
+//                       
+//                       elseif($i == 63)
+//                               $sql .= '1';
+//                       elseif($i == 64)
+//                               $sql .= ' "AND" ';
+//                       else
+                               $sql .= 'null';
+                               
+                       if($i < 6)
+                               $sql .= ",";
+               }                
+               
+               echo $sql . '<br />';
+               
+               
+               $this->connection = $this->getEntityManager()->getConnection();                
+               $stmt = $this->connection->query($sql);
+//               $this->connection->prepare("SELECT @userPrePaidPoints");
+               //var_dump();
+//               $stmt->prepare("SELECT @userPrePaidPoints");
+               //$this->connection->prepare("SELECT @userPrePaidPoints");
+               $stmt->execute();
+//               $this->connection->query("SELECT	@userPrePaidPoints as N'Points',
+//                                                @userPaidStartDate_m as N'PaidStartDate_m',
+//                                                @userPaidStartDate_d as N'PaidStartDate_d',
+//                                                @userPaidStartDate_y as N'PaidStartDate_y',
+//                                                @userPaidEndDate_m as N'PaidEndDate_m',
+//                                                @userPaidEndDate_d as N'PaidEndDate_d',
+//                                                @userPaidEndDate_y as N'PaidEndDate_y'");
+               var_dump($stmt->fetchAll());
+               
+               //$rowset = $stmt->fetchColumn();
+               $stmt->nextRowset();
+               //$this->connection->query("SELECT @userPrePaidPoints");
+               //var_dump($this->connection->query("SELECT @userPrePaidPoints"));
+               $rowset = $stmt->fetchAll();
+               
+               var_dump($rowset); 
+//               $stmt->nextRowset();
+//               $rowset = $stmt->fetchColumn();
+//               
+//               var_dump($rowset); 
+               $i = 0;
+               
+//               do {
+//                   
+//                       
+//                       //$rowset = $stmt->fetchAll();
+//                       var_dump($rowset);                        
+////                       if($i == 1){
+////                               return $rowset;
+////                               
+////                               foreach( $rowset as $row){
+////                                       //$user = new Users($row['userId']);
+////                                       $user = $this->find($row['userId']);
+////                                       $users[] = $user;
+////                               }                                
+////                               return $users;                                
+////                       }                                
+//                       $i++; 
+//               } while ($stmt->nextRowset());
+       }
 	
 	
 	

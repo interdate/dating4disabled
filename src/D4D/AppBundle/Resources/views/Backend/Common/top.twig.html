@@ -30,36 +30,40 @@
 								Messages								
 							</div>
 							
-							<div class="menu_item">
-								<i class="globe icon"></i>
-								Global actions								
-							</div>
+							<a href="{{ path('admin_globals') }}">
+                                                            <div class="menu_item">
+                                                                    <i class="globe icon"></i>
+                                                                    Global actions								
+                                                            </div>
+                                                        </a>
 							
 							<div class="menu_item">
 								<i class="ordered list icon"></i>
 								Reports								
 							</div>
 							
-                                                        <a href="/admin/banners">                                                    
+                                                        <a href="{{ path('admin_banners') }}">                                                    
                                                             <div class="menu_item">
                                                                     <i class="flag icon"></i>
                                                                     Banners								
                                                             </div>        
                                                         </a>
+                                                        
+                                                        <a href="{{ path('admin_settings') }}">
+                                                            <div class="menu_item lastInRow">
+                                                                    <i class="settings icon"></i>
+                                                                    System settings								
+                                                            </div>
+                                                        </a>
 							
-							<div class="menu_item lastInRow">
-								<i class="settings icon"></i>
-								System settings								
-							</div>
-							
-							<a href="/admin/news">
+							<a href="{{ path('admin_news') }}">
                                                             <div class="menu_item topBorder">
                                                                 <i class="calendar icon"></i>
                                                                 News
                                                             </div>
 							</a>
 							
-                                                        <a href="/admin/forum">
+                                                        <a href="{{ path('ccdn_forum_admin_index') }}">
                                                             <div class="menu_item topBorder">
                                                                     <i class="tasks icon"></i>
                                                                     Forums								
@@ -71,24 +75,26 @@
 								Blogs								
 							</div>
 							
-							<a href="/admin/faq">
+							<a href="{{ path('admin_faq') }}">
 								<div class="menu_item topBorder">
 									<i class="question icon"></i>
 									FAQ
 								</div>
 							</a>
 							
-							<a href="/admin/pages">
+							<a href="{{ path('admin_pages') }}">
 								<div class="menu_item topBorder">
 									<i class="text file icon"></i>
 									Pages								
 								</div>
 							</a>
-          
-							<div class="menu_item topBorder lastInRow">
-								<i class="paste icon"></i>
-								Templates								
-							</div>
+                                                        
+                                                        <a href="{{ path('admin_templates') }}">
+                                                            <div class="menu_item topBorder lastInRow">
+                                                                    <i class="paste icon"></i>
+                                                                    Templates								
+                                                            </div>
+                                                        </a>
 							
 							
 						</div>

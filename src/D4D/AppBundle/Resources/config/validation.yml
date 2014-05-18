@@ -37,9 +37,9 @@ D4D\AppBundle\Entity\LangDyncpages:
     pagename:
       - NotBlank:
           message: "Field Name is empty"
-    pagetitle:
-      - NotBlank:
-          message: "Field Title is empty"
+#    pagetitle:
+#      - NotBlank:
+#          message: "Field Title is empty"
     pagebody:
       - NotBlank:
             message: "Field Body is empty"

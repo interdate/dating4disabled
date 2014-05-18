@@ -1,0 +1,95 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block editor%}
+    <link rel="stylesheet" href="/assets/backend/css/default.css" />
+    <script src="/assets/backend/js/jquery.bbeditor.js"></script>        
+{% endblock%}
+
+{% block users_statistics %}
+    <h2 class="ui header floated left">
+      <i class="globe icon"></i>
+      Global actions
+    </h2>
+    <div class="tabMenu">
+        <div class="ui pointing secondary demo menu floated right">            
+            <a class="item blue" data-tab="point">
+                <i class="add icon"></i>
+                Add Points
+            </a>
+            <a class="item blue" data-tab="message">
+                <i class="mail outline icon"></i>
+                Send Message
+            </a>            
+        </div>
+    </div>	
+    <div class="clear"></div>
+    
+    <div class="tabSegments list" id="globalWraper">
+	<div class="ui tab segment" data-tab="point">
+            <div class="ui form blue stacked segment" id="faq">
+                <h3 class="ui header floated left">
+                        <i class="add icon circular small"></i>
+                        Add Points
+                </h3>
+                <div class="clear"></div>
+                {{ form_start(points, {'attr': {'id': 'globalPoint_form'}}) }}
+                {{ form_errors(points) }}
+                {% if info %}
+                    {% for class,text in info %}
+                        <div class="{{ class }}">{{ text }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="field sel">
+                    {{ form_label(points.whereLessThen) }}                 
+                    {{ form_widget(points.whereLessThen) }}
+
+                </div>
+                <div class="clear"></div>
+                
+                <div class="field">
+                    {{ form_label(points.points) }}  
+                    <div class="ui small input">
+                        {{ form_widget(points.points) }}
+                        <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clear"></div>                                
+
+                <div class="ui labeled icon button blue small" onclick="$('#globalPoint_submit').click();"><i class="inverted add icon"></i>Add</div>
+                <input style="display: none;" id="globalPoint_submit" type="submit" name="globalPoint(add)" value="Add"/>
+                {{ form_end(points) }}
+            </div>	
+	</div>	
+        
+        <div class="ui tab segment" data-tab="message">
+            <div class="ui form blue stacked segment">
+                <h3 class="ui header floated left">
+                        <i class="mail outline icon circular small"></i>
+                        Send Message to all
+                </h3>
+                <div class="clear"></div>
+                {{ form_start(messages, {'attr': {'id': 'globalPoint_form'}}) }}
+                {{ form_errors(messages) }}                
+                
+                <div class="field">
+                    {{ form_label(messages.body) }}
+                    <div class="clear"></div>
+                    <div class="textarea">
+                        {{ form_widget(messages.body) }} 
+                        <div class="ui corner label top1">
+                                <i class="icon asterisk"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>                                                 
+
+                <div class="ui labeled icon button blue small" onclick="$('#globalMessage_submit').click();"><i class="inverted mail icon"></i>Send</div>
+                <input style="display: none;" id="globalMessage_submit" type="submit" name="globalMessage(add)" value="Send"/>
+                {{ form_end(messages) }}
+            </div>
+        </div>
+    </div>
+{% endblock%}

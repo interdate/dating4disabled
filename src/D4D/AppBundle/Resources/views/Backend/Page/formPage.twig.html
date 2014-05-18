@@ -14,27 +14,28 @@
                 content_css: "css/content.css",
                 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
             });
+            $(document).ready(function(){ $('.baseUrlPath').text(window.location.host); });
     </script>
 {% endblock %}
 
 {% block users_statistics %}
     <h2 class="ui header floated left">
-      <i class="text file icon"></i>
-      Pages
+      <i class="{{ globalIcon }} icon"></i>
+      {{ topTitle }}
     </h2>	
     <div class="clear"></div>
 
     <div class="ui breadcrumb small">  
-      <a href="{{ pagesUrl }}" class="section blue">Pages</a>
+      <a href="{{ pagesUrl }}" class="section blue">{{ topTitle }}</a>
       <div class="divider"> / </div>
-      <div class="active section">{{ action }} Page</div>
+      <div class="active section">{{ action }} {{ topTitle|replace({'es':'e'}) }}</div>
     </div>
     <div class="tabSegments" id="pagesWraper">
         <div class="ui active tab" id="news">
             <div class="ui form blue stacked segment">
                 <h3 class="ui header floated left">
                         <i class="{% if icon=='save' %}edit{% else %}{{ icon }}{% endif %} icon circular small"></i>
-                        {{ action }} Page
+                        {{ action }} {{ topTitle|replace({'es':'e'}) }}
                 </h3>
                 <div class="clear"></div>
                 {{ form_start(form, {'attr': {'id': 'pages_form'}}) }}
@@ -68,11 +69,37 @@
                     {{ form_label(form.pagebody) }}
                     <div class="clear"></div>
                     <div class="textarea">
-                        {{ form_widget(form.pagebody) }}                    
+                        {{ form_widget(form.pagebody) }} 
+                        {% if constants %}
+                            <div class="ui corner label">
+                                    <i class="icon asterisk"></i>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-
-                <div class="clear"></div>
+                <div class="clear"></div>                                
+                    
+                {% if constants %}
+                    <div class="ui list small">
+                        <div class="item">
+                            <div class="content">
+                                <div class="header">Template Parameters:</div>                            
+                            </div>
+                            <div class="list">
+                                {% for constant,description in constants %}
+                                    <div class="item subItem">
+                                        <i class="foursquare large blue icon"></i>
+                                        <div class="content">                                        
+                                            <a class="header blue">{{ constant }}</a>
+                                            <div class="description">{{ description|raw }}</div>
+                                        </div>
+                                    </div>
+                                {% endfor %}                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                {% endif %}
 
                 <div class="ui labeled icon button blue small" onclick="$('#news_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
 

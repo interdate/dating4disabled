@@ -1,0 +1,53 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block users_statistics %}
+    <h2 class="ui header floated left">
+      <i class="settings icon"></i>
+      System settings
+    </h2>
+    <div class="clear"></div>
+    <div class="tabSegments list" id="bannersWraper">
+	<div class="ui active tab segment">            
+            {% set propgroup = false %}
+            <div class="ui fluid accordion">
+                {% for setting in settings %}
+                    {% if propgroup != setting.propgroup %}
+                        {% if propgroup %}
+                                    </tbody>                	    		  
+                                </table>
+                            </div>
+                        {% endif %}
+                        <div class="title{% if propgroup == false %} active{% endif %}">
+                            <i class="dropdown icon"></i>
+                            {{ setting.propgroup }}
+                        </div>
+                        <div class="content{% if propgroup == false %} active{% endif %}">
+                            <table class="ui small table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                        <th width="35"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        {% set propgroup = setting.propgroup %}
+                    {% else %}
+                    {% endif %}
+                    <tr>
+                        <td>{{ setting.propdesc }}</td>
+                        <td>{{ setting.value }}</td>
+                        <td>
+                            <a title="Edit" href="{{ path('admin_settings_edit', {'id': setting.propid}) }}">
+                                <div><i class="edit blue large icon link"></i></div>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                        </tbody>                	    		  
+                    </table>
+                </div>
+            </div>
+	</div>	       
+    </div>
+{% endblock%}

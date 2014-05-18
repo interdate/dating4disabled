@@ -1,0 +1,58 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+{% block users_statistics %}
+    
+<h2 class="ui header floated left">
+  <i class="settings icon"></i>
+  System settings
+</h2>	
+<div class="clear"></div>
+
+<div class="ui breadcrumb small">  
+  <a href="{{ path('admin_settings') }}" class="section blue">System settings</a>
+  <div class="divider"> / </div>
+  <div class="active section">Edit Setting</div>
+</div>
+<div class="tabSegments" id="settingsFormWraper">
+    <div class="ui active tab">
+        <div class="ui form blue stacked segment">
+            
+            <h3 class="ui header floated left">
+                    <i class="edit icon circular small"></i>
+                    Edit Setting
+            </h3>
+            <div class="clear"></div>
+            {{ form_start(form, {'attr': {'id': 'settings_form'}}) }}
+            
+                {{ form_errors(form.propvalue) }}                        
+                <div class="field">
+                    {{ form_label(form.propvalue) }}
+                    {% if type=='t' %}                        
+                        <div class="ui small input">
+                            {{ form_widget(form.propvalue) }}
+                            <div class="ui corner label">
+                                    <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                    {% elseif type=='s' %}
+                        {{ form_widget(form.propvalue) }}
+                    {% elseif type=='a' %}
+                        <div class="textarea">
+                            {{ form_widget(form.propvalue) }}
+                            <div class="ui corner label">
+                                    <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="clear"></div>
+
+            <div class="ui labeled icon button blue small" onclick="$('#settings_submit').click();"><i class="inverted save icon"></i>Save</div>            
+            
+            <input style="display: none;" id="settings_submit" type="submit" name="settings(save)" value="Save"/>
+            {{ form_end(form) }}
+            
+        </div>
+    </div>
+</div>
+{% endblock%}

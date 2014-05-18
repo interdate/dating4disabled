@@ -1,7 +1,7 @@
 <?php
 namespace D4D\AppBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
+use D4D\AppBundle\Form\Type\LangDyncpagesType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\LangDyncpagesRepository;
 
-class LangDyncpagesType extends AbstractType{
+class TemplatesType extends LangDyncpagesType{
     
     /**
      * Builds the AddUser form
@@ -18,11 +18,11 @@ class LangDyncpagesType extends AbstractType{
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options){  
-        
-    	$builder->add('pagename', 'text', array('label' => 'Name')); 
-        $builder->add('pagetitle', 'text', array('label' => 'Title')); 
-        $builder->add('pagebody', 'textarea', array('label' => 'Body','required' => false)); //,'error_bubbling'   => true
-        $builder->add('pagetype', 'hidden', array('data' => 'dyncpage'));
+        parent::buildForm($builder, $options);
+//    	$builder->add('pagename', 'text', array('label' => 'Name')); 
+        $builder->add('pagetitle', 'text', array('label' => 'Subject','required' => false)); 
+//        $builder->add('pagebody', 'textarea', array('label' => 'Body','required' => false)); //,'error_bubbling'   => true
+        $builder->add('pagetype', 'hidden', array('data' => 'template'));
     }
        
     
@@ -40,7 +40,7 @@ class LangDyncpagesType extends AbstractType{
      * @return string
      */
     public function getName(){
-        return 'pages';
+        return 'templates';
     }
 }
 ?>

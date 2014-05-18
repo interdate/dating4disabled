@@ -1,6 +1,7 @@
 D4D\AppBundle\Entity\Adminproperties:
     type: entity
     table: adminProperties
+    repositoryClass: D4D\AppBundle\Entity\AdminpropertiesRepository
     uniqueConstraints:
         UQ_adminProperties_propName:
             columns:

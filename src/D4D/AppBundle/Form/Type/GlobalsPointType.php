@@ -5,11 +5,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
+#use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\Security\Core\SecurityContext;
-use Doctrine\ORM\LangDyncpagesRepository;
+use Doctrine\ORM\FaqRepository;
 
-class LangDyncpagesType extends AbstractType{
+
+class GlobalsPointType extends AbstractType{
     
     /**
      * Builds the AddUser form
@@ -19,19 +21,24 @@ class LangDyncpagesType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options){  
         
-    	$builder->add('pagename', 'text', array('label' => 'Name')); 
-        $builder->add('pagetitle', 'text', array('label' => 'Title')); 
-        $builder->add('pagebody', 'textarea', array('label' => 'Body','required' => false)); //,'error_bubbling'   => true
-        $builder->add('pagetype', 'hidden', array('data' => 'dyncpage'));
+    	$builder->add('points', 'integer', array('label' => 'Points'));        
+        $builder->add('whereLessThen', 'choice', array(
+            'expanded'          => false,
+            'multiple'          => false,
+            'label'             => 'Members', 
+            'choices'           => array(1 => 'With no points', 1000000 => 'All'), 
+            'empty_value'       => 1, 
+            'required'          => false
+        ));            
     }
        
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            //'csrf_protection'   => false,  
-            //'attr' => array('novalidate' => 'novalidate'),
-        ));        
+            //'csrf_protection' => false,
+            //'attr' => array('novalidate' => 'novalidate')
+        ));
     }
     
     /**
@@ -40,7 +47,7 @@ class LangDyncpagesType extends AbstractType{
      * @return string
      */
     public function getName(){
-        return 'pages';
+        return 'globalPoint';
     }
 }
 ?>

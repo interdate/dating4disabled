@@ -354,7 +354,7 @@ a{
     margin-right: -5px;
 }
 
-#faq{
+#faq, #settingsFormWraper .ui.tab{
     width: 435px;
 }
 
@@ -420,8 +420,13 @@ a{
 */
 
 .textarea > .ui.corner.label {
-top: 1px;
-right: 4px;
+    top: 1px;
+    right: 4px;
+}
+
+#pagesWraper .textarea > .ui.corner.label,  .textarea > .ui.corner.label.top1{
+    top: 1px;
+    right: 1px;
 }
 
 h2.ui.header.forum{
@@ -484,3 +489,11 @@ form .ui.button{
 }
 
 .forumUrl.right{margin: 5px 0;}
+
+.item.subItem{width: 49%; float:left;}
+
+.field.sel label{line-height: 40px !important;}
+
+#globalWraper .ui.segment{margin: 0px;}
+
+#globalWraper .success{ padding: 0 20px; width: 90%;}
