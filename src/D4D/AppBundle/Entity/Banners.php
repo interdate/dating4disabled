@@ -30,7 +30,7 @@ class Banners
     private $bannerlink;
 
     /**
-     * @var integer
+     * @var array $readAuthorisedRoles
      */
     private $bannerlocation;
 
@@ -59,7 +59,17 @@ class Banners
      */
     private $bannerheight;
 
-
+    
+    /**
+     *
+     * @access public
+     */
+    public function __construct()
+    {        
+        // your own logic
+        $this->bannerlocation = array();
+    }
+    
     /**
      * Get bannerid
      *
@@ -132,7 +142,7 @@ class Banners
     /**
      * Get bannerlink
      *
-     * @return string 
+     * @return array 
      */
     public function getBannerlink()
     {
@@ -142,10 +152,10 @@ class Banners
     /**
      * Set bannerlocation
      *
-     * @param integer $bannerlocation
+     * @param array $bannerlocation
      * @return Banners
      */
-    public function setBannerlocation($bannerlocation)
+    public function setBannerlocation(array $bannerlocation = null)
     {
         $this->bannerlocation = $bannerlocation;
 

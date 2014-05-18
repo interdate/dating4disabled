@@ -49,17 +49,32 @@
             </div>        
             <div class="clear"></div>
             <div class="field line">
-                {{ form_label(form.bannerlocation) }}                 
-                {{ form_widget(form.bannerlocation) }}
-                
+                {{ form_label(form.bannerlocation) }}   
+                <div class="left width75">
+                    {% for location in form.bannerlocation %}
+                        <div class="ui checkbox">
+                            {{ form_widget(location) }}
+                            {{ form_label(location) }}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <div class="clear"></div>
+            
             <div class="field line"> 
+<<<<<<< HEAD
             	{{ form_label(form.banneractive) }}
                 <div class="ui checkbox">                                  
                 	{{ form_widget(form.banneractive) }}
                 	<label></label>
                 </div>                    
+=======
+                {{ form_label(form.banneractive) }}
+                <div class="ui checkbox">                               
+                    {{ form_widget(form.banneractive) }}   
+                    <label></label>
+                </div>
+>>>>>>> b44ecd187e74c90bbef2111c9a92ab4c05bff83c
             </div>
             <div class="clear"></div>
             
@@ -97,14 +112,16 @@
                     </div>
                 </div>
             </div>
-            <div class="clear"></div>   
-            {% if image!='' %}
-                {% if image.ext!='swf' %}
-                    <img src="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"/>
-                {% else %} 
-                    <object data="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"></object>
+            <div class="clear"></div>
+            <div class='formImage'>
+                {% if image!='' %}
+                    {% if image.ext!='swf' %}
+                        <img src="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"/>
+                    {% else %} 
+                        <object data="{{ image.src }}" width="{{ image.width }}" height="{{ image.height }}"></object>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
+            </div>
             <div class="clear"></div>   
             <div class="ui labeled icon button blue small" onclick="$('#news_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
             

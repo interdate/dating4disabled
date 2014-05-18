@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new CCDNForum\ForumBundle\CCDNForumForumBundle(),
             new CCDNComponent\BBCodeBundle\CCDNComponentBBCodeBundle(),
+            //new CCDNComponent\BBCodeBundle\DependencyInjection\CCDNComponentBBCodeExtension(),
             new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
             new D4D\AppBundle\D4DAppBundle(),        	
         );

@@ -31,7 +31,7 @@ D4D\AppBundle\Entity\Banners:
             fixed: false
             column: bannerLink
         bannerlocation:
-            type: integer
+            type: array
             nullable: true
             unsigned: false
             column: bannerLocation

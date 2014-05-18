@@ -424,7 +424,6 @@ a{
 	right: 4px;
 }
 
-
 .ui.table tbody tr.selectedRow, .ui.table tbody tr:hover{
 	background: #d6e9ff;	
 }
@@ -537,9 +536,63 @@ a{
 	height:300px;
 }
 
+h2.ui.header.forum{
+    margin: 5px 0 0;
+}
 
+form .ui.button{
+    margin-right: 10px;
+}
 
+.ulRole{
+    margin-left: 50px;
+}
 
+#forumFormWraper{
+    width: 45%;
+}
 
+.forum.success{ padding: 0 20px; }
 
+.col-md-3{
+    width: 30%;
+}
 
+.col-md-9{
+    width: 67%;
+}
+
+#forumFormWraper label.check{
+    float:right;
+    width: 90%;
+}
+
+.ui.checkbox.left{margin-top: 3px; width: 0;}
+
+.col-md-4{
+    width: 40%;
+}
+
+.col-md-8{
+    width: 57.5%;
+}
+
+.col-md-4 .col-md-6{
+    width: 49.5%;
+    margin-left: 0.5%;
+    float: left;
+    padding: 0;
+}
+
+.col-md-4 .col-md-6:first-child{
+    margin-right: 0.5%;
+    margin-left: 0;
+}
+
+.width75{width: 75%;margin-bottom: 10px !important;}
+
+.formImage{
+    margin-bottom: 20px;
+}
+
+.forumUrl.right{margin: 5px 0;}
