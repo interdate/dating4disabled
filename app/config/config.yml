@@ -5,6 +5,7 @@ imports:
 framework:
     #esi:             ~
     #translator:      { fallback: "%locale%" }
+    translator: ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -30,7 +31,8 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
       resources:
-            - "D4DAppBundle:Common/Form:form_div_layout.html.twig"
+          - "D4DAppBundle:Common/Form:form_div_layout.html.twig"
+          - "CCDNComponentBBCodeBundle:Form:fields.html.twig"
 
 # Assetic Configuration
 assetic:
@@ -62,6 +64,8 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        resolve_target_entities:
+            Symfony\Component\Security\Core\User\UserInterface: D4D\AppBundle\Entity\Users
 
 # Swiftmailer Configuration
 swiftmailer:
