@@ -1,0 +1,126 @@
+	
+	{% if photos|length %}
+	
+		<div class="preview">
+			<div class="ui four connected items">
+		
+			{% for photo in photos %}				
+				{% if( (loop.index - 1) % 4 == 0 and loop.index != 1) %}
+					</div>																										
+					<div class="ui four connected items">
+				{% endif %}
+				
+				<div class="item">
+					<img class="rounded ui image" src="/uploads/userpics/thumbz/{{photo.imgid}}.jpg" style="width:110px;height:110px;">
+				</div>
+				
+				{% if( loop.index == photos|length) %}
+					</div>
+				{% endif %}
+								
+			{% endfor %}	
+		
+		</div>
+		
+		<div class="ui divider vertical"><!-- <i class="photos circular basic icon"></i> --></div>  
+		
+		<div class="photoWrapper" id="photoWrapper">
+			
+			<div style="margin:0px auto 0px auto;width:300px;">
+			
+				<div class="ui one connected items">
+					
+					<div class="item">
+					
+						<div class="shapeWrapper">
+							<div class="ui cube shape">
+								<div class="sides">						  
+								    
+								    {% set class = "active" %}
+								    
+								    {% for photo in photos %}
+								    								    
+								    	{% if loop.index > 1 %}
+								    		{% set class = "" %} 
+								    	{% endif %}
+								    									    
+								    	<div class="side {{class}}">
+											<div class="center">
+												<img class="rounded ui image" src="/uploads/userpics/{{photo.imgid}}.jpg">
+												<input type="hidden" class="photoId" value="{{photo.imgid}}">
+												<a class="like ui corner label">
+													<i class="external url icon"></i>
+												</a>
+											</div>
+									    </div>
+									    		
+									{% endfor %}
+																 
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="clear"></div>
+						
+						<div style="width:300px;">
+							<div class="left">				
+						
+												
+								<div class="ui labeled icon button green mini" action="approve">
+									<i class="inverted thumbs up icon"></i>
+									Approve
+								</div>
+								
+								<div class="clear"></div>
+								
+								<div class="ui labeled icon button red mini" action="unapproved">
+									<i class="inverted thumbs down icon"></i>
+									Unapproved
+								</div>
+								
+								<div class="clear"></div>
+								
+								<div class="ui labeled icon button blue mini" action="homepage">
+									<i class="inverted home icon"></i>
+									Homepage
+								</div>
+							
+							
+							</div>
+							<div class="right">
+							
+								<div class="ui labeled icon button blue mini" action="setMain">
+									<i class="inverted id basic icon"></i>
+									Set Main
+								</div>
+								
+								<div class="clear"></div>
+								<div class="right">
+									<div class="ui labeled icon button red mini" action="remove">
+										<i class="inverted trash icon"></i>
+										Remove
+									</div>
+								</div>
+								
+							</div>	
+							
+							<div class="clear"></div>
+						</div>
+						
+						
+					</div>
+				</div>
+			
+			</div>
+			
+			
+			
+		</div>
+		
+	{% else %}
+		
+		<h2 class="ui header center">No Photos</h2>
+		
+	{% endif %}								
+	

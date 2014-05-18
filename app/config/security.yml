@@ -26,15 +26,15 @@ security:
         
         user_area:
             context: my_context            
-            pattern:   ^/
+            pattern:   ^/user
             anonymous: ~
             form_login:
                 login_path: user_login
                 check_path: user_login_check
                 default_target_path: user_home
             logout:
-                path:   /logout
-                target: /login
+                path:   /user/logout
+                target: /user/login
                 
                     
                 

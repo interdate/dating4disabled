@@ -53,22 +53,32 @@ a{
 	padding-right: 20px;
 	margin: 15px 0 15px 0;	
 	color: #fff;
-	text-shadow: 0 1px 0 #000;		
+	text-shadow: 0 1px 0 #000;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        -khtml-border-radius:5px;
+        border-radius:5px;
 }
 
 .error{
+        padding: 8px 15px;
 	width:100%;  
-	height:40px;
+	/*height:40px;*/
 	background: #ff7f7a;
-	line-height: 40px;
-	padding-left: 20px;
+	/*line-height: 40px;*/
+	/*padding-left: 20px;*/
 	margin: 15px 0 15px 0;
 	color: #fff;
 	text-shadow: 0 1px 0 #000;
 	
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-box-sizing: border-box;			
+	-box-sizing: border-box;
+        
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+        -khtml-border-radius:5px;
+        border-radius:5px;
 }
 
 #wraper{
@@ -348,10 +358,19 @@ a{
     width: 435px;
 }
 
-#faq label{
+#faq label, #bannersWraper .line label{
     width: 100px;
     float: left;
     line-height: 25px;
+}
+
+#bannersWraper .line .input{ width: 50%; }
+
+.form#bannersWraper{ width: 440px; }
+
+.list#bannersWraper table img,.list#bannersWraper table object{
+    max-width: 200px;
+    max-height: 60px;
 }
 
 #faq #faqcategory_form label{ width: auto;}
@@ -388,6 +407,10 @@ a{
 #usersMenuActions{
 	background: #f9f9f9;
 	opacity: .9;
+}
+
+.breadcrumb{
+    margin-top: 0px;
 }
 
 /*
@@ -459,13 +482,13 @@ a{
 	border-bottom: 1px solid #f8f8f8; 
 }
 
-.userImagesWraper{
+.userPhotos{
 	height:500px;
 	border-top: 4px solid #bebebe;
 	box-sizing:border-box;
 }
 
-.userImagesWraper .preview{
+.userPhotos .preview{
 	float: left;	
 	box-sizing: border-box;
 	width: 50%;	
@@ -473,11 +496,11 @@ a{
 }
 
 
-.userImagesWraper .item{
+.userPhotos .item{
 	min-height: 100px;	
 }
 
-.userImagesWraper .imageWraper{
+.userPhotos .photoWrapper{
 	float: left;	
 	box-sizing: border-box;
 	width: 50%;
@@ -486,18 +509,18 @@ a{
 	/*padding-left: 35px;*/	
 }
 
-.userImagesWraper .divider .icon{	
+.userPhotos .divider .icon{	
 	position: absolute;
 	top:-20px;
 	left:10px;
 }
 
-.userImagesWraper .imageWraper .segment{
+.userPhotos .photoWrapper .segment{
 	height:450px;
 }
 
 
-#imageWraper .side{
+#photoWrapper .side{
 	min-width:300px;
 	min-height:300px;
 	background-color: #fff;
@@ -505,11 +528,11 @@ a{
 	box-shadow:  0px 0px 0px #bcbcbc;
 }
 
-#imageWraper .button{
+#photoWrapper .button{
 	margin-top: 10px;
 }
 
-.userImagesWraper .imageWraper .image{
+.userPhotos .photoWrapper .image, .shapeWrapper{
 	width:300px;
 	height:300px;
 }

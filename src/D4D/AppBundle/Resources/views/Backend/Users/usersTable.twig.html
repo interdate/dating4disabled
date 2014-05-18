@@ -1,0 +1,224 @@
+		
+		<input type="hidden" id="profileRoute" value="{{ path('admin_users_profile') }}" />
+		<input type="hidden" id="photosRoute" value="{{ path('admin_users_photos') }}" />		
+		
+		<div class="right">
+			<div class="ui bottom pointing dropdown labeled icon button blue mini" id="usersActions">
+				<i class="settings icon inverted"></i>
+				Actions With Selected
+				<div class="ui menu" id="usersMenuActions">
+				
+					<div class="item" id="userNotActivated_0"><i class="checkmark icon"></i>Activate</div>
+					<div class="item" id="userNotActivated_1"><i class="cancel circle basic icon"></i>Deactivate</div>
+					<div class="item" id="userNotComlitedRegistration_0"><i class="star icon"></i>Complete Registration</div>
+					<div class="item" id="userNotComlitedRegistration_1"><i class="half empty star icon"></i>Incomplete Registration</div>
+					<!-- <div class="item" id="sendActivationEmail"><i class="mail icon"></i>Send "Activation" Email</div> -->
+					<div class="item" id="userBlocked_1"><i class="block basic icon"></i>Block</div>
+					<div class="item" id="userBlocked_0"><i class="circle blank icon"></i>Unblock</div>
+					<div class="item" id="userAdminMarked_1"><i class="flag icon"></i>Flag User </div>
+					<div class="item" id="userAdminMarked_0"><i class="empty flag icon"></i>Unflag User</div>
+					<div class="item" id="userNotApproved_0"><i class="thumbs up icon"></i>Approve</div>
+					<div class="item" id="userNotApproved_1"><i class="thumbs down icon"></i>Unapproved</div>
+					<div class="item" id="delete"><i class="trash icon"></i>Delete</div>
+					<div class="item" id="blockAndDelete"><i class="remove icon"></i>Block & Delete</div>
+					
+					<!-- 
+					<div class="item" id="activate"><i class="checkmark icon"></i>Activate</div>
+					<div class="item" id="dectivate"><i class="cancel circle basic icon"></i>Deactivate</div>
+					<div class="item" id="completeRegistration"><i class="star icon"></i>Complete Registration</div>
+					<div class="item" id="incompleteRegistration"><i class="half empty star icon"></i>Incomplete Registration</div>
+					<div class="item" id="sendActivationEmail"><i class="mail icon"></i>Send "Activation" Email</div>
+					<div class="item" id="block"><i class="block basic icon"></i>Block</div>
+					<div class="item" id="unblock"><i class="circle blank icon"></i>Unblock</div>
+					<div class="item" id="flagUser"><i class="flag icon"></i>Flag User </div>
+					<div class="item" id="unflagUser"><i class="empty flag icon"></i>Unflag User</div>
+					<div class="item" id="approve"><i class="thumbs up icon"></i>Approve</div>
+					<div class="item" id="unapproved"><i class="thumbs down icon"></i>Unapproved</div>
+					<div class="item" id="delete"><i class="trash icon"></i>Delete</div>
+					<div class="item" id="blockAndDelete"><i class="remove icon"></i>Block & Delete</div>
+					 -->					
+				</div>
+			</div>
+			
+			<form action="#" id="usersIdsForm" method="post">
+				<input type="hidden" id="usersIds" name="usersIds[]" value="" />
+				
+				{% if searchData is defined %}
+					{% for key,value in searchData %}
+						{% if searchData[key] is iterable %}						
+							{% for key2,value2 in searchData[key] %}
+								<input type="hidden" class="searchData" name="users[{{ key }}][{{ key2 }}]" value="{{ value2 }}" />
+							{% endfor %}
+						{% else %}
+							<input type="hidden" class="searchData" name="users[{{ key }}]" value="{{ value }}" />
+						{% endif %}						
+					{% endfor %}
+				{% endif %}
+								
+			</form>
+			
+		</div>
+		
+		<table class="ui small table users">
+			<thead>
+			    <tr>
+			    	<th>				    
+					    <div class="ui checkbox" id="selectAll">
+							<input type="checkbox">
+							<label></label>
+						</div>
+				    </th>
+					
+					<th>ID</th>				    
+					<th>Age</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Properties</th>
+					
+					<th><i class="location basic purple icon"></i></th>
+					<th><i class="photos basic blue icon"></i></th>					
+					<th><i class="chat blue icon"></i></th>					
+					<th><i class="edit blue icon"></i></th>
+					<th><i class="trash blue icon"></i></th> 
+			  	</tr>
+		  	</thead>		
+		
+		  
+		  	<tbody>
+		  		{% for user in users %}
+				<tr class="userRow">
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" value="{{user.userId}}" >
+							<label></label>							
+						</div>
+					</td>
+					<td class="userId">{{ user.userId }}</td>
+					<td>{{ user.age }}</td>
+					<td class="username">{{ user.userNic }}</td>					
+					<td><div class="email">{{ user.userEmail }}</div></td>
+					
+			      	<td class="props">			      		
+			      		
+			      		{% if user.userGender == 0 %}
+			      			<i class="male link icon" 
+			      				data-content="Male" 
+								data-position="top center">
+							</i>
+			      		{% else %}
+			      			<i class="female link icon" 
+			      				data-content="Female" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userPaying == 1 %} 			      			
+			      			<i class="basic dollar green link icon" 
+			      				data-content="Paid subscription" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userAdminMarked == 1 %}
+			      			<i class="block flag purple link icon" 
+			      				data-content="Flagged user" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userNotComlitedRegistration == 1 %}
+			      			<i class="half empty star link icon" 
+			      				data-content="Not completed registration" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userNotActivated == 1 %}
+			      			<i class="warning red link icon" 
+			      				data-content="Not activated" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userNotApproved == 1 %}
+			      			<i class="thumbs down link icon" 
+			      				data-content="Unapproved" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userFrozen == 1 %}
+			      			<i class="asterisk basic purple link icon" 
+			      				data-content="Frozen" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+			      		
+			      		{% if user.userBlocked == 1 %}
+			      			<i class="block basic red link icon" 
+			      				data-content="Blocked" 
+								data-position="top center">
+							</i>
+			      		{% endif %}
+						
+					</td>					
+					
+										
+					<td>
+						
+						<!-- 
+						<div class="ui pointing dropdown icon">
+							<i class="location basic icon"></i>
+							<div class="menu">
+								<div class="item">United States of America</div>								
+							</div>
+						</div>
+						 -->
+						 
+						<i class="location basic icon purple link"
+							data-content="{{user.country.name}}" 
+							data-position="left center">
+						</i>
+							
+					</td>
+					
+					
+					<td><i class="photos basic blue link icon"></i></td>
+					<td><i class="chat blue link icon"></i></td>					
+					<td><i class="edit blue link icon"></i></td>
+					<td><i class="trash blue link icon"></i></td>
+				</tr>
+				<tr class="hidden">
+					<td colspan="11" class="profileWraper">
+						<div class="ui inverted dimmer">
+						    <div class="ui text large loader">Loading</div>
+						</div>											
+						
+						<div class="profile" id="profile_{{user.userId}}">
+							
+						</div>	
+					</td>
+				
+				</tr>				
+				{% endfor %}			    
+		    </tbody>
+		    
+		    <!-- 
+		    		<td><i class="asterisk basic purple icon"></i></td>
+					<td><i class="block basic red icon"></i></td>
+					<td><i class="cancel circle basic red icon"></i></td>
+		     -->
+		    
+		 	<tfoot>
+		 		<tr>
+		 			<th colspan="15">
+		 				{% if app.request.get('_route') == 'admin_users_search' %}
+		 					{{ include ('D4DAppBundle:Backend/Users:searchPagination.twig.html') }}
+		 				{% else %}
+		    				{{ knp_pagination_render(users) }}
+		    			{% endif %}	
+		 			</th>
+		 		</tr>
+		 	</tfoot>		    
+		  
+		</table>

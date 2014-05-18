@@ -1,20 +1,28 @@
 {% extends '::base.twig.html' %}
 
+{% block doctype %}
+<!DOCTYPE html>
+<html>
+{% endblock %}
+
 {% block title %}D4D - Control Panel{% endblock %}
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="/assets/backend/libs/semantic/packaged/css/semantic.css" />
-	<link rel="stylesheet" href="/assets/backend/css/style.css" />
+	<link rel="stylesheet" href="/assets/backend/libs/jquery-ui/css/cupertino/jquery-ui-1.10.4.custom.min.css" />
+	<link rel="stylesheet" href="/assets/backend/css/style.css" />	
 {% endblock %}
 
 {% block js %}
 	<script src="/assets/backend/js/jquery.js"></script>        
 	<script src="/assets/backend/libs/semantic/packaged/javascript/semantic.js"></script>
+	<script src="/assets/backend/libs/jquery-ui/js/jquery-ui-1.10.4.custom.min.js"></script>
 	<script src="/assets/backend/js/jquery.address.js"></script>
-	<script src="/assets/backend/js/main.js"></script>
+	<script src="/assets/backend/js/main.js"></script>	
 {% endblock %}
 
-{% block body%} 
+{% block body%}
+	<body> 
 		<div id="wraper">
 			<div id="main">
 				<div id="main_wraper">								
@@ -26,16 +34,17 @@
 						
 						{% block login %}{% endblock %}						
 												
-						<div id="desktop">
-						<!-- Start Users blocks -->
-						{% block users_statistics %}{% endblock %}
-						{% block users_search %}{% endblock %}						
-						<!-- End Users blocks -->
+						<div id="desktop">						
+							{% block content %}{% endblock %}						
 						</div>
 																	
 					</div>	
 				</div>	
 			</div>
-		</div>		
+		</div>
+				  
+		<input type="hidden" id="currentRoute" value="{{ path(app.request.attributes.get('_route')) }}">
+        <input type="hidden" id="currentUri" value="{{ app.request.uri }}">        
+    </body>		
 {% endblock %}
 

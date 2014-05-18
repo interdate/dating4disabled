@@ -18,7 +18,9 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),        	
             new Realestate\MssqlBundle\RealestateMssqlBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-        	new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
+            new CCDNForum\ForumBundle\CCDNForumForumBundle(),
+            new CCDNComponent\BBCodeBundle\CCDNComponentBBCodeBundle(),
+            new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
             new D4D\AppBundle\D4DAppBundle(),        	
         );
 

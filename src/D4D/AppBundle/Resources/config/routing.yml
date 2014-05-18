@@ -10,21 +10,23 @@ app_service_override_passwords:
     pattern:  /service/overridePasswords
     defaults: { _controller: D4DAppBundle:AppService:overridePasswords }
 
-
+homepage:
+    path:     /home
+    defaults: { _controller: D4DAppBundle:Frontend\Default:index }
     
 user_home:
-    path:     /home
+    path:     /user/home
     defaults: { _controller: D4DAppBundle:Common\Security:secured }
     
 user_login:
-    path:     /login
+    path:     /user/login
     defaults: { _controller: D4DAppBundle:Common\Security:userLogin }
     
 user_login_check:
-    path: /login_check 
+    path: /user/login_check 
     
 user_logout:
-    path: /logout 
+    path: /user/logout 
     
 
 
@@ -47,8 +49,8 @@ admin_logout:
  
             
 admin_users_statistics_action:   
-    path:     /admin/users/statistics/{filter}/{action}
-    defaults: { _controller: D4DAppBundle:Backend\Users:actions, filter:total, action:false }
+    path:     /admin/users/statistics/{filter}
+    defaults: { _controller: D4DAppBundle:Backend\Users:actions, filter:total }
     
 admin_users_profile:   
     path:     /admin/users/profile/{userId}
@@ -56,7 +58,15 @@ admin_users_profile:
     
 admin_users_search:   
     path:     /admin/users/search
-    defaults: { _controller: D4DAppBundle:Backend\Users:search}        
+    defaults: { _controller: D4DAppBundle:Backend\Users:search }
+
+admin_users_photos:   
+    path:     /admin/users/photos/{userId}
+    defaults: { _controller: D4DAppBundle:Backend\Users:photos, userId:0 }
+    
+admin_users_photo:   
+    path:     /admin/users/photos/{action}/{photoId}
+    defaults: { _controller: D4DAppBundle:Backend\Users:photo }
 
 
 
@@ -98,15 +108,15 @@ admin_news:
   
 admin_news_edit:   
     path:     /admin/news/edit/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\News:formNews, id:0, page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\News:form, id:0, page:1 }
     
 admin_news_add:   
     path:     /admin/news/add
-    defaults: { _controller: D4DAppBundle:Backend\News:formNews }
+    defaults: { _controller: D4DAppBundle:Backend\News:form }
     
 admin_news_delete:   
     path:     /admin/news/delete/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\News:deleteNews, id:0, page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\News:delete, id:0, page:1 }
 
 
 
@@ -117,12 +127,31 @@ admin_pages:
   
 admin_pages_edit:   
     path:     /admin/pages/edit/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Page:formPage, id:0, page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Page:form, id:0, page:1 }
     
 admin_pages_add:   
     path:     /admin/pages/add
-    defaults: { _controller: D4DAppBundle:Backend\Page:formPage }
+    defaults: { _controller: D4DAppBundle:Backend\Page:form }
     
 admin_pages_delete:   
     path:     /admin/pages/delete/{id}/{page}
-    defaults: { _controller: D4DAppBundle:Backend\Page:deletePage, id:0, page:1 }
+    defaults: { _controller: D4DAppBundle:Backend\Page:delete, id:0, page:1 }
+
+
+
+
+admin_banners:
+  path:     /admin/banners
+  defaults: { _controller: D4DAppBundle:Backend\Banners:index }
+
+admin_banners_edit:   
+    path:     /admin/banners/edit/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Banners:form, id:0, page:1 }
+    
+admin_banners_add:   
+    path:     /admin/banners/add
+    defaults: { _controller: D4DAppBundle:Backend\Banners:form }
+
+admin_banners_delete:   
+    path:     /admin/banners/delete/{id}/{page}
+    defaults: { _controller: D4DAppBundle:Backend\Banners:delete, id:0, page:1 }

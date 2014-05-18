@@ -1,0 +1,19 @@
+D4D\AppBundle\Entity\Tests:
+    type: entity
+    table: tests
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: test_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: text
+            nullable: true
+            length: 16
+            fixed: false
+    lifecycleCallbacks: {  }

@@ -13,6 +13,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class UsersRepository extends EntityRepository implements UserProviderInterface
 {	
 	protected $filter;
+	
+	protected $connection; 
 
 	public function setFilter($filter){		
 		if($filter)
@@ -84,32 +86,10 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$dql = $this->getDQL();	
 		$query = $this->getEntityManager()->createQuery($dql);
 		$users = $paginator->paginate($query, $page, 20);		
-		$conn = $this->getEntityManager()->getConnection();				
+		$this->connection = $this->getEntityManager()->getConnection();				
 		
 		foreach ($users as $user){			
-			$geoip->lookup($user->getUserip());
-			
-			$country = array( 
-				'code' => $geoip->getCountryCode(),
-				'name' => $geoip->getCountryName(),
-				//'city' => $geoip->getCity(),
-			);
-			
-			$user->setCountry($country);
-			
-			$sql = "SELECT userId FROM users WHERE userId = '" . $user->getUserid() . "' AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";			
-			$stmt = $conn->query($sql);
-			$stmt->execute();			
-			$user->setUserPaying(count($stmt->fetchAll()));
-			
-			$date = new \DateTime();
-			$date = $date->format("Y-m-d h:i:s");
-			
-			$sql = "SELECT dbo.getAge(u.userBirthday, GETDATE()) as age FROM users u WHERE userId = '" . $user->getUserid() . "'";
-			$stmt = $conn->query($sql);
-			$stmt->execute();
-			$result = $stmt->fetch();
-			$user->setAge($result['age']);
+			$this->completeUser($user, $geoip);
 		}		
 		
 		return $users;		
@@ -117,8 +97,8 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 	
 	public function getStatistics(){		
 		$sql = "EXEC admin_users_simpleStats";		
-		$conn = $this->getEntityManager()->getConnection();
-		$stmt = $conn->query($sql);
+		$this->connection = $this->getEntityManager()->getConnection();
+		$stmt = $this->connection->query($sql);
 		$stmt->execute();
 		
 		$result = $stmt->fetchAll();
@@ -131,13 +111,60 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $statistics;
 	}
 	
-	public function search($data){
+	public function search($data, $page, $geoip){
+		
 		$sql = "EXEC admin_users_search_sa ";
 	
 		$userid = (!empty($data['userid'])) ? $data['userid'] : 'null';
-		$sql .=  $userid . ",";	
-	
-		//$notActivated = (!empty($data['usernotactivated'])) ? $data['usernotactivated'] : 'null';
+		$data['maritalstatusid'] = (isset($data['maritalstatusid'])) ? "'" . implode(",", $data['maritalstatusid']) . "'" : 'null';		
+		$data['languageid'] = (isset($data['languageid'])) ? "'" . implode(",", $data['languageid']) . "'" : 'null';		
+		$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['ethnicoriginid']) . "'" : 'null';
+		
+		//$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
+		
+		$data['religionid'] = (isset($data['religionid'])) ? "'" . implode(",", $data['religionid']) . "'" : 'null';
+		$data['educationid'] = (isset($data['educationid'])) ? "'" . implode(",", $data['educationid']) . "'" : 'null';
+		$data['occupationid'] = (isset($data['occupationid'])) ? "'" . implode(",", $data['occupationid']) . "'" : 'null';
+		$data['incomeid'] = (isset($data['incomeid'])) ? "'" . implode(",", $data['incomeid']) . "'" : 'null';
+		$data['healthid'] = (isset($data['healthid'])) ? "'" . implode(",", $data['healthid']) . "'" : 'null';
+		$data['mobilityid'] = (isset($data['mobilityid'])) ? "'" . implode(",", $data['mobilityid']) . "'" : 'null';
+		$data['lookingforid'] = (isset($data['lookingforid'])) ? "'" . implode(",", $data['lookingforid']) . "'" : 'null';
+		$data['smokingid'] = (isset($data['smokingid'])) ? "'" . implode(",", $data['smokingid']) . "'" : 'null';
+		$data['drinkingid'] = (isset($data['drinkingid'])) ? "'" . implode(",", $data['drinkingid']) . "'" : 'null';
+		$data['appearanceid'] = (isset($data['appearanceid'])) ? "'" . implode(",", $data['appearanceid']) . "'" : 'null';
+		$data['bodytypeid'] = (isset($data['bodytypeid'])) ? "'" . implode(",", $data['bodytypeid']) . "'" : 'null';
+		$data['hairlengthid'] = (isset($data['hairlengthid'])) ? "'" . implode(",", $data['hairlengthid']) . "'" : 'null';
+		$data['haircolorid'] = (isset($data['haircolorid'])) ? "'" . implode(",", $data['haircolorid']) . "'" : 'null';
+		$data['eyescolorid'] = (isset($data['eyescolorid'])) ? "'" . implode(",", $data['eyescolorid']) . "'" : 'null';
+		
+		$data['characteristicid'] = (isset($data['characteristicid'])) ? implode(",", $data['characteristicid']) : 'null';
+		$data['hobbyid'] = (isset($data['hobbyid'])) ? "'" . implode(",", $data['hobbyid']) . "'" : 'null';
+		$data['sexprefid'] = (isset($data['sexprefid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
+		
+		
+		$data['paymentStartDateFrom'] = (!empty($data['paymentStartDateFrom'])) ? "'" . $data['paymentStartDateFrom'] . "'" : 'null';
+		$data['paymentStartDateTo'] = (!empty($data['paymentStartDateTo'])) ? "'" . $data['paymentStartDateTo'] . "'" : 'null';
+		$data['paymentEndDateFrom'] = (!empty($data['paymentEndDateFrom'])) ? "'" . $data['paymentEndDateFrom'] . "'" : 'null';
+		$data['paymentEndDateTo'] = (!empty($data['paymentEndDateTo'])) ? "'" . $data['paymentEndDateTo'] . "'" : 'null';
+		$data['registrationDateFrom'] = (!empty($data['registrationDateFrom'])) ? "'" . $data['registrationDateFrom'] . "'" : 'null';
+		$data['registrationDateTo'] = (!empty($data['registrationDateTo'])) ? "'" . $data['registrationDateTo'] . "'" : 'null';
+		$data['lastVisitDateFrom'] = (!empty($data['lastVisitDateFrom'])) ? "'" . $data['lastVisitDateFrom'] . "'" : 'null';
+		$data['lastVisitDateTo'] = (!empty($data['lastVisitDateTo'])) ? "'" . $data['lastVisitDateTo'] . "'" : 'null';
+		
+		
+		$data['useremail'] = (!empty($data['useremail'])) ? "'" . $data['useremail'] . "'" : 'null';
+		$data['usernic'] = (!empty($data['usernic'])) ? "'" . $data['usernic'] . "'" : 'null';
+		$data['userfname'] = (!empty($data['userfname'])) ? "'" . $data['userfname'] . "'" : 'null';
+		$data['userlname'] = (!empty($data['userlname'])) ? "'" . $data['userlname'] . "'" : 'null';		
+		
+		$data['userBirthdayFrom'] = (!empty($data['userBirthdayFrom'])) ? "'" . $data['userBirthdayFrom'] . "'" : 'null';
+		$data['userBirthdayTo'] = (!empty($data['userBirthdayTo'])) ? "'" . $data['userBirthdayTo'] . "'" : 'null';
+		
+		
+		$data['countrycode'] = ($data['countrycode'] != '--' ) ? "'" . $data['countrycode'] . "'" : 'null';
+		$data = str_replace('_null', 'null', $data);
+		
+		$sql .=  $userid . ",";
 		$sql .=  $data['usernotactivated'] . ",";
 		$sql .=  $data['usernotcomlitedregistration'] . ",";
 		$sql .=  $data['usernotapproved'] . ",";		
@@ -145,66 +172,120 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$sql .=  $data['userblocked'] . ","; // 
 		$sql .=  "null" . ","; // front page list
 		$sql .=  "null" . ","; // show only images
-		$sql .=  "null" . ","; // paing
-		$sql .=  "null" . ","; // paid start 1
-		$sql .=  "null" . ","; // paid start 2
-		$sql .=  "null" . ","; // paid end 1
-		$sql .=  "null" . ","; // paid end 2
-		$sql .=  "null" . ","; // Reg date 1
-		$sql .=  "null" . ","; // Reg date 2
-		$sql .=  "null" . ","; // Last Visit 1
-		$sql .=  "null" . ","; // Last Visit 2
-		$sql .=  "null" . ","; // Birthday 1
-		$sql .=  "null" . ","; // Birthday 2
+		$sql .=  $data['userPaying'] . ","; // paing
+		$sql .=  "null" . ","; // prepaid points
+		$sql .=  $data['paymentStartDateFrom'] . ","; // paid start 1
+		$sql .=  $data['paymentStartDateTo'] . ","; // paid start 2
+		$sql .=  $data['paymentEndDateFrom'] . ","; // paid end 1
+		$sql .=  $data['paymentEndDateTo'] . ","; // paid end 2
+		$sql .=  $data['registrationDateFrom'] . ","; // Reg date 1
+		$sql .=  $data['registrationDateTo'] . ","; // Reg date 2
+		$sql .=  $data['lastVisitDateFrom'] . ","; // Last Visit 1
+		$sql .=  $data['lastVisitDateTo'] . ","; // Last Visit 2
+		$sql .=  $data['userBirthdayFrom'] . ","; // Birthday 1
+		$sql .=  $data['userBirthdayTo'] . ","; // Birthday 2 
 		$sql .=  $data['useremail'] . ",";
 		$sql .=  $data['usernic'] . ",";
 		$sql .=  $data['userfname'] . ",";
 		$sql .=  $data['userlname'] . ",";
-		$sql .=  $data['userGender'] . ",";
+		$sql .=  $data['usergender'] . ",";
 		$sql .=  "null" . ","; //Age1
 		$sql .=  "null" . ","; //Age2
 		$sql .=  $data['maritalstatusid'] . ",";
 		$sql .=  "null" . ","; //Children
 		$sql .=  "null" . ","; // Origin country
 		$sql .=  $data['languageid'] . ","; // Languages
-		$sql .=  $data['100'] . ","; //Ethnic
-		$sql .=  $data['100'] . ","; //Religion
-		$sql .=  $data['100'] . ","; //Education
-		$sql .=  $data['100'] . ","; //Occupation
-		$sql .=  $data['100'] . ","; //Income
-		$sql .=  $data['100'] . ","; //Health
-		$sql .=  $data['100'] . ","; //Mobility
-		$sql .=  $data['100'] . ","; // Looking For		
-		$sql .=  $data['100'] . ","; // Smoking
-		$sql .=  $data['100'] . ","; // Drinking
-		$sql .=  $data['100'] . ","; // Appearence		
-		$sql .=  $data['100'] . ","; // Hight 1
-		$sql .=  $data['100'] . ","; // Hight 2		
+		$sql .=  $data['ethnicoriginid'] . ","; //Ethnic
+		$sql .=  $data['religionid'] . ","; //Religion
+		$sql .=  $data['educationid'] . ","; //Education
+		$sql .=  $data['occupationid'] . ","; //Occupation
+		$sql .=  $data['incomeid'] . ","; //Income
+		$sql .=  $data['healthid'] . ","; //Health
+		$sql .=  $data['mobilityid'] . ","; //Mobility
+		$sql .=  $data['lookingforid'] . ","; // Looking For		
+		$sql .=  $data['smokingid'] . ","; // Smoking
+		$sql .=  $data['drinkingid'] . ","; // Drinking
+		$sql .=  $data['appearanceid'] . ","; // Appearance		
+		$sql .=  "null" . ","; // Hight 1
+		$sql .=  "null" . ","; // Hight 2		
 		
-		$sql .=  $data['100'] . ","; // Weight 1
-		$sql .=  $data['100'] . ","; // Weight 2
-		$sql .=  $data['100'] . ","; // Body Type
-		$sql .=  $data['100'] . ","; // Hair Length
-		$sql .=  $data['100'] . ","; // Hair Color
-		$sql .=  $data['100'] . ","; // Eyes Color		
-		$sql .=  $data['100'] . ","; // Characteristic
-		$sql .=  $data['100'] . ","; // Hobbies
-		$sql .=  $data['100'] . ","; // Sex Pref
-		$sql .=  $data['100'] . ","; // User IP
+		$sql .=  "null" . ","; // Weight 1
+		$sql .=  "null" . ","; // Weight 2
+		$sql .=  $data['bodytypeid'] . ","; // Body Type
+		$sql .=  $data['hairlengthid'] . ","; // Hair Length
+		$sql .=  $data['haircolorid'] . ","; // Hair Color
+		$sql .=  $data['eyescolorid'] . ","; // Eyes Color		
+		$sql .=  $data['characteristicid'] . ","; // Characteristic
+		$sql .=  $data['hobbyid'] . ","; // Hobbies
+		$sql .=  $data['sexprefid'] . ","; // Sex Pref
+		$sql .=  "null" . ","; // User IP
 		
-		$sql .=  $data['100'] . ","; // Affiliate Id
-		$sql .=  $data['100'] . ","; // Country Code
-		$sql .=  $data['100'] . ","; // Region Code
-		$sql .=  $data['100'] . ","; // City Name
-		$sql .=  $data['100'] . ","; // longitude_1
-		$sql .=  $data['100'] . ","; // latitude_1
-		$sql .=  $data['100'] . ","; // latitude_h
-		$sql .=  $data['100'] . ","; // longitude_h
-		$sql .=  $data['100'] . ","; // Per Page
-		$sql .=  $data['100'] . ","; // page
+		$sql .=  "null" . ","; // Affiliate Id
+		$sql .=  $data['countrycode'] . ","; // Country Code
+		$sql .=  "null" . ","; // Region Code
+		$sql .=  "null" . ","; // City Name
+		$sql .=  "null" . ","; // longitude_1
+		$sql .=  "null" . ","; // latitude_1
+		$sql .=  "null" . ","; // latitude_h
+		$sql .=  "null" . ","; // longitude_h
+		$sql .=  20 . ","; // Per Page
+		$sql .=  $page . ","; // page
 		
-		//echo $sql;	
-	}	
+		$sql .= ' "AND" ';
+				
+			
+		$this->connection = $this->getEntityManager()->getConnection();
+		$stmt = $this->connection->query($sql);
+		$stmt->execute();
+		
+		$users['items'] = array();
+		
+		$result = $stmt->fetchAll();
+		
+		$users['itemsNumber'] = $result[0][""];			
+			
+		$stmt->nextRowset();
+				
+		$result = $stmt->fetchAll();
+		
+		if(count($result)){
+			foreach ($result as $row){
+				$user = $this->find($row['userId']);
+				$users['items'][] = $this->completeUser($user, $geoip);				
+			}			
+		}
+		
+		return $users;			
+	}
+
+	
+	public function completeUser($user, $geoip){
+		$geoip->lookup($user->getUserip());
+		
+		$country = array(
+			'code' => $geoip->getCountryCode(),
+			'name' => $geoip->getCountryName(),
+			//'city' => $geoip->getCity(),
+		);
+		
+		$user->setCountry($country);
+		
+		$sql = "SELECT userId FROM users WHERE userId = '" . $user->getUserid() . "' AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";
+		$stmt = $this->connection->query($sql);
+		$stmt->execute();
+		$user->setUserPaying(count($stmt->fetchAll()));
+		
+		$date = new \DateTime();
+		$date = $date->format("Y-m-d h:i:s");
+		
+		$sql = "SELECT dbo.getAge(u.userBirthday, GETDATE()) as age FROM users u WHERE userId = '" . $user->getUserid() . "'";
+		$stmt = $this->connection->query($sql);
+		$stmt->execute();
+		$result = $stmt->fetch();
+		$user->setAge($result['age']);
+		
+		return $user;
+	}
 	
 	public function getDQL(){
 		
@@ -283,12 +364,12 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			return false;
 		
 		$usersIdsString = implode(",", $usersIds);
-		$conn = $this->getEntityManager()->getConnection();
+		$this->connection = $this->getEntityManager()->getConnection();
 		
 		if($action == 'delete' or $action == 'blockAndDelete'){
 			$blockAndDelete = ($action == 'blockAndDelete') ? 1 : 0;			
 			$sql = "EXEC admin_users_de_all ?,?";			
-			$stmt = $conn->prepare($sql);
+			$stmt = $this->connection->prepare($sql);
 			$stmt->bindParam(1, $usersIdsString);
 			$stmt->bindParam(2, $blockAndDelete);
 		}
@@ -298,7 +379,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 			$value = $actionArr[1];			
 			$pageName = null;			
 			$sql = "EXEC admin_users_setBitStatus ?,?,?,?";			
-			$stmt = $conn->prepare($sql);
+			$stmt = $this->connection->prepare($sql);
 			$stmt->bindParam(1, $usersIdsString);
 			$stmt->bindParam(2, $field);
 			$stmt->bindParam(3, $value);
@@ -331,8 +412,8 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		
 		echo $sql . '<br />';
 		
-		$conn = $this->getEntityManager()->getConnection();		
-		$stmt = $conn->query($sql);
+		$this->connection = $this->getEntityManager()->getConnection();		
+		$stmt = $this->connection->query($sql);
 		$stmt->execute();
 		
 		$i = 0;

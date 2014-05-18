@@ -1,5 +1,6 @@
 D4D\AppBundle\Entity\Banners:
     type: entity
+    repositoryClass: D4D\AppBundle\Entity\BannersRepository
     table: banners
     id:
         bannerid:

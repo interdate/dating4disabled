@@ -107,41 +107,10 @@
 								
 								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
 								
-								{% set itemsNumber = form.languageid|length %}
+								
+								{% set field = form.languageid %}								
 								{% set columnsNumber = 6 %}
-								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
-								
-								
-								<div class="ui one fields">
-									<div class="field">
-						    			{{ form_label(form.languageid) }}
-						    						
-						    			{% for item in form.languageid %}
-						    						
-						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
-						    					<div class="left marR22 ">						    							
-						    				{% endif %}
-						    												    							
-													<div class="ui checkbox">
-														{{ form_widget(item) }}														
-														{{ form_label(item) }}							
-													</div>
-													<div class="clear"></div>
-											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
-						    					</div>						    							
-						    				{% endif %}
-														
-														
-														
-						    			{% endfor %}	
-						    													
-										
-					    			</div>
-					    		</div>
-							
-							
-							
-							
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
 							
 							
 							</div>
@@ -220,114 +189,28 @@
 										{{ form_widget(form.userlookingfor) }}
 						    		</div>
 						    								    		
-						    	</div>
-						    	
-						    	
-						    	
-						    	
-						    	
-						    	{% set itemsNumber = form.hobbyid|length %}
+						    	</div>	
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set field = form.hobbyid %}
 								{% set columnsNumber = 3 %}
 								{% set numberInColumn = 9 %}
-											
-											
-											
-								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
-										
-								<div class="ui one fields">
-									<div class="field">
-						    			{{ form_label(form.hobbyid) }}
-						    			
-						    			{% for item in form.hobbyid %}
-						    						
-						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
-						    					<div class="left marR22 ">						    							
-						    				{% endif %}
-						    												    							
-												<div class="ui checkbox">
-													{{ form_widget(item) }}														
-													{{ form_label(item) }}							
-												</div>
-													<div class="clear"></div>
-											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
-							    				</div>						    							
-							    			{% endif %}
-													
-						    			{% endfor %}	
-						    													
-													
-					    			</div>
-					    		</div>
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
 					    		
+					    		
+								{% set field = form.characteristicid %}
+								{% set columnsNumber = 3 %}	
+								{% set numberInColumn = 0 %}							
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
 					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
 					    		
 					    		
-					    		{% set itemsNumber = form.characteristicid|length %}
-								{% set columnsNumber = 3 %}
-								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
-					    		
-					    		<div class="ui one fields">
-									<div class="field">
-						    			{{ form_label(form.characteristicid) }}
-						    			
-						    			{% for item in form.characteristicid %}
-						    						
-						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
-						    					<div class="left marR22 ">						    							
-						    				{% endif %}
-						    												    							
-												<div class="ui checkbox">
-													{{ form_widget(item) }}														
-													{{ form_label(item) }}							
-												</div>
-												<div class="clear"></div>
-											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
-							    				</div>						    							
-							    			{% endif %}
-													
-						    			{% endfor %}	
-						    													
-													
-					    			</div>
-					    		</div>
-					    		
-					    		
-					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
-					    		
-					    		
-					    		{% set itemsNumber = form.lookingforid|length %}
-								{% set columnsNumber = 4 %}
-								{% set numberInColumn = ( itemsNumber / columnsNumber )|round %}
-					    		
-					    		<div class="ui one fields">
-									<div class="field">
-						    			{{ form_label(form.lookingforid) }}
-						    			
-						    			{% for item in form.lookingforid %}
-						    						
-						    				{% if (loop.index - 1) % numberInColumn == 0 %}						    								
-						    					<div class="left marR22 ">						    							
-						    				{% endif %}
-						    												    							
-												<div class="ui checkbox">
-													{{ form_widget(item) }}														
-													{{ form_label(item) }}							
-												</div>
-												<div class="clear"></div>
-											{% if loop.index % numberInColumn == 0  or loop.index == itemsNumber %}
-							    				</div>						    							
-							    			{% endif %}
-													
-						    			{% endfor %}	
-						    													
-													
-					    			</div>
-					    		</div>
-					    					
-					    							    		
-							
-					
-											
+								{% set field = form.lookingforid %}
+								{% set columnsNumber = 4 %}								
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+														
 							</div>
 							
 							

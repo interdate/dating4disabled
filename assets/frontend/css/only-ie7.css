@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+
+.portrait {
+    float: left;
+    margin-right: 10px;
+}
+.blue-nav .forums_search {
+    padding: 1px 0 4px 24px;
+}
+.footer-menu { margin-left: 8%;}
+.footer-menu li {
+    float: left;
+}

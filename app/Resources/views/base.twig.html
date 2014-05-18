@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+{% block doctype %}{% endblock %}
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -8,11 +7,6 @@
         {% block editor%}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    
-    <body>    
-        {% block body %}{% endblock %}        
-        {% block javascripts %}{% endblock %}        
-        <input type="hidden" id="currentRoute" value="{{ path(app.request.attributes.get('_route')) }}">
-        <input type="hidden" id="currentUri" value="{{ app.request.uri }}">        
-    </body>
+        
+    {% block body %}{% endblock %}
 </html>

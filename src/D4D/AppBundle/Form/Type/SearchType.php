@@ -16,12 +16,69 @@ class SearchType extends UsersType{
 	public function buildForm(FormBuilderInterface $builder, array $options){		
 		parent::buildForm($builder, $options);
 		
-		$choices = array('null' => "Doesn't matter", '0' => 'No', '1' => 'Yes');
+		$builder->add('paymentStartDateFrom', 'text', array('label'  => 'Payment Start Date (From)'));
+		$builder->add('paymentStartDateTo', 'text', array('label'  => 'Payment Start Date (To)'));
+		
+		$builder->add('paymentEndDateFrom', 'text', array('label'  => 'Payment End Date (From)'));
+		$builder->add('paymentEndDateTo', 'text', array('label'  => 'Payment End Date (To)'));
+		
+		$builder->add('registrationDateFrom', 'text', array('label'  => 'Registration Date (From)'));
+		$builder->add('registrationDateTo', 'text', array('label'  => 'Registration Date (To)'));
+		
+		$builder->add('lastVisitDateFrom', 'text', array('label'  => 'Last Visit Date (From)'));
+		$builder->add('lastVisitDateTo', 'text', array('label'  => 'Last Visit Date (To)'));
+
+		
+		
+		
+		
+		$builder->remove('userbirthday');
+		$builder->add('userBirthdayFrom', 'text', array('label'  => 'Date Of Birth From'));
+		$builder->add('userBirthdayTo', 'text', array('label'  => 'Date Of Birth To'));
+		 
+		$builder->add('usergender', 'choice', array(
+			'label' => 'Gender',
+			'data' => '_null',
+			'choices' => array('_null' => "Doesn't matter", '0' => 'Male', '1' => 'Female'),
+		));
+		
+		//$array = range(date('Y') - 18, date('Y') - 90);
+		
+		
+		//$array[] = '0000'; 
+		
+		/*
+		print_r($array);
+		die();
+		*/
+		
+		
+		
+		
+		/*
+		$builder->add('userBirthdayFrom', 'date', array(
+    		'label' => 'Date Of Birth From',
+    		'years' => $array,
+			//'data' => new \DateTime('0000-00-00'),
+			'empty_value' => array('year' => 'Year', 'month' => 'Month', 'day' => 'Day'),	
+    	));
+		
+		$builder->add('userBirthdayTo', 'date', array(
+			'label' => 'Date Of Birth To',
+			'years' => range(date('Y') - 18, date('Y') - 90),				
+		));
+		*/
+		
+		
+		
+		
+		
+		$choices = array('_null' => "Doesn't matter", '0' => 'No', '1' => 'Yes');
 		
 		//Not Activated
     	$builder->add('usernotactivated', 'choice', array(
 			'label' => 'Not Activated',    		
-			'data' => 'null',
+			'data' => '_null',
 			'choices' => $choices,
     	));
     	    	
@@ -29,7 +86,7 @@ class SearchType extends UsersType{
     	//Not Completed Registration
     	$builder->add('usernotcomlitedregistration', 'choice', array(
 			'label' => 'Not Completed Registration',
-			'data' => 'null',
+			'data' => '_null',
 			'choices' => $choices,
     	));
     	
@@ -37,7 +94,7 @@ class SearchType extends UsersType{
     	//Not Approved
 		$builder->add('usernotapproved', 'choice', array(
 			'label' => 'Not Approved',
-			'data' => 'null',
+			'data' => '_null',
 			'choices' => $choices,
 		));
 		
@@ -45,7 +102,7 @@ class SearchType extends UsersType{
     	//Blocked
 		$builder->add('userblocked', 'choice', array(
 			'label' => 'Blocked',
-			'data' => 'null',
+			'data' => '_null',
 			'choices' => $choices,
 		));
 		
@@ -53,7 +110,7 @@ class SearchType extends UsersType{
 		//Frozen
 		$builder->add('userfrozen', 'choice', array(
 			'label' => 'Frozen',
-			'data' => 'null',
+			'data' => '_null',
 			'choices' => $choices,
 		));
 		
@@ -61,7 +118,14 @@ class SearchType extends UsersType{
 		//Flagged
 		$builder->add('useradminmarked', 'choice', array(
 			'label' => 'Flagged',
-			'data' => 'null',
+			'data' => '_null',    
+			'choices' => $choices,
+		));
+		
+		//Paying
+		$builder->add('userPaying', 'choice', array(
+			'label' => 'Paying',
+			'data' => '_null',
 			'choices' => $choices,
 		));
 		
@@ -199,6 +263,29 @@ class SearchType extends UsersType{
     		'class' => 'D4DAppBundle:Drinking',
     		'property' => 'drinkingname',
     	));
+    	
+    	
+    	$builder->add('countrycode', 'entity', array(
+    		'label' => 'Country',
+    		'multiple' => false,
+    		'expanded' => false,
+    		'data'=> $this->doctrine->getManager()->getReference("D4DAppBundle:LocCountries",'--'),
+    		//'data'=> '--',
+    		'class' => 'D4DAppBundle:LocCountries',
+    		'property' => 'countryname',
+    	));
+    	
+    	
+    	
+    	/*
+    	
+    	$builder->add('countrycode', 'choice', array(
+    		'label' => 'Country',
+    		'data' => 'US',
+    		'choices' => $countriesList,
+    	));
+    	*/
+    	
     	
     	//Life Challenge
     	$builder->add('healthid', 'entity', array(

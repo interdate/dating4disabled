@@ -1,19 +1,13 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
 {% block users_statistics %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            //$('.menu_item').removeClass('selected');
-            //$('.question').parent('.menu_item').addClass('selected');
-        });
-    </script>
     <h2 class="ui header floated left">
       <i class="question icon"></i>
       FAQ
     </h2>
     <div class="tabMenu">
         <div class="ui pointing secondary demo menu floated right">            
-            <a class="active item blue" data-tab="faq">
+            <a class="item blue" data-tab="faq">
                 <i class="inbox icon"></i>
                 Manage FAQ
             </a>
@@ -25,7 +19,7 @@
     </div>	
     <div class="clear"></div>
     <div class="tabSegments" id="faqWraper">
-	<div class="ui active tab segment" data-tab="faq">
+	<div class="ui tab segment" data-tab="faq">
             <h3 class="ui header floated left">
                     <i class="inbox icon circular small"></i>
                     Manage FAQ

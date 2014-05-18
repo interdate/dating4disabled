@@ -1,90 +1,75 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
-{% block editor%}
-<!--<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-<script>
-        tinymce.init({selector:'textarea#faq_faqq'});
-</script>-->
-{% endblock %}
-
 {% block users_statistics %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            //$('.menu_item').removeClass('selected');
-            //$('.question').parent('.menu_item').addClass('selected');
-            $('.tabMenu .item').first().addClass('active');
-            $('.breadcrumb').css({'margin-top':'0px'});
-            $('.ui.dropdown').dropdown();
-        });
-    </script>
-<h2 class="ui header floated left">
-  <i class="question icon"></i>
-  FAQ
-</h2>
-<div class="tabMenu">
-	<div class="ui pointing secondary demo menu floated right">            
-	    <a href="{{ faqurl }}" class="item blue">
-		    <i class="inbox icon"></i>
-		    Manage FAQ
-		</a>
-	    <a href="{{ faqurl }}#categories" class="item blue">
-		    <i class="open folder icon"></i>
-		    Categories
-		</a>            
-	</div>
-</div>	
-<div class="clear"></div>
-<div class="ui breadcrumb small">  
-  <a href="{{ faqurl }}" class="section blue">FAQ</a>
-  <div class="divider"> / </div>
-  <div class="active section">{{ action }} Faq</div>
-</div>
-<div class="tabSegments" id="faqWraper">
-    <div class="ui active tab" id="faq">
-        <div class="ui form blue stacked segment">
-            <h3 class="ui header floated left">
-                    <i class="{% if icon=='save' %}edit{% else %}{{ icon }}{% endif %} icon circular small"></i>
-                    {{ action }} Faq
-            </h3>
-            <div class="clear"></div>
-            {{ form_start(form, {'attr': {'id': 'faq_form'}}) }}
-            {{ form_errors(form) }}
+    <h2 class="ui header floated left">
+      <i class="question icon"></i>
+      FAQ
+    </h2>
+    <div class="tabMenu">
+            <div class="ui pointing secondary demo menu floated right">            
+                <a href="{{ faqurl }}" class="item blue active">
+                        <i class="inbox icon"></i>
+                        Manage FAQ
+                    </a>
+                <a href="{{ faqurl }}#categories" class="item blue">
+                        <i class="open folder icon"></i>
+                        Categories
+                    </a>            
+            </div>
+    </div>	
+    <div class="clear"></div>
+    <div class="ui breadcrumb small">  
+      <a href="{{ faqurl }}" class="section blue">FAQ</a>
+      <div class="divider"> / </div>
+      <div class="active section">{{ action }} Faq</div>
+    </div>
+    <div class="tabSegments" id="faqWraper">
+        <div class="ui active tab" id="faq">
+            <div class="ui form blue stacked segment">
+                <h3 class="ui header floated left">
+                        <i class="{% if icon=='save' %}edit{% else %}{{ icon }}{% endif %} icon circular small"></i>
+                        {{ action }} Faq
+                </h3>
+                <div class="clear"></div>
+                {{ form_start(form, {'attr': {'id': 'faq_form'}}) }}
 
-            <div class="field">
-                {{ form_label(form.faqcategoryid) }}                 
-                {{ form_widget(form.faqcategoryid) }}
-                
-            </div>
-            <div class="clear"></div>
-            
-            <div class="field">
-                {{ form_label(form.faqq) }}
-                <div class="textarea">
-                    {{ form_widget(form.faqq) }}
-                    <div class="ui corner label">
-                            <i class="icon asterisk"></i>
-                    </div>
+                <div class="field">
+                    {{ form_label(form.faqcategoryid) }}                 
+                    {{ form_widget(form.faqcategoryid) }}
+
                 </div>
-            </div>
-            <div class="clear"></div>
-            
-            <div class="field">
-                {{ form_label(form.faqa) }}
-                <div class="textarea">
-                    {{ form_widget(form.faqa) }}
-                    <div class="ui corner label">
-                            <i class="icon asterisk"></i>
-                    </div>
+                <div class="clear"></div>
+
+                {{ form_errors(form.faqq) }}
+                <div class="field">
+                    {{ form_label(form.faqq) }}
+                    <div class="textarea">
+                        {{ form_widget(form.faqq) }}
+                        <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                        </div>
+                    </div>    
                 </div>
+                <div class="clear"></div>
+
+                {{ form_errors(form.faqa) }}
+                <div class="field">
+                    {{ form_label(form.faqa) }}
+                    <div class="textarea">
+                        {{ form_widget(form.faqa) }}
+                        <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                        </div>
+                    </div>                
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="ui labeled icon button blue small" onclick="$('#faq_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
+
+                <input style="display: none;" id="faq_submit" type="submit" name="faq({{ action }})" value="{{ action }}"/>
+                {{ form_end(form) }}
             </div>
-        
-            <div class="clear"></div>
-            
-            <div class="ui labeled icon button blue small" onclick="$('#faq_submit').click();"><i class="inverted {{ icon }} icon"></i>{{ button }}</div>            
-            
-            <input style="display: none;" id="faq_submit" type="submit" name="faq({{ action }})" value="{{ action }}"/>
-            {{ form_end(form) }}
         </div>
     </div>
-</div>
 {% endblock%}

@@ -5,43 +5,52 @@ D4D\AppBundle\Entity\Faq:
             message: "Field Question is empty" 
       - Length:
             min: 4
-            minMessage: "Field Category is empty"      
+            minMessage: "Error min 4 letters"       
     faqa:
       - NotBlank:
             message: "Field Answer is empty"  
             
 D4D\AppBundle\Entity\Faqcategory:
+  properties:
     faqcategoryname:
       - NotBlank:
             message: "Field Category is empty"
-      - Length:
-            min: 4
-            minMessage: "Field Category is empty"    
+#      - Length:
+#            min: 4
+#            minMessage: "Field Category is empty"    
             
 D4D\AppBundle\Entity\News:
-    newsitembody:
-      - NotBlank:
-            message: "Field Category is empty"
-      - Length:
-            min: 4
-            minMessage: "Field Category is empty"  
+  properties:    
     newsitemsubject:
       - NotBlank:
             message: "Field Subject is empty"
+    newsitembody:
+      - NotBlank:
+            message: "Field Body is empty"
       - Length:
             min: 4
-            minMessage: "Field Category is empty"  
+            minMessage: "Min 4 letters in field Body" 
+
                         
 D4D\AppBundle\Entity\LangDyncpages:
+  properties:
     pagename:
       - NotBlank:
-          message: "Bla-bla"
+          message: "Field Name is empty"
     pagetitle:
       - NotBlank:
-          message: "Bla-bla"
+          message: "Field Title is empty"
     pagebody:
       - NotBlank:
-            message: "Field Category is empty"
+            message: "Field Body is empty"
       - Length:
             min: 4
-            minMessage: "Field Category is empty"               
+            minMessage: "Min 4 letters in field Body"   
+
+D4D\AppBundle\Entity\Banners:
+  properties:
+    bannerfileext:
+      - File:
+            maxSize: 512k
+            mimeTypes: [image/jpeg, image/jpg, image/gif, application/x-shockwave-flash]
+            mimeTypesMessage: Please upload a valid file (gif, jpg, swf)
