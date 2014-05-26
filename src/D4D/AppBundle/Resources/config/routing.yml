@@ -10,28 +10,38 @@ app_service_override_passwords:
     pattern:  /service/overridePasswords
     defaults: { _controller: D4DAppBundle:AppService:overridePasswords }
 
-
+homepage:
+    path:     /home
+    defaults: { _controller: D4DAppBundle:Frontend\Default:index }
     
 user_home:
-    path:     /home
+    path:     /user/home
     defaults: { _controller: D4DAppBundle:Common\Security:secured }
     
 user_login:
-    path:     /login
+    path:     /user/login
     defaults: { _controller: D4DAppBundle:Common\Security:userLogin }
     
 user_login_check:
-    path: /login_check 
+    path: /user/login_check 
     
 user_logout:
-    path: /logout 
+    path: /user/logout 
+    
+user_sign_up:
+    path: /sign_up
+    defaults: { _controller: D4DAppBundle:Frontend\User:signUp }
+    
+user_check:   
+    path:     /sine_up/check
+    defaults: { _controller: D4DAppBundle:Frontend\User:check }
     
 
 
 
 admin_home:   
-    path:     /admin/users/statistics
-    defaults: { _controller: D4DAppBundle:Backend\Users:statistics }
+    path:     /admin/users/statistics/{filter}
+    defaults: { _controller: D4DAppBundle:Backend\Users:statistics, filter:total} 
     
 admin_login:
     path:     /admin/login
@@ -44,15 +54,27 @@ admin_logout:
     path: /admin/logout
     
 
-
-
-admin_users_statistics:   
-    path:     /admin/users/statistics/{filter}
-    defaults: { _controller: D4DAppBundle:Backend\Users:statistics, filter:1 }
+ 
             
 admin_users_statistics_action:   
-    path:     /admin/users/statistics/{filter}/{action}
-    defaults: { _controller: D4DAppBundle:Backend\Users:actions, filter:1, action:2 }
+    path:     /admin/users/statistics/{filter}
+    defaults: { _controller: D4DAppBundle:Backend\Users:actions, filter:total }
+    
+admin_users_profile:   
+    path:     /admin/users/profile/{userId}
+    defaults: { _controller: D4DAppBundle:Backend\Users:profile, userId:0 }
+    
+admin_users_search:   
+    path:     /admin/users/search
+    defaults: { _controller: D4DAppBundle:Backend\Users:search }
+
+admin_users_photos:   
+    path:     /admin/users/photos/{userId}
+    defaults: { _controller: D4DAppBundle:Backend\Users:photos, userId:0 }
+    
+admin_users_photo:   
+    path:     /admin/users/photos/{action}/{photoId}
+    defaults: { _controller: D4DAppBundle:Backend\Users:photo }
 
 
 

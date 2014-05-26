@@ -1,0 +1,32 @@
+@charset "utf-8";
+.left{float:left;}
+
+input[type=checkbox].css-checkbox {
+position: absolute;
+overflow: hidden; 
+clip: rect(0 0 0 0); 
+height:1px; 
+width:1px; 
+margin:-1px; 
+padding:0;
+border:0;
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+padding-left:27px; 
+height:22px; 
+display:inline-block;
+line-height:22px;
+background-repeat:no-repeat;
+background-position: 0 0;
+font-size:15px;
+vertical-align:middle;
+cursor:pointer;
+}
+.mcell.check input[type=checkbox].css-checkbox + label.css-label { margin-top:12px; }
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+background-position: 0 -22px;
+}
+
+.css-label{ background-image: url(../images/checkbox.png); margin-left:4px; }

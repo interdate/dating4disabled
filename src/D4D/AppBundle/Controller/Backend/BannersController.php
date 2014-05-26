@@ -52,7 +52,7 @@ class BannersController extends Controller{
         }    
         
         $formOptions['form'] = $form->createView();
-       // var_dump(serialize(array(1)));die;
+
         return $this->render('D4DAppBundle:Backend/Banners:bannersForm.twig.html', $formOptions);
     }
 

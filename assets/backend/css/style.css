@@ -420,13 +420,125 @@ a{
 */
 
 .textarea > .ui.corner.label {
-    top: 1px;
-    right: 4px;
+	top: 1px;
+	right: 4px;
 }
 
 #pagesWraper .textarea > .ui.corner.label,  .textarea > .ui.corner.label.top1{
     top: 1px;
     right: 1px;
+}
+
+.ui.table tbody tr.selectedRow, .ui.table tbody tr:hover{
+	background: #d6e9ff;	
+}
+
+.ui.table tbody tr.selectedRow td, .ui.table tbody tr.selectedRow td div{
+	color:#4d9dff;	
+}
+
+.ui.table tbody tr.editedUser{
+	background: #80bbff;	
+}
+
+.ui.table tbody tr.editedUser td, .ui.table tbody tr.editedUser td div{
+	color:#fff;	
+}
+
+.ui.table tbody td.profileWraper{
+	/*height: 100px;*/
+	background: #f0f0f0; /* #edf5ff */		 
+}
+
+.profileWraper .userDataWrap{
+	float:left;
+	width: 33%;
+	padding:10px;
+	box-sizing: border-box;
+}
+
+.profileWraper .userDataWrap .checkbox{
+	/*margin-right: 40px;*/
+}
+
+.userProfileTabs{
+	padding-top: 10px;	
+}
+
+.profile .saveUserProfile, .profile .closeUserProfile, .profile .usersSearch{
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.marR22{
+	margin-right: 22px;
+}
+
+.marR15{
+	margin-right: 15px;
+}
+
+.profile .segment{
+	background: #f8f8f8;
+}
+.profile .ui.tabular.menu .active.item{
+	background: #f8f8f8;
+	border-bottom: 1px solid #f8f8f8; 
+}
+
+.userPhotos{
+	height:500px;
+	border-top: 4px solid #bebebe;
+	box-sizing:border-box;
+}
+
+.userPhotos .preview{
+	float: left;	
+	box-sizing: border-box;
+	width: 50%;	
+	padding-right: 25px;	
+}
+
+
+.userPhotos .item{
+	min-height: 100px;	
+}
+
+.userPhotos .photoWrapper{
+	float: left;	
+	box-sizing: border-box;
+	width: 50%;
+	height:150px;
+	/*border:1px solid red;*/
+	/*padding-left: 35px;*/	
+}
+
+.userPhotos .divider .icon{	
+	position: absolute;
+	top:-20px;
+	left:10px;
+}
+
+.userPhotos .photoWrapper .segment{
+	height:450px;
+}
+
+
+#photoWrapper .side{
+	min-width:300px;
+	min-height:300px;
+	background-color: #fff;
+	padding:0px;
+	box-shadow:  0px 0px 0px #bcbcbc;
+}
+
+#photoWrapper .button{
+	margin-top: 10px;
+}
+
+.userPhotos .photoWrapper .image, .shapeWrapper{
+	width:300px;
+	height:300px;
 }
 
 h2.ui.header.forum{

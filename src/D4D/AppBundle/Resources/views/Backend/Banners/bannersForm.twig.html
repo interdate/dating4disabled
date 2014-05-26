@@ -1,6 +1,6 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
-{% block users_statistics %}
+{% block content %}
     
 <h2 class="ui header floated left">
   <i class="flag icon"></i>
@@ -62,11 +62,19 @@
             <div class="clear"></div>
             
             <div class="field line"> 
+<<<<<<< HEAD
+            	{{ form_label(form.banneractive) }}
+                <div class="ui checkbox">                                  
+                	{{ form_widget(form.banneractive) }}
+                	<label></label>
+                </div>                    
+=======
                 {{ form_label(form.banneractive) }}
                 <div class="ui checkbox">                               
                     {{ form_widget(form.banneractive) }}   
                     <label></label>
                 </div>
+>>>>>>> b44ecd187e74c90bbef2111c9a92ab4c05bff83c
             </div>
             <div class="clear"></div>
             

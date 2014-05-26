@@ -153,3 +153,5 @@ div.bb-editor {
 div.bb-editor > div.collapse {
 	display:collapse;
 }
+
+#content #main_menu{max-height: 150px;}

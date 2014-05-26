@@ -33,6 +33,7 @@ twig:
       resources:
           - "D4DAppBundle:Common/Form:form_div_layout.html.twig"
           - "CCDNComponentBBCodeBundle:Form:fields.html.twig"
+          - "D4DAppBundle:Common/Form:frontend_form_layout.html.twig"
 
 # Assetic Configuration
 assetic:
@@ -68,12 +69,20 @@ doctrine:
             Symfony\Component\Security\Core\User\UserInterface: D4D\AppBundle\Entity\Users
 
 # Swiftmailer Configuration
+#swiftmailer:
+#    transport: "%mailer_transport%"
+#    host:      "%mailer_host%"
+#    username:  "%mailer_user%"
+#    password:  "%mailer_password%"
+#    spool:     { type: memory }
+    
+# Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport:  "smtp"
+    host:       "mail.okdeal.intercallchat.info"
+    encryption: "ssl"
+    username:   "contact@okdeal.intercallchat.info"
+    password:   "a123456a"
     
 knp_paginator:
     page_range: 10                      # default page range used in pagination control

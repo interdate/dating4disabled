@@ -2,11 +2,11 @@
 
 
 
-{% block users_statistics %}
+{% block content %}
 
 
 
-	{% if app.request.get('filter') == '' %}
+	{% if app.request.get('filter') == 'total' %}
 		{% set pageTitle = 'All Users' %}
 		{% set pageIcon = 'users basic' %}
 		{% set allUsersActiveItem = 'active' %}
@@ -88,7 +88,7 @@
 	{% endif %}
 	
 	{% if app.request.get('filter') == 'notApproved' %}
-		{% set pageTitle = 'Not Approved' %}
+		{% set pageTitle = 'Unapproved' %}
 		{% set pageIcon = 'thumbs down' %}		
 		{% set notApprovedActiveItem = 'active' %}
 		{% set notApprovedActiveLabel = 'blue' %}		
@@ -128,6 +128,7 @@
 	{% endif %}
 	
 
+<input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
 
 
 <h2 class="ui header floated left">
@@ -136,19 +137,17 @@
 </h2>
 
 
-
-
 <div class="tabMenu">
 	<div class="ui pointing secondary demo menu floated right">
-	    <a class="active item blue" data-tab="first">
+	    <a class="active item blue" href="{{path('admin_home')}}">
 		    <i class="bar chart basic icon"></i>
 		    Statistics
 		</a>
-	    <a class="item blue" data-tab="second">
+	    <a class="item blue">
 		    <i class="ordered list icon"></i>
 		    Reports
 		</a>
-	    <a class="item blue" data-tab="third">
+	    <a class="item blue" href="{{path('admin_users_search')}}">
 		    <i class="search icon"></i>
 		    Search
 		</a>
@@ -159,175 +158,113 @@
 
 <div class="tabSegments">
 	
-	<div class="ui active tab segment" data-tab="first" id="statWraper">
+	<div class="ui active tab segment" id="statWraper">
 	
 		<h3 class="ui header floated left">			
 			<i class="{{pageIcon}} icon circular small"></i>
 			{{pageTitle}}
 		</h3>
 		
-		<div class="ui small circular label">{{ users.getTotalItemCount }}</div>
-		
-		<div class="right">
-			<div class="ui bottom pointing dropdown labeled icon button blue mini" id="usersActions">
-				<i class="settings icon inverted"></i>
-				Actions With Selected
-				<div class="ui menu" id="usersMenuActions">
-					<div class="item" id="activate"><i class="checkmark icon"></i>Activate</div>
-					<div class="item" id="dectivate"><i class="cancel circle basic icon"></i>Deactivate</div>
-					<div class="item" id="completeRegistration"><i class="star icon"></i>Complete Registration</div>
-					<div class="item" id="incompleteRegistration"><i class="half empty star icon"></i>Incomplete Registration</div>
-					<div class="item" id="sendActivationEmail"><i class="mail icon"></i>Send "Activation" Email</div>
-					<div class="item" id="block"><i class="block basic icon"></i>Block</div>
-					<div class="item" id="unblock"><i class="circle blank icon"></i>Unblock</div>
-					<div class="item" id="flagUser"><i class="flag icon"></i>Flag User </div>
-					<div class="item" id="unflagUser"><i class="empty flag icon"></i>Unflag User</div>
-					<div class="item" id="approve"><i class="thumbs up icon"></i>Approve</div>
-					<div class="item" id="unapproved"><i class="thumbs down icon"></i>Unapproved</div>
-					<div class="item" id="delete"><i class="trash icon"></i>Delete</div>
-					<div class="item" id="blockAndDelete"><i class="remove icon"></i>Block & Delete</div>
-					
-				</div>
-			</div>
-		</div>				
+		<div class="ui small circular label">{{ users.getTotalItemCount }}</div>	
 		
 				
-		<table class="ui small table">
-			<thead>
-			    <tr>
-				    
-				    {#
-
-				    <th>{{ knp_pagination_sortable(users, 'ID', 'u.userId') }}</th>
-				    <th>{{ knp_pagination_sortable(users, 'Username', 'userNic') }}</th>
-				    <th>Age</th>
-				    <th>{{ knp_pagination_sortable(users, 'Email', 'userEmail') }}</th>
-				    #}
-				    
-				    <th>
-				    
-				    <div class="ui checkbox" id="selectAll">
-						<input type="checkbox">
-						<label></label>
-					</div>
-				    
-				    </th>
-					<th>ID</th>				    
-					<th>Age</th>
-					<th>Username</th>
-					<th>Email</th>
-					<th>Properties</th>
-					
-					<th><i class="location basic blue icon"></i></th>
-					<th><i class="photos basic blue icon"></i></th>					
-					<th><i class="chat blue icon"></i></th>					
-					<th><i class="edit blue icon"></i></th>
-					<th><i class="trash blue icon"></i></th> 
-			  	</tr>
-		  	</thead>		
+		{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
 		
-		  
-		  	<tbody>
-		  		{% for user in users %}
-				<tr>
-					<td>
-						<div class="ui checkbox">
-							<input type="checkbox" name="test" >
-							<label></label>							
-						</div>
-					</td>
-					<td>{{ user.userId }}</td>
-					<td>35</td>
-					<td>{{ user.userNic }}</td>					
-					<td><div class="email">{{ user.userEmail }}</div></td>
-					
-			      	<td>			      		
-			      		
-			      		{% if user.userGender == 0 %}
-			      			<i class="male icon"></i>
-			      		{% else %}
-			      			<i class="female icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userPaying == 1 %} 			      			
-			      			<i class="basic dollar green icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userAdminMarked == 1 %}
-			      			<i class="block flag purple icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userNotComlitedRegistration == 1 %}
-			      			<i class="half empty star icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userNotActivated == 1 %}
-			      			<i class="warning red icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userNotApproved == 1 %}
-			      			<i class="thumbs down icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userFrozen == 1 %}
-			      			<i class="asterisk basic purple icon"></i>
-			      		{% endif %}
-			      		
-			      		{% if user.userBlocked == 1 %}
-			      			<i class="block basic red icon"></i>
-			      		{% endif %}
-						
-					</td>					
-					
-										
-					<td>
-						
-						<!-- 
-						<div class="ui pointing dropdown icon">
-							<i class="location basic icon"></i>
-							<div class="menu">
-								<div class="item">United States of America</div>								
-							</div>
-						</div>
-						 -->
-						 
-						<i	class="location basic icon blue link"
-							data-content="{{user.country.name}}" 
-							data-position="left center">
-						</i>
-							
-					</td>
-					
-					
-					<td><i class="photos basic blue link icon"></i></td>
-					<td><i class="chat blue link icon"></i></td>					
-					<td><i class="edit blue link icon"></i></td>
-					<td><i class="trash blue link icon"></i></td>
-				</tr>
-				{% endfor %}			    
-		    </tbody>
-		    
-		    <!-- 
-		    		<td><i class="asterisk basic purple icon"></i></td>
-					<td><i class="block basic red icon"></i></td>
-					<td><i class="cancel circle basic red icon"></i></td>
-		     -->
-		    
-		 	<tfoot>
-		 		<tr>
-		 			<th colspan="15">
-		    			{{ knp_pagination_render(users) }}
-		 			</th>
-		 		</tr>
-		 	</tfoot>		    
-		  
-		</table>
 				
 		<div id="getSideBar">
 			<div class="ui mini button blue">
 				<i class="list icon"></i>
 			</div>
+		</div>
+		
+		<div class="ui left sidebar small vertical menu blue" id="statSidebar">	
+			
+			<a class="item {{ allUsersActiveItem }}" href="/admin/users/statistics">
+			    <div class="ui small label {{ allUsersActiveLabel }}"></div>
+			    <i class="users basic icon"></i>			    
+			    All Users
+			</a>
+			
+			<a class="item {{maleActiveItem}}" href="/admin/users/statistics/male">
+				<div class="ui small label {{maleActiveLabel}}"></div>
+			    <i class="male icon"></i>
+			    Male
+			</a>
+			
+			<a class="item {{femaleActiveItem}}" href="/admin/users/statistics/female">			
+				<div class="ui small label {{femaleActiveLabel}}"></div>
+			    <i class="female icon"></i>
+			    Female
+			</a>
+			
+			<a class="item {{flaggedActiveItem}}" href="/admin/users/statistics/flagged">
+				<div class="ui small label {{flaggedActiveLabel}}"></div>
+			    <i class="flag icon"></i>
+			    Flagged
+			</a>
+			
+			<a class="item {{withPhotosActiveItem}}" href="/admin/users/statistics/withPhotos">
+				<div class="ui small label {{withPhotosActiveLabel}}"></div>
+			    <i class="photos basic icon"></i>
+			    With Photos
+			</a>
+			
+			<a class="item {{inactiveActiveItem}}" href="/admin/users/statistics/inactive">			
+				<div class="ui small label {{inactiveActiveLabel}}"></div>
+			    <i class="cancel circle basic icon"></i>
+			    Inactive			    
+			</a>
+			
+			<a class="item {{notCompletedRegistrationActiveItem}}" href="/admin/users/statistics/notCompletedRegistration">
+				<div class="ui small label {{notCompletedRegistrationActiveLabel}}"></div>
+			    <i class="half empty star icon"></i>			    
+			    Not Completed Registration			    
+			</a>
+			
+						
+			<a class="item {{notActivatedActiveItem}}" href="/admin/users/statistics/notActivated">			
+				<div class="ui small label {{notActivatedActiveLabel}}"></div>
+			    <i class="warning icon"></i>
+			    Not Activated
+			</a>
+			
+			<a class="item {{notApprovedActiveItem}}" href="/admin/users/statistics/notApproved">
+				<div class="ui small label {{notApprovedActiveLabel}}"></div>
+			    <i class="thumbs down icon"></i>
+			    Unapproved
+			</a>
+			
+			<a class="item {{frozenActiveItem}}" href="/admin/users/statistics/frozen">
+				<div class="ui small label {{frozenActiveLabel}}"></div>
+			    <i class="asterisk basic icon"></i>
+			    Frozen
+			</a>
+			
+			<a class="item {{blockedActiveItem}}" href="/admin/users/statistics/blocked">
+				<div class="ui small label {{blockedActiveLabel}}"></div>
+			    <i class="block basic icon"></i>
+			    Blocked
+			</a>
+			
+			<a class="item {{payingActiveItem}}" href="/admin/users/statistics/paying">
+				<div class="ui small label {{payingActiveLabel}}"></div>
+			    <i class="basic dollar icon"></i>
+			    Paying
+			</a>
+			
+			
+			
+			<a class="item">
+				<div class="ui small label"></div>
+			    <i class="hide icon"></i>			    
+			    Unapproved Images
+			</a>
+			
+							
 		</div> 		
+		
+		{#
+		<!-- 
 		
 		<div class="ui left sidebar small vertical menu blue" id="statSidebar">	
 			
@@ -383,7 +320,7 @@
 			<a class="item {{notApprovedActiveItem}}" href="/admin/users/statistics/notApproved">
 				<div class="ui small label {{notApprovedActiveLabel}}">{{statistics.filters.notapproved}}</div>
 			    <i class="thumbs down icon"></i>
-			    Not Approved
+			    Unapproved
 			</a>
 			
 			<a class="item {{frozenActiveItem}}" href="/admin/users/statistics/frozen">
@@ -409,23 +346,17 @@
 			<a class="item">
 				<div class="ui small label">{{statistics.filters.notapprovedimages}}</div>
 			    <i class="hide icon"></i>			    
-			    Not Approved Images
+			    Unapproved Images
 			</a>
 			
 							
 		</div>
+		
+		-->
+		
+		#}
 	
-	</div>
-
-	<div class="ui tab segment" data-tab="second">
-		Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
-	</div>
-	<div class="ui tab segment" data-tab="third">
-		There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved. Fixed Position Snafoos Fixed position content may have issues changing it's position when a sidebar appears. There are two solutions Specify your fixed content without using the css left or top properties. Apply styles on the fixed element to adjust its position when the sidebar appears. You can do this by descending from the body tag which receives the class (direction) pushed when the view is moved.
-	</div>
-	
-	
-	
+	</div>	
 	
 	
 </div>
@@ -433,41 +364,12 @@
 
 
 
-	
-
-
-
-<!-- 
-<br /><br /><br /><br />
-<div class="ui top attached tabular menu">
-  <a class="item active" data-tab="first">
-    <i class="bar chart basic icon"></i>
-    Statistics
-  </a>
-  <a class="item" data-tab="second">
-  	<i class="ordered list icon"></i>
-    Reports
-  </a>
-  <a class="item" data-tab="third">
-  	<i class="search icon"></i>
-    Search
-  </a>
-</div>
-
-<div class="ui tab bottom attached segment active" data-tab="first">
-The jQuery Address plugin provides powerful deep linking capabilities and allows the creation of unique virtual addresses that can point
-</div>
-<div class="ui tab bottom attached segment" data-tab="second">
-a website section or an application state. It enables a number of important capabilities including
-</div>
-<div class="ui tab bottom attached segment" data-tab="third">
-the creation of unique virtual addresses that can point to a website section or an application state. It enables a number of important capabilities including
-</div>
- -->
 
 
 
 
+
+{{ include ('D4DAppBundle:Backend/Users:photosWrapper.twig.html') }}
 
 
 

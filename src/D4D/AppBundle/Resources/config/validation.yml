@@ -54,3 +54,30 @@ D4D\AppBundle\Entity\Banners:
             maxSize: 512k
             mimeTypes: [image/jpeg, image/jpg, image/gif, application/x-shockwave-flash]
             mimeTypesMessage: Please upload a valid file (gif, jpg, swf)
+            
+D4D\AppBundle\Entity\Users:
+  properties:
+    useremail:
+      - Email:
+            message: The email "{{ value }}" is not a valid email.
+            checkMX: true
+    userpass:
+      - Length:
+            min: 4
+            minMessage: "Min 4 letters in Password"
+            max: 12
+            maxMessage: "Min 12 letters in Password"
+    usernic:
+    usergender:
+    userfname:
+    userlname:
+    userbirthday:
+    countrycode:
+      - NotEqualTo:
+            value: --
+            message: "Please select country"
+    cityname:
+    countryoforigincode:
+      - NotEqualTo:
+            value: --
+            message: "Please select country"

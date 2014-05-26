@@ -1,0 +1,565 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+{% block content %}	
+	
+
+<input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
+
+
+<h2 class="ui header floated left">
+  <i class="users icon "></i>
+  Manage Users
+</h2>
+
+
+<div class="tabMenu">
+	<div class="ui pointing secondary demo menu floated right">
+	    <a class="item blue" href="{{path('admin_home')}}">
+		    <i class="bar chart basic icon"></i>
+		    Statistics
+		</a>
+	    <a class="item blue">
+		    <i class="ordered list icon"></i>
+		    Reports
+		</a>
+	    <a class="active item blue" href="{{path('admin_users_search')}}">
+		    <i class="search icon"></i>
+		    Search
+		</a>
+	</div>
+</div>	
+
+<div class="clear"></div>
+
+<div class="tabSegments">
+
+	<div class="ui active tab segment">
+	
+		<h3 class="ui header floated left">			
+			<i class="search icon circular small"></i>
+			Search
+		</h3>
+		
+		<div class="clear"></div>
+		
+		<div class="profile">
+		
+					<form action="{{ path(app.request.attributes.get('_route')) }}" method="post" id="searchForm">
+					
+						<div class="ui top attached tabular menu userProfileTabs">
+							<a class="active item" data-tab="tab0">
+						    	Main
+						    </a>
+							<a class="item" data-tab="tab1">
+						    	General Info
+						    </a>
+						    <a class="item" data-tab="tab2">
+						    	Background
+						    </a>
+						    
+						    <a class="item" data-tab="tab3">
+						    	Appearance
+						    </a>
+						    <a class="item" data-tab="tab4">
+						    	Personality
+						    </a>
+						    
+						    <a class="item" data-tab="tab5">
+						    	Disability Info
+						    </a>
+						   						    
+						</div>
+						
+						<div class="ui bottom attached stacked segment">
+							<!-- Props -->
+							<div class="ui form active" data-tab="tab0">
+															
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usernotactivated) }}							
+										{{ form_widget(form.usernotactivated) }}
+				    				</div>
+				    				
+				    				<div class="field">
+				    					{{ form_label(form.usernotcomlitedregistration) }}							
+										{{ form_widget(form.usernotcomlitedregistration) }}
+				    				</div>
+				    				
+				    				<div class="field">
+				    					{{ form_label(form.usernotapproved) }}							
+										{{ form_widget(form.usernotapproved) }}
+				    				</div>				    				
+				    								    												
+								</div>	
+															
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui four fields">
+								
+									<div class="field">
+				    					{{ form_label(form.userPaying) }}							
+										{{ form_widget(form.userPaying) }}
+				    				</div>	  
+									
+									<div class="field">
+				    					{{ form_label(form.userblocked) }}							
+										{{ form_widget(form.userblocked) }}
+				    				</div>								
+								
+									<div class="field">
+				    					{{ form_label(form.userfrozen) }}							
+										{{ form_widget(form.userfrozen) }}
+				    				</div>					    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.useradminmarked) }}							
+										{{ form_widget(form.useradminmarked) }}
+				    				</div>  			
+				    								    												
+								</div>								
+								
+						
+								
+								
+								
+								<!-- DATES  --> 
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">
+									<div class="field date1">
+				    					{{ form_label(form.paymentStartDateFrom) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.paymentStartDateFrom, { 'attr': {'class': 'paymentCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+										
+										
+				    				</div>								
+								
+									<div class="field date2">
+				    					{{ form_label(form.paymentStartDateTo) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.paymentStartDateTo, { 'attr': {'class': 'paymentCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+				    				</div>
+				    			
+				    				<div class="field">
+				    					
+				    					<label>Preconfigured settings</label>
+				    					<div class="ui selection dropdown selectDate">
+				    						<div class="text">Choose Period</div>				    						
+				    						<i class="dropdown icon"></i>
+				    						<div class="menu">				    							
+				    							<div class="item active" data-value="0">Choose Period</div>
+				    							<div class="item" data-value="today">Today</div>
+				    							<div class="item" data-value="week_t">This Week</div>
+				    							<div class="item" data-value="month_t">This Month</div>
+				    							<div class="item" data-value="quarter_t">This Quarter</div>
+				    							<div class="item" data-value="year_t">This Year</div>
+				    							<div class="item" data-value="week_n">Next Week</div>
+				    							<div class="item" data-value="month_n">Next Month</div>
+				    							<div class="item" data-value="quarter_n">Next Quarter</div>
+				    							<div class="item" data-value="year_n">Next Year</div>
+				    							<div class="item" data-value="week_p">Previous Week</div>				    											    							
+				    							<div class="item" data-value="month_p">Previous Month</div>				    							
+				    							<div class="item" data-value="quarter_p">Previous Quarter</div>
+				    							<div class="item" data-value="year_p">Previous Year</div>
+				    						</div>
+				    					</div>
+				    					
+				    				</div>		    			
+				    								    												
+								</div>	
+								
+								
+								<div class="ui three fields">
+									<div class="field date1">
+				    					{{ form_label(form.paymentEndDateFrom) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.paymentEndDateFrom, { 'attr': {'class': 'paymentCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+										
+										
+				    				</div>								
+								
+									<div class="field date2">
+				    					{{ form_label(form.paymentEndDateTo) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.paymentEndDateTo, { 'attr': {'class': 'paymentCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+				    				</div>					    				
+				    			
+				    				<div class="field">
+				    					<label>Preconfigured settings</label>
+				    					<div class="ui selection dropdown selectDate">
+				    						<div class="text">Choose Period</div>				    						
+				    						<i class="dropdown icon"></i>
+				    						<div class="menu">				    							
+				    							<div class="item active" data-value="0">Choose Period</div>
+				    							<div class="item" data-value="today">Today</div>
+				    							<div class="item" data-value="week_t">This Week</div>
+				    							<div class="item" data-value="month_t">This Month</div>
+				    							<div class="item" data-value="quarter_t">This Quarter</div>
+				    							<div class="item" data-value="year_t">This Year</div>
+				    							<div class="item" data-value="week_n">Next Week</div>
+				    							<div class="item" data-value="month_n">Next Month</div>
+				    							<div class="item" data-value="quarter_n">Next Quarter</div>
+				    							<div class="item" data-value="year_n">Next Year</div>
+				    							<div class="item" data-value="week_p">Previous Week</div>				    											    							
+				    							<div class="item" data-value="month_p">Previous Month</div>				    							
+				    							<div class="item" data-value="quarter_p">Previous Quarter</div>
+				    							<div class="item" data-value="year_p">Previous Year</div>
+				    						</div>
+				    					</div>
+				    				</div>			    			
+				    								    												
+								</div>	
+								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								
+								<div class="ui three fields">
+									<div class="field date1">
+				    					{{ form_label(form.registrationDateFrom) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.registrationDateFrom, { 'attr': {'class': 'regCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+										
+										
+				    				</div>								
+								
+									<div class="field date2">
+				    					{{ form_label(form.registrationDateTo) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.registrationDateTo, { 'attr': {'class': 'regCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+				    				</div>					    				
+				    			
+				    				<div class="field">
+				    					<label>Preconfigured settings</label>
+				    					<div class="ui selection dropdown selectDate">
+				    						<div class="text">Choose Period</div>				    						
+				    						<i class="dropdown icon"></i>
+				    						<div class="menu">				    							
+				    							<div class="item active" data-value="0">Choose Period</div>
+				    							<div class="item" data-value="today">Today</div>
+				    							<div class="item" data-value="week_t">This Week</div>
+				    							<div class="item" data-value="month_t">This Month</div>
+				    							<div class="item" data-value="quarter_t">This Quarter</div>
+				    							<div class="item" data-value="year_t">This Year</div>
+				    							<div class="item" data-value="week_n">Next Week</div>
+				    							<div class="item" data-value="month_n">Next Month</div>
+				    							<div class="item" data-value="quarter_n">Next Quarter</div>
+				    							<div class="item" data-value="year_n">Next Year</div>
+				    							<div class="item" data-value="week_p">Previous Week</div>				    											    							
+				    							<div class="item" data-value="month_p">Previous Month</div>				    							
+				    							<div class="item" data-value="quarter_p">Previous Quarter</div>
+				    							<div class="item" data-value="year_p">Previous Year</div>
+				    						</div>
+				    					</div>
+				    				</div>			    			
+				    								    												
+								</div>
+								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">
+									<div class="field date1">
+				    					{{ form_label(form.lastVisitDateFrom) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.lastVisitDateFrom, { 'attr': {'class': 'lastVisitCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+										
+										
+				    				</div>								
+								
+									<div class="field date2">
+				    					{{ form_label(form.lastVisitDateTo) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.lastVisitDateTo, { 'attr': {'class': 'lastVisitCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+				    				</div>					    				
+				    			
+				    				<div class="field">
+				    					<label>Preconfigured settings</label>
+				    					<div class="ui selection dropdown selectDate">
+				    						<div class="text">Choose Period</div>				    						
+				    						<i class="dropdown icon"></i>
+				    						<div class="menu">				    							
+				    							<div class="item active" data-value="0">Choose Period</div>
+				    							<div class="item" data-value="today">Today</div>
+				    							<div class="item" data-value="week_t">This Week</div>
+				    							<div class="item" data-value="month_t">This Month</div>
+				    							<div class="item" data-value="quarter_t">This Quarter</div>
+				    							<div class="item" data-value="year_t">This Year</div>
+				    							<div class="item" data-value="week_n">Next Week</div>
+				    							<div class="item" data-value="month_n">Next Month</div>
+				    							<div class="item" data-value="quarter_n">Next Quarter</div>
+				    							<div class="item" data-value="year_n">Next Year</div>
+				    							<div class="item" data-value="week_p">Previous Week</div>				    											    							
+				    							<div class="item" data-value="month_p">Previous Month</div>				    							
+				    							<div class="item" data-value="quarter_p">Previous Quarter</div>
+				    							<div class="item" data-value="year_p">Previous Year</div>
+				    						</div>
+				    					</div>
+				    				</div>			    			
+				    								    												
+								</div>	
+													
+													
+							</div>
+							
+							<!-- General information -->
+							<div class="ui form hidden" data-tab="tab1">
+															
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usernic) }}							
+										{{ form_widget(form.usernic) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userfname) }}							
+										{{ form_widget(form.userfname) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userlname) }}							
+										{{ form_widget(form.userlname) }}
+				    				</div>
+				    								    												
+								</div>	
+															
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.useremail) }}							
+										{{ form_widget(form.useremail) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.zipcode) }}							
+										{{ form_widget(form.zipcode) }}
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.userchildren) }}							
+										{{ form_widget(form.userchildren) }}
+				    				</div>
+				    			
+				    								    												
+								</div>								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								<div class="ui three fields">							
+								
+									<div class="field">
+				    					{{ form_label(form.usergender) }}							
+										{{ form_widget(form.usergender) }}
+				    				</div>
+				    				
+				    				<div class="field selDate">
+				    								    					
+				    					{{ form_label(form.userBirthdayFrom) }}
+				    					<div class="ui left icon input">							
+											{{ form_widget(form.userBirthdayFrom, { 'attr': {'class': 'birthdayCalendar'}}) }}
+											<i class="calendar icon"></i>
+										</div>
+										
+										<div class="clear"></div>
+										
+										{{ form_label(form.userBirthdayTo) }}
+										<div class="ui left icon input">						
+											{{ form_widget(form.userBirthdayTo, { 'attr': {'class': 'birthdayCalendar'}}) }}
+											<i class="calendar icon"></i>										
+										</div>
+										
+				    				</div>				    				
+				    			
+				    				<div class="field">
+				    					{{ form_label(form.countrycode) }}							
+										{{ form_widget(form.countrycode) }}
+				    				</div>		
+				    								    												
+								</div>								
+								<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								
+								{% set field = form.sexprefid %}
+								{% set columnsNumber = 4 %}								
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+														
+							</div>
+							
+							
+							<!-- Background -->
+							<div class="ui form hidden" data-tab="tab2">
+						    	
+						    	{% set field = form.ethnicoriginid %}								
+								{% set columnsNumber = 4 %}								
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+								
+								{% set field = form.religionid %}								
+								{% set columnsNumber = 5 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>								
+								
+								{% set field = form.educationid %}								
+								{% set columnsNumber = 3 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>								
+								
+								{% set field = form.incomeid %}								
+								{% set columnsNumber = 4 %}																
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>								
+																
+								{% set field = form.maritalstatusid %}								
+								{% set columnsNumber = 2 %}
+								{% set margin = "marR15" %}																							
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>								
+								
+								{% set field = form.languageid %}
+								{% set columnsNumber = 4 %}
+								{% set margin = "" %}																
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+							
+							</div>
+								
+							
+							<!-- Appearance -->
+							<div class="ui form hidden" data-tab="tab3">
+							
+								{% set field = form.appearanceid %}								
+								{% set columnsNumber = 3 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    							    		
+					    		
+					    		{% set field = form.bodytypeid %}
+								{% set columnsNumber = 4 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div> 
+													    		
+					    		{% set field = form.hairlengthid %}
+								{% set columnsNumber = 7 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    		
+					    		{% set field = form.haircolorid %}
+					    		{% set columnsNumber = 5 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					
+					    		
+					    		{% set field = form.eyescolorid %}
+								{% set columnsNumber = 6 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
+								
+							</div>							
+							
+							
+							<!-- Personality And Interests -->
+							<div class="ui form hidden" data-tab="tab4">
+							
+								{% set field = form.smokingid %}								
+								{% set columnsNumber = 4 %}	
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set field = form.drinkingid %}					    		
+								{% set columnsNumber = 4 %}	
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set field = form.hobbyid %}						    	
+								{% set columnsNumber = 3 %}
+								{% set numberInColumn = 9 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    		
+					    		{% set field = form.characteristicid %}					    		
+								{% set columnsNumber = 3 %}
+								{% set numberInColumn = 0 %}								
+					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set field = form.lookingforid %}					    		
+								{% set columnsNumber = 3 %}								
+					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    								
+							</div>
+							
+							
+							
+							<div class="ui form hidden" data-tab="tab5">							
+							
+								{% set field = form.healthid %}
+								{% set columnsNumber = 2 %}
+								{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+					    		
+					    		{% set field = form.mobilityid %}
+								{% set columnsNumber = 2 %}
+					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
+					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+							
+							</div>
+							
+						</div>
+							
+							
+						<div class="right">
+							<div class="ui labeled icon button blue small usersSearch">
+								<i class="inverted search icon"></i>
+								Search
+							</div>
+							
+						</div>
+						
+						
+						
+					</form>	
+			</div>
+			
+			<div class="clear"></div>
+			
+			{% if users|length %}
+			
+				<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
+			
+				<h3 class="ui header floated left">			
+					<i class="users basic icon circular small"></i>
+					Search Results
+				</h3>
+				
+				<div class="ui small circular label">{{usersNumber}}</div>				
+				{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
+								
+			{% endif %}	
+		
+	
+		
+	</div>
+	
+</div>
+
+
+
+{{ include ('D4DAppBundle:Backend/Users:photosWrapper.twig.html') }}
+
+{% endblock%}

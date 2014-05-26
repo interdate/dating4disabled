@@ -13,15 +13,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * D4D\AppBundle\Entity
- *
- * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="D4D\AppBundle\Entity\UsersRepository")
+ *  
+ * @ORM\Table(name="users") 
  */
 class Users implements userInterface, \Serializable
 {
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\userId
+     * @ORM\Column(type="integer")     
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $userid;
@@ -353,8 +351,8 @@ class Users implements userInterface, \Serializable
     
     
     /**
-     * @OneToOne(targetEntity="Roles")
-     * @JoinColumn(name="role_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Roles")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
      **/
     private $role; 
 
@@ -369,7 +367,12 @@ class Users implements userInterface, \Serializable
     /**
      * @var boolean
      */
-    private $userUserPaying;
+    private $userPaying;
+    
+    /**
+     * @var integer
+     */
+    private $age;
     
     
     
@@ -385,8 +388,7 @@ class Users implements userInterface, \Serializable
         $this->languageid = new ArrayCollection();
         $this->lookingforid = new ArrayCollection();
         
-        $this->salt = md5(uniqid(null, true));       
-        
+        $this->salt = md5(uniqid(null, true));
     }
 
     /**
@@ -1440,7 +1442,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Maritalstatus $maritalstatusid
      * @return Users
      */
-    public function setMaritalstatusid(\D4D\AppBundle\Entity\Maritalstatus $maritalstatusid = null)
+    public function setMaritalstatusid($maritalstatusid = null)
     {
         $this->maritalstatusid = $maritalstatusid;
 
@@ -1463,7 +1465,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Ethnicorigin $ethnicoriginid
      * @return Users
      */
-    public function setEthnicoriginid(\D4D\AppBundle\Entity\Ethnicorigin $ethnicoriginid = null)
+    public function setEthnicoriginid($ethnicoriginid = null)
     {
         $this->ethnicoriginid = $ethnicoriginid;
 
@@ -1486,7 +1488,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Religion $religionid
      * @return Users
      */
-    public function setReligionid(\D4D\AppBundle\Entity\Religion $religionid = null)
+    public function setReligionid($religionid = null)
     {
         $this->religionid = $religionid;
 
@@ -1509,7 +1511,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Education $educationid
      * @return Users
      */
-    public function setEducationid(\D4D\AppBundle\Entity\Education $educationid = null)
+    public function setEducationid($educationid = null)
     {
         $this->educationid = $educationid;
 
@@ -1532,7 +1534,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Occupation $occupationid
      * @return Users
      */
-    public function setOccupationid(\D4D\AppBundle\Entity\Occupation $occupationid = null)
+    public function setOccupationid($occupationid = null)
     {
         $this->occupationid = $occupationid;
 
@@ -1555,7 +1557,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Income $incomeid
      * @return Users
      */
-    public function setIncomeid(\D4D\AppBundle\Entity\Income $incomeid = null)
+    public function setIncomeid($incomeid = null)
     {
         $this->incomeid = $incomeid;
 
@@ -1578,7 +1580,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Health $healthid
      * @return Users
      */
-    public function setHealthid(\D4D\AppBundle\Entity\Health $healthid = null)
+    public function setHealthid($healthid = null)
     {
         $this->healthid = $healthid;
 
@@ -1601,7 +1603,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Mobility $mobilityid
      * @return Users
      */
-    public function setMobilityid(\D4D\AppBundle\Entity\Mobility $mobilityid = null)
+    public function setMobilityid($mobilityid = null)
     {
         $this->mobilityid = $mobilityid;
 
@@ -1624,7 +1626,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Smoking $smokingid
      * @return Users
      */
-    public function setSmokingid(\D4D\AppBundle\Entity\Smoking $smokingid = null)
+    public function setSmokingid($smokingid = null)
     {
         $this->smokingid = $smokingid;
 
@@ -1647,7 +1649,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Drinking $drinkingid
      * @return Users
      */
-    public function setDrinkingid(\D4D\AppBundle\Entity\Drinking $drinkingid = null)
+    public function setDrinkingid($drinkingid = null)
     {
         $this->drinkingid = $drinkingid;
 
@@ -1670,7 +1672,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Appearance $appearanceid
      * @return Users
      */
-    public function setAppearanceid(\D4D\AppBundle\Entity\Appearance $appearanceid = null)
+    public function setAppearanceid($appearanceid = null)
     {
         $this->appearanceid = $appearanceid;
 
@@ -1693,7 +1695,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Bodytype $bodytypeid
      * @return Users
      */
-    public function setBodytypeid(\D4D\AppBundle\Entity\Bodytype $bodytypeid = null)
+    public function setBodytypeid($bodytypeid = null)
     {
         $this->bodytypeid = $bodytypeid;
 
@@ -1716,7 +1718,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Hairlength $hairlengthid
      * @return Users
      */
-    public function setHairlengthid(\D4D\AppBundle\Entity\Hairlength $hairlengthid = null)
+    public function setHairlengthid($hairlengthid = null)
     {
         $this->hairlengthid = $hairlengthid;
 
@@ -1739,7 +1741,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Haircolor $haircolorid
      * @return Users
      */
-    public function setHaircolorid(\D4D\AppBundle\Entity\Haircolor $haircolorid = null)
+    public function setHaircolorid($haircolorid = null)
     {
         $this->haircolorid = $haircolorid;
 
@@ -1762,7 +1764,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Eyescolor $eyescolorid
      * @return Users
      */
-    public function setEyescolorid(\D4D\AppBundle\Entity\Eyescolor $eyescolorid = null)
+    public function setEyescolorid($eyescolorid = null)
     {
         $this->eyescolorid = $eyescolorid;
 
@@ -1785,7 +1787,7 @@ class Users implements userInterface, \Serializable
      * @param \D4D\AppBundle\Entity\Sexpref $sexprefid
      * @return Users
      */
-    public function setSexprefid(\D4D\AppBundle\Entity\Sexpref $sexprefid = null)
+    public function setSexprefid($sexprefid = null)
     {
         $this->sexprefid = $sexprefid;
 
@@ -2010,28 +2012,52 @@ class Users implements userInterface, \Serializable
     }
     
     /**
-     * Set userUserPaying
+     * Set userPaying
      *
-     * @param integer $userUserPaying
+     * @param integer $userPaying
      * @return Users
      */
-    public function setUserPaying($userUserPaying)
+    public function setUserPaying($userPaying)
     {
-    	$this->userUserPaying = $userUserPaying;
+    	$this->userPaying = $userPaying;
     
     	return $this;
     }
     
+    
     /**
-     * Get userUserPaying
+     * Get userPaying
      *
      * @return boolean
      */    
     public function getUserPaying()
     {
-    	return $this->userUserPaying;
+    	return $this->userPaying;
     }
     
+    
+    /**
+     * Set age
+     *
+     * @param integer $age
+     * @return Users
+     */
+    public function setAge($age)
+    {
+    	$this->age = $age;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get age
+     *
+     * @return integer
+     */
+    public function getAge()
+    {
+    	return $this->age;
+    }
     
     
     

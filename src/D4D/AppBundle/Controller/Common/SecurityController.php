@@ -47,7 +47,7 @@ class SecurityController extends Controller{
     
     public function securedAction(Request $request)
     {
-    	return $this->render('D4DAppBundle:Frontend:home.twig.html');
+    	return $this->render('D4DAppBundle:Frontend/User:home.twig.html');
     }
     
     

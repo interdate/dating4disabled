@@ -1,0 +1,130 @@
+{% extends '::base.twig.html' %}
+
+{% block doctype %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% endblock %}
+
+{% block title %}Dating4Disabled{% endblock %}
+
+{% block stylesheets %}	
+	<link rel="stylesheet" href="/assets/frontend/css/style.css" />
+	
+	<!--[if !IE]><!-->
+	<link rel="stylesheet" type="text/css" href="/assets/frontend/css/checkbox.css" ></link>
+	<!--<![endif]-->
+	
+	<!--[if IE 9]>
+	<link rel="stylesheet" type="text/css" href="/assets/frontend/css/checkbox.css" />
+	<![endif]-->
+	
+	<!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="/assets/frontend/css/only-ie7.css" />
+	<![endif]-->
+	
+	<link rel="stylesheet" href="/assets/frontend/selectbox/jquery.selectBox.css" />	
+{% endblock %}
+
+{% block js %}
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/frontend/selectbox/jquery.selectBox.js"></script> 
+        <script type="text/javascript" src="/assets/frontend/selectbox/main.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		$('select').selectBox();
+	});
+	</script>	
+{% endblock %}
+
+{% block body%} 
+	<body class="img1">
+	    <div id="page-warp">
+		    <div id="header">
+		        <div class="mwarp">
+		            <div class="main-menu">
+		                <div id="menu">
+		                <ul>
+		                    <li class="current"><a href="#">Home</a></li>
+		                    <li><a href="#">About</a></li>
+		                    <li><a href="#">Forums</a></li>
+		                    <li><a href="#">Blogs</a></li>
+		                    <li><a href="#">Members</a></li>
+		                    <li><a href="#">Inbox</a></li>
+		                    <li><a href="#">FAQ</a></li>
+		                    <li><a href="#">Settings</a></li>
+		                    <li><a href="#">Contact</a></li>
+		                </ul> 
+		                    <div class="clear"></div>
+		                </div>
+		            </div>
+		            <div class="main-logo">
+		                <img src="/assets/frontend/images/logo.png" id="logo" alt="D4D" width="302" height="119"/>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		    </div>
+		    
+		    
+		    
+		    		    
+		    {% block content %}{% endblock %}
+		    
+		    
+		    
+		    
+		    <div id="footer">
+		        <div class="mwarp">
+		            <p class="credit-info">
+		                Dating For Disabled is an online dating service for people with disabilities. We are a community where disabled singles can find love & friendship. Dating4Disabled is the number one disabled dating site, and registration is one hundred percent free!  
+		            </p>
+		            <ul class="footer-menu">
+		                <li><a href="#">Home</a> | </li>
+		                <li><a href="#">About Us</a> | </li>
+		                <li><a href="#">Press Room</a> | </li>
+		                <li><a href="#">Safety</a> | </li>
+		                <li><a href="#">Disability Dating Blog</a> | </li>
+		                <li><a href="#">Privacy</a> | </li>
+		                <li><a href="#">Terms and Conditions</a> | </li>
+		                <li><a href="#">Links</a> | </li>
+		                <li><a href="#">Advertising</a> | </li>
+		                <li><a href="#">Affiliates</a> | </li>
+		                <li><a href="#">Testimonials</a> | </li>
+		                <li><a href="#">Contact Us</a></li>
+		            </ul>    
+		
+		        </div>         
+		    </div>
+		    
+		    
+		    <script type="text/javascript">
+			$(document).ready(function () {
+			    $('.pick-1 .select_switch #bpic').click(function () {
+					if($(this).parent('.select_switch').hasClass('man')) {
+					$(this).animate({left:'-6'}, 300);
+					$(this).parent('.select_switch').removeClass('man');
+					$(this).parent('.select_switch').addClass('woman');
+					$('.pick-1 #gan_man').removeClass("current");
+					$('.pick-1 #gan_wom').addClass("current");			
+					} else {
+					$(this).animate({left:'32'}, 300);
+					$(this).parent('.select_switch').removeClass('woman');
+					$(this).parent('.select_switch').addClass('man');
+					$('.pick-1 #gan_wom').removeClass("current");
+					$('.pick-1 #gan_man').addClass("current");	
+					}
+			    });
+			});
+			</script>
+			
+			<script type="text/javascript">
+				$(function () {
+					/*$("#order_id").selectbox();		
+					$("#age_st").selectbox();
+					$("#age_en").selectbox();
+					$("#area").selectbox();*/
+				});
+			</script> 
+	    </div>
+	</body>
+{% endblock %}
+

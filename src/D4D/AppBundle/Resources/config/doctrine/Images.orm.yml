@@ -1,6 +1,7 @@
 D4D\AppBundle\Entity\Images:
     type: entity
     table: images
+    repositoryClass: D4D\AppBundle\Entity\ImagesRepository
     indexes:
         _dta_index_images_521_87671360__K2_K4_K5:
             columns:
@@ -30,6 +31,10 @@ D4D\AppBundle\Entity\Images:
             nullable: false
             default: '0'
             column: imgValidated
+        homepage: 
+            type: boolean
+            nullable: true            
+            column: homepage    
     manyToOne:
         userid:
             targetEntity: Users
