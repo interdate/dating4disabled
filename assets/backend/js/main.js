@@ -126,9 +126,9 @@ $(document).ready(
 		});
 		
 		$('#searchPagination a').click(function(){
-			var page = $(this).text();
+			var page = $(this).text().trim();
 			$('#requestedPage').val(page);
-			$('#paginationForm').submit();
+			$('#searchDataForm').submit();
 		});
 		
 		initInterfaceItems();
@@ -148,6 +148,124 @@ $(document).ready(
 				window.location = value;
 			}
 		});
+		
+		$('.unapprovedPhoto')
+		  .dimmer({
+		    on: 'hover'
+		  })
+		;
+		
+		$('#selectAllImages').click(function(){
+			var iconWrapper = $(this).find('i');			
+			if(iconWrapper.hasClass('empty')){				
+				$('.ui.checkbox').checkbox('enable');
+				iconWrapper.removeClass('empty').addClass('checked');
+				//$(this).html('<i class="inverted checked checkbox icon"></i> Unselect All');
+			}
+			else{
+				$('.ui.checkbox').checkbox('disable');
+				//$(this).html('<i class="inverted empty checkbox icon"></i> Select All');
+				iconWrapper.removeClass('checked').addClass('empty');
+			}
+			
+		});
+		
+		$('.unapprovedPhoto .approve').click(function(){
+			//$(this).parents('.segmentWrapper').remove();
+			var unapprovedPhotosIds = [];
+			var segments = [];
+			unapprovedPhotosIds.push($(this).siblings('.unapprovedPhotoId').val());
+			segments.push($(this).parents('.segmentWrapper'));
+			
+			approvePhotos(unapprovedPhotosIds, segments);
+		});
+		
+		$('.unapprovedPhoto .removeUser').click(function(){
+			var usersIds = [];
+			var segments = [];
+			usersIds.push($(this).siblings('.userId').val());
+			segments.push($(this).parents('.segmentWrapper'));			
+			blockAndDeleteUsers(usersIds, segments);
+		});
+		
+		$('#approveSelectedPhotos').click(function(){
+			var unapprovedPhotosIds = [];
+			var segments = [];
+			$('#unapprovedPhotos').find('.checkbox :checked').each(function(){				
+				unapprovedPhotosIds.push($(this).parent('.ui.checkbox').siblings('.unapprovedPhoto').find('.unapprovedPhotoId').val());
+				segments.push($(this).parents('.segmentWrapper'));
+			});
+			approvePhotos(unapprovedPhotosIds, segments);
+		});
+		
+		$('#blockAndDeleteSelectedUsers').click(function(){
+			var usersIds = [];
+			var segments = [];
+			$('#unapprovedPhotos').find('.checkbox :checked').each(function(){				
+				usersIds.push($(this).parent('.ui.checkbox').siblings('.unapprovedPhoto').find('.userId').val());
+				segments.push($(this).parents('.segmentWrapper'));
+			});			
+			blockAndDeleteUsers(usersIds, segments);
+		});
+		
+		/*
+		$('#createReport').click(function(){			
+			//createReport();
+		});
+		*/
+		
+		/*
+		$('#createReport').popup({
+			on: 'click',
+			content: $('#reportCreationTemplate').html(),
+		});
+		*/
+		
+		
+		
+		
+		$('#createReport').qtip({
+			events: {
+				show: createReport,				
+			},
+			content: {
+				text: $("#reportCreationTemplate").html(),
+				title: {
+					text: 'Report Creation',
+					button: true
+				}
+			},
+			style: {
+				classes: 'ui-tooltip-shadow ui-tooltip-rounded qtip-bootstrap',
+				tip: {
+		            corner: true,
+		            height: 24
+		        }
+			},
+			position: {
+				my: 'top center', // Use the corner...
+				at: 'bottom center', // ...and opposite corner
+				width: 450,
+				adjust: {
+					y: 10
+			    },	
+			},
+			show: {
+				event: 'click'
+			},
+			hide: false,
+	    });
+		
+		
+		$('#editReportWraper .ui.checkbox').checkbox();
+		
+		$('.saveReport').click(function(){
+			if($(this).parents('form').find('input[type="text"]').val().trim().length)
+				$(this).parents('form').submit();
+			else
+				alert('Please fill Name field');
+		});
+		
 		
 	}
 );
@@ -258,6 +376,175 @@ function initInterfaceItems(){
 		saveUserProfile(form);
 	});
 }
+
+function getUserPhotos(userId, username){	
+	var modalWrapper = $('.ui.modal');	
+	modalWrapper.find('.container').html("");	
+	modalWrapper.modal('setting', 'transition', 'vertical flip').modal('show');	
+	modalWrapper.find('.dimmer').dimmer('show');	
+	modalWrapper.find('.username').text(username);	
+	var route = $('#photosRoute').val();
+	
+	$.ajax({
+		url: route + '/' + userId,
+		type: 'Get',		
+		error: function(error){
+			$('body').html(error.responseText);
+		},
+		success: function(data){			
+			modalWrapper.find('.dimmer').dimmer('hide');
+			modalWrapper.find('.container').html(data);
+			initUserPhotosInterface();
+			
+		},
+	});
+	
+}
+
+
+function executePhotoAction(action, photoId){
+	
+	if(action == 'remove'){
+		if(!confirm('Are you sure ?')){
+			return false;
+		}
+	}	
+	
+	var modalWrapper = $('.ui.modal');
+	modalWrapper.find('.dimmer').dimmer('show');
+	var route = $('#photosRoute').val();
+	
+	$.ajax({
+		url: '/admin/users/photo/' + action + '/' +  photoId,
+		type: 'Post',		
+		error: function(error){			
+			$('body').html(error.responseText);
+		},
+		success: function(data){	
+			modalWrapper.find('.dimmer').dimmer('hide');
+			//if( action == 'remove'){
+				modalWrapper.find('.container').html(data);
+				initUserPhotosInterface();
+			//}			
+		},
+	});
+}
+
+
+function initUserPhotosInterface(){
+	var side = $('.shape .side');
+	
+	$('.userPhotos .preview .item').click(function(){				
+		var index = $(this).parents('.preview').find('.item').index($(this));
+		nextSide = side.eq(index);
+		
+		if( !nextSide.hasClass('active') ){				
+			$('.shape')
+				.shape('set next side', nextSide)
+				.shape('flip up');
+		}
+		
+	});
+	
+	$('.photoWrapper .button').click(function(){
+		var photoId = $('.photoWrapper .side.active .photoId').val();
+		var action = $(this).attr('action');
+		executePhotoAction(action, photoId);
+	});
+}
+
+function approvePhotos(unapprovedPhotosIds, segments){	
+	if(unapprovedPhotosIds.length == 0){
+		alert('Please select photos');
+		return;
+	}
+	
+	var route = $('#approvePhotosRoute').val();	
+		
+	$.ajax({
+		url: route,
+		type: 'Post',
+		data: 'unapprovedPhotosIds=' + unapprovedPhotosIds,
+		error: function(error){
+			//$('#profile_' + userId).html(JSON.stringify(error)).css({"height":"0px"}).siblings('.dimmer').dimmer('hide');
+			//alert(error.responseText);
+			$('#unapprovedPhotos').html(error.responseText);
+		},
+		success: function(){			
+			$(segments).each(function(){
+				$(this).remove();
+			});			
+		},
+	});
+}
+
+
+function blockAndDeleteUsers(usersIds, segments){
+	if(usersIds.length == 0){
+		alert('Please select users');
+		return;
+	}
+	
+	var route = $('#blockAndDeleteUsersRoute').val();
+		
+	$.ajax({
+		url: route,
+		type: 'Post',
+		data: 'usersIds=' + usersIds,
+		error: function(error){			
+			$('#unapprovedPhotos').html(error.responseText);
+		},
+		success: function(data){			
+			$(segments).each(function(){
+				$(this).remove();
+			});
+		},
+	});	
+}
+
+
+function createReport(){	
+	$(this).find('.ui.checkbox').checkbox({
+		disable: true,
+	});
+	
+	var currentRouteName = $('#currentRouteName').val();
+	if(currentRouteName == 'admin_users_search'){
+		$('#requestedPage').val(1);
+		var link = $('#searchDataForm').serialize();						
+		$(this).find('input[name="link"]').val(link);
+		$(this).find('input[name="stats"]').val(false);
+	}
+	else{
+		var activeItem = $('#statSidebar a.active.item');
+		var name = activeItem.text().trim();
+		var link = activeItem.attr('href');
+		//alert($('#statSidebar').html());
+		$(this).find('input[name="name"]').val(name);
+		$(this).find('input[name="link"]').val(link);		
+		$(this).find('input[name="stats"]').val(true);
+	}
+	
+	$(this).find('.create').click(function(){
+		var form = $(this).parents('form');
+		var route = form.attr('action');
+		var data = form.serialize();
+		
+		$.ajax({
+			url: route,
+			type: 'Post',
+			data: data,
+			error: function(error){			
+				//alert(error.responseText);
+			},
+			success: function(data){
+				$('.qtip').qtip('hide');
+				alert(data);
+			},
+		});		
+	});	
+}
+
 
 //Old website functuion
 
@@ -441,77 +728,3 @@ function setDatePeriods(objRef_l, objRef_h, period, dtformat) {
     	return s;
     } 
 } 
-
-//window.onload = initInterfaceItems;
-
-
-function getUserPhotos(userId, username){	
-	var modalWrapper = $('.ui.modal');	
-	modalWrapper.find('.container').html("");	
-	modalWrapper.modal('setting', 'transition', 'vertical flip').modal('show');	
-	modalWrapper.find('.dimmer').dimmer('show');	
-	modalWrapper.find('.username').text(username);	
-	var route = $('#photosRoute').val();
-	
-	$.ajax({
-		url: route + '/' + userId,
-		type: 'Get',		
-		error: function(error){
-			//alert(JSON.stringify(error));
-		},
-		success: function(data){			
-			modalWrapper.find('.dimmer').dimmer('hide');
-			modalWrapper.find('.container').html(data);
-			var side = $('.shape .side');
-			
-			$('.userPhotos .preview .item').click(function(){				
-				var index = $(this).parents('.preview').find('.item').index($(this));
-				nextSide = side.eq(index);
-				
-				if( !nextSide.hasClass('active') ){				
-					$('.shape')
-						.shape('set next side', nextSide)
-						.shape('flip up');
-				}
-				
-			});
-			
-			$('.photoWrapper .button').click(function(){
-				var photoId = $('.photoWrapper .side.active .photoId').val();
-				var action = $(this).attr('action');
-				executePhotoAction(action, photoId);
-			});
-			
-		},
-	});
-	
-}
-
-
-function executePhotoAction(action, photoId){
-	var modalWrapper = $('.ui.modal');
-	modalWrapper.find('.dimmer').dimmer('show');
-	var route = $('#photosRoute').val();
-	
-	$.ajax({
-		url: route + '/' + action + '/' +  photoId,
-		type: 'Post',		
-		error: function(error){
-			//console.log(error.responseText);
-			alert(error.responseText);
-		},
-		success: function(data){			
-			
-			modalWrapper.find('.dimmer').dimmer('hide');  
-			/*
-			if(data == 'success')
-				alert(data);
-				
-			*/
-			
-			
-			
-		},
-	});
-}
-

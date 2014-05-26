@@ -11,7 +11,22 @@
 				{% endif %}
 				
 				<div class="item">
-					<img class="rounded ui image" src="/uploads/userpics/thumbz/{{photo.imgid}}.jpg" style="width:110px;height:110px;">
+					<img class="rounded ui image" src="/uploads/userpics/thumbz/{{ photo.imgid }}.{{ photo.ext }}" style="width:110px;height:110px;">
+					
+					{% if photo.imgvalidated %}
+						<i class="thumbs up green icon"></i>						
+					{% else %}
+						<i class="thumbs down red icon"></i>
+					{% endif %}
+					
+					{% if photo.imgmain %}
+						<i class="id basic blue icon"></i>
+					{% endif %}
+										
+					{% if photo.homepage %}
+						<i class="home blue icon"></i>
+					{% endif %}
+					
 				</div>
 				
 				{% if( loop.index == photos|length) %}
@@ -34,21 +49,14 @@
 					
 						<div class="shapeWrapper">
 							<div class="ui cube shape">
-								<div class="sides">						  
-								    
-								    {% set class = "active" %}
-								    
-								    {% for photo in photos %}
-								    								    
-								    	{% if loop.index > 1 %}
-								    		{% set class = "" %} 
-								    	{% endif %}
-								    									    
-								    	<div class="side {{class}}">
+								<div class="sides">
+								 
+								    {% for photo in photos %}								    
+								    	<div class="side {% if photo.imgid == active %}active{% endif %}">
 											<div class="center">
-												<img class="rounded ui image" src="/uploads/userpics/{{photo.imgid}}.jpg">
+												<img class="rounded ui image" src="{{ photo.getWebPath }}"> 
 												<input type="hidden" class="photoId" value="{{photo.imgid}}">
-												<a class="like ui corner label">
+												<a class="like ui corner label" href="{{ photo.getWebPath }}" target="_blank">
 													<i class="external url icon"></i>
 												</a>
 											</div>
@@ -118,7 +126,7 @@
 			
 		</div>
 		
-	{% else %}
+	{% else %}	
 		
 		<h2 class="ui header center">No Photos</h2>
 		

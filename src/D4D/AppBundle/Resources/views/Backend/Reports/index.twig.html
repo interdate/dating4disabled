@@ -1,0 +1,69 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+
+{% block content %}
+
+<h2 class="ui header floated left">
+  <i class="ordered list icon "></i>
+  Reports
+</h2>
+
+<div class="clear"></div>
+
+<div class="tabSegments">	
+	<div class="ui active tab segment" id="reportsWraper">	
+		
+		
+		<table class="ui table reports">
+			<thead>
+			    <tr>
+					<th>ID</th>				    
+					<th>Name</th>
+					<th>Flagged</th>										
+					<th>Edit</i></th>
+					<th>Delete</th> 
+			  	</tr>
+		  	</thead>
+		  
+		  	<tbody>
+		  		{% for report in reports %}
+					<tr class="userRow">					
+						<td>{{ report.savedreportid }}</td>
+						<td>{{ report.savedreportname }}</td>
+						<td>
+							{% if report.ishomepage %}
+								<i class="block flag icon"></i>
+							{% endif %}
+						</td>
+						<td><a href="{{ path('admin_reports_edit', {'reportId':report.savedreportid}) }}"><i class="edit blue link icon"></i></a></td>
+						<td><i class="trash blue link icon" onclick="if(confirm('Are you sure?')){ window.location.href='{{ path('admin_reports_delete', {reportId:report.savedreportid}) }}'}"></i></td>
+					</tr>								
+				{% endfor %}			    
+		    </tbody>
+		    
+		 	<tfoot>
+		 		<tr>
+		 			<th colspan="4">
+		 					
+		 			</th>
+		 		</tr>
+		 	</tfoot>		    
+		  
+		</table>
+		
+		
+		
+		
+		
+	
+	</div>	
+</div>
+
+
+
+
+
+
+
+{% endblock%}

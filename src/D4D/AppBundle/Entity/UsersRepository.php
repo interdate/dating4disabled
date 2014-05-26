@@ -25,8 +25,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $this->filter;
 	}
 	
-	public function loadUserByUsername($username)
-	{
+	public function loadUserByUsername($username){
 		$q = $this
 		->createQueryBuilder('u')
 		->where('u.username = :username')		
@@ -49,8 +48,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $user;
 	}
 
-	public function refreshUser(UserInterface $user)
-	{
+	public function refreshUser(UserInterface $user){
 		$class = get_class($user);
 		if (!$this->supportsClass($class)) {
 			throw new UnsupportedUserException(
@@ -64,8 +62,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $this->find($user->getUserId());
 	}
 
-	public function supportsClass($class)
-	{
+	public function supportsClass($class){
 		return $this->getEntityName() === $class
 		|| is_subclass_of($class, $this->getEntityName());
 	}
@@ -82,16 +79,16 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $query->getResult();
 	} 
 
-	public function getUsers($paginator, $page, $geoip){
-		$dql = $this->getDQL();	
+	public function getUsers($paginator, $page, $geoip){		
+		$users = array();
+		$this->connection = $this->getEntityManager()->getConnection();
+		$dql = $this->getDQL();
 		$query = $this->getEntityManager()->createQuery($dql);
-		$users = $paginator->paginate($query, $page, 20);		
-		$this->connection = $this->getEntityManager()->getConnection();				
-		
-		foreach ($users as $user){			
+		$users['items'] = $paginator->paginate($query, $page, 20);
+		$users['itemsNumber'] = $users['items']->getTotalItemCount();
+		foreach ($users['items'] as $user){
 			$this->completeUser($user, $geoip);
 		}		
-		
 		return $users;		
 	}
 	
@@ -111,154 +108,6 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		return $statistics;
 	}
 	
-	public function search($data, $page, $geoip){
-		
-		$sql = "EXEC admin_users_search_sa ";
-	
-		$userid = (!empty($data['userid'])) ? $data['userid'] : 'null';
-		$data['maritalstatusid'] = (isset($data['maritalstatusid'])) ? "'" . implode(",", $data['maritalstatusid']) . "'" : 'null';		
-		$data['languageid'] = (isset($data['languageid'])) ? "'" . implode(",", $data['languageid']) . "'" : 'null';		
-		$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['ethnicoriginid']) . "'" : 'null';
-		
-		//$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
-		
-		$data['religionid'] = (isset($data['religionid'])) ? "'" . implode(",", $data['religionid']) . "'" : 'null';
-		$data['educationid'] = (isset($data['educationid'])) ? "'" . implode(",", $data['educationid']) . "'" : 'null';
-		$data['occupationid'] = (isset($data['occupationid'])) ? "'" . implode(",", $data['occupationid']) . "'" : 'null';
-		$data['incomeid'] = (isset($data['incomeid'])) ? "'" . implode(",", $data['incomeid']) . "'" : 'null';
-		$data['healthid'] = (isset($data['healthid'])) ? "'" . implode(",", $data['healthid']) . "'" : 'null';
-		$data['mobilityid'] = (isset($data['mobilityid'])) ? "'" . implode(",", $data['mobilityid']) . "'" : 'null';
-		$data['lookingforid'] = (isset($data['lookingforid'])) ? "'" . implode(",", $data['lookingforid']) . "'" : 'null';
-		$data['smokingid'] = (isset($data['smokingid'])) ? "'" . implode(",", $data['smokingid']) . "'" : 'null';
-		$data['drinkingid'] = (isset($data['drinkingid'])) ? "'" . implode(",", $data['drinkingid']) . "'" : 'null';
-		$data['appearanceid'] = (isset($data['appearanceid'])) ? "'" . implode(",", $data['appearanceid']) . "'" : 'null';
-		$data['bodytypeid'] = (isset($data['bodytypeid'])) ? "'" . implode(",", $data['bodytypeid']) . "'" : 'null';
-		$data['hairlengthid'] = (isset($data['hairlengthid'])) ? "'" . implode(",", $data['hairlengthid']) . "'" : 'null';
-		$data['haircolorid'] = (isset($data['haircolorid'])) ? "'" . implode(",", $data['haircolorid']) . "'" : 'null';
-		$data['eyescolorid'] = (isset($data['eyescolorid'])) ? "'" . implode(",", $data['eyescolorid']) . "'" : 'null';
-		
-		$data['characteristicid'] = (isset($data['characteristicid'])) ? implode(",", $data['characteristicid']) : 'null';
-		$data['hobbyid'] = (isset($data['hobbyid'])) ? "'" . implode(",", $data['hobbyid']) . "'" : 'null';
-		$data['sexprefid'] = (isset($data['sexprefid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
-		
-		
-		$data['paymentStartDateFrom'] = (!empty($data['paymentStartDateFrom'])) ? "'" . $data['paymentStartDateFrom'] . "'" : 'null';
-		$data['paymentStartDateTo'] = (!empty($data['paymentStartDateTo'])) ? "'" . $data['paymentStartDateTo'] . "'" : 'null';
-		$data['paymentEndDateFrom'] = (!empty($data['paymentEndDateFrom'])) ? "'" . $data['paymentEndDateFrom'] . "'" : 'null';
-		$data['paymentEndDateTo'] = (!empty($data['paymentEndDateTo'])) ? "'" . $data['paymentEndDateTo'] . "'" : 'null';
-		$data['registrationDateFrom'] = (!empty($data['registrationDateFrom'])) ? "'" . $data['registrationDateFrom'] . "'" : 'null';
-		$data['registrationDateTo'] = (!empty($data['registrationDateTo'])) ? "'" . $data['registrationDateTo'] . "'" : 'null';
-		$data['lastVisitDateFrom'] = (!empty($data['lastVisitDateFrom'])) ? "'" . $data['lastVisitDateFrom'] . "'" : 'null';
-		$data['lastVisitDateTo'] = (!empty($data['lastVisitDateTo'])) ? "'" . $data['lastVisitDateTo'] . "'" : 'null';
-		
-		
-		$data['useremail'] = (!empty($data['useremail'])) ? "'" . $data['useremail'] . "'" : 'null';
-		$data['usernic'] = (!empty($data['usernic'])) ? "'" . $data['usernic'] . "'" : 'null';
-		$data['userfname'] = (!empty($data['userfname'])) ? "'" . $data['userfname'] . "'" : 'null';
-		$data['userlname'] = (!empty($data['userlname'])) ? "'" . $data['userlname'] . "'" : 'null';		
-		
-		$data['userBirthdayFrom'] = (!empty($data['userBirthdayFrom'])) ? "'" . $data['userBirthdayFrom'] . "'" : 'null';
-		$data['userBirthdayTo'] = (!empty($data['userBirthdayTo'])) ? "'" . $data['userBirthdayTo'] . "'" : 'null';
-		
-		
-		$data['countrycode'] = ($data['countrycode'] != '--' ) ? "'" . $data['countrycode'] . "'" : 'null';
-		$data = str_replace('_null', 'null', $data);
-		
-		$sql .=  $userid . ",";
-		$sql .=  $data['usernotactivated'] . ",";
-		$sql .=  $data['usernotcomlitedregistration'] . ",";
-		$sql .=  $data['usernotapproved'] . ",";		
-		$sql .=  $data['userfrozen'] . ",";
-		$sql .=  $data['userblocked'] . ","; // 
-		$sql .=  "null" . ","; // front page list
-		$sql .=  "null" . ","; // show only images
-		$sql .=  $data['userPaying'] . ","; // paing
-		$sql .=  "null" . ","; // prepaid points
-		$sql .=  $data['paymentStartDateFrom'] . ","; // paid start 1
-		$sql .=  $data['paymentStartDateTo'] . ","; // paid start 2
-		$sql .=  $data['paymentEndDateFrom'] . ","; // paid end 1
-		$sql .=  $data['paymentEndDateTo'] . ","; // paid end 2
-		$sql .=  $data['registrationDateFrom'] . ","; // Reg date 1
-		$sql .=  $data['registrationDateTo'] . ","; // Reg date 2
-		$sql .=  $data['lastVisitDateFrom'] . ","; // Last Visit 1
-		$sql .=  $data['lastVisitDateTo'] . ","; // Last Visit 2
-		$sql .=  $data['userBirthdayFrom'] . ","; // Birthday 1
-		$sql .=  $data['userBirthdayTo'] . ","; // Birthday 2 
-		$sql .=  $data['useremail'] . ",";
-		$sql .=  $data['usernic'] . ",";
-		$sql .=  $data['userfname'] . ",";
-		$sql .=  $data['userlname'] . ",";
-		$sql .=  $data['usergender'] . ",";
-		$sql .=  "null" . ","; //Age1
-		$sql .=  "null" . ","; //Age2
-		$sql .=  $data['maritalstatusid'] . ",";
-		$sql .=  "null" . ","; //Children
-		$sql .=  "null" . ","; // Origin country
-		$sql .=  $data['languageid'] . ","; // Languages
-		$sql .=  $data['ethnicoriginid'] . ","; //Ethnic
-		$sql .=  $data['religionid'] . ","; //Religion
-		$sql .=  $data['educationid'] . ","; //Education
-		$sql .=  $data['occupationid'] . ","; //Occupation
-		$sql .=  $data['incomeid'] . ","; //Income
-		$sql .=  $data['healthid'] . ","; //Health
-		$sql .=  $data['mobilityid'] . ","; //Mobility
-		$sql .=  $data['lookingforid'] . ","; // Looking For		
-		$sql .=  $data['smokingid'] . ","; // Smoking
-		$sql .=  $data['drinkingid'] . ","; // Drinking
-		$sql .=  $data['appearanceid'] . ","; // Appearance		
-		$sql .=  "null" . ","; // Hight 1
-		$sql .=  "null" . ","; // Hight 2		
-		
-		$sql .=  "null" . ","; // Weight 1
-		$sql .=  "null" . ","; // Weight 2
-		$sql .=  $data['bodytypeid'] . ","; // Body Type
-		$sql .=  $data['hairlengthid'] . ","; // Hair Length
-		$sql .=  $data['haircolorid'] . ","; // Hair Color
-		$sql .=  $data['eyescolorid'] . ","; // Eyes Color		
-		$sql .=  $data['characteristicid'] . ","; // Characteristic
-		$sql .=  $data['hobbyid'] . ","; // Hobbies
-		$sql .=  $data['sexprefid'] . ","; // Sex Pref
-		$sql .=  "null" . ","; // User IP
-		
-		$sql .=  "null" . ","; // Affiliate Id
-		$sql .=  $data['countrycode'] . ","; // Country Code
-		$sql .=  "null" . ","; // Region Code
-		$sql .=  "null" . ","; // City Name
-		$sql .=  "null" . ","; // longitude_1
-		$sql .=  "null" . ","; // latitude_1
-		$sql .=  "null" . ","; // latitude_h
-		$sql .=  "null" . ","; // longitude_h
-		$sql .=  20 . ","; // Per Page
-		$sql .=  $page . ","; // page
-		
-		$sql .= ' "AND" ';
-				
-			
-		$this->connection = $this->getEntityManager()->getConnection();
-		$stmt = $this->connection->query($sql);
-		$stmt->execute();
-		
-		$users['items'] = array();
-		
-		$result = $stmt->fetchAll();
-		
-		$users['itemsNumber'] = $result[0][""];			
-			
-		$stmt->nextRowset();
-				
-		$result = $stmt->fetchAll();
-		
-		if(count($result)){
-			foreach ($result as $row){
-				$user = $this->find($row['userId']);
-				$users['items'][] = $this->completeUser($user, $geoip);				
-			}			
-		}
-		
-		return $users;			
-	}
-
-	
 	public function completeUser($user, $geoip){
 		$geoip->lookup($user->getUserip());
 		
@@ -270,11 +119,15 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		
 		$user->setCountry($country);
 		
+		/*
 		$sql = "SELECT userId FROM users WHERE userId = '" . $user->getUserid() . "' AND dbo.isUserPaing(userPrePaidPoints,userPaidStartDate,userPaidEndDate,getdate()) = 1";
 		$stmt = $this->connection->query($sql);
 		$stmt->execute();
 		$user->setUserPaying(count($stmt->fetchAll()));
+		*/		
+		$user->setUserPaying(1);
 		
+		/*
 		$date = new \DateTime();
 		$date = $date->format("Y-m-d h:i:s");
 		
@@ -283,6 +136,8 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$stmt->execute();
 		$result = $stmt->fetch();
 		$user->setAge($result['age']);
+		*/
+		$user->setAge(1);
 		
 		return $user;
 	}
@@ -352,7 +207,7 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 				//@prePaidPoints>0 and @paidStartDate>@date and @paidStartDate<=@paidEndDate
 				//$sql = "SELECT u.userId, u.userNic, dbo.ifUserPaing(u.userPrePaidPoints, u.userPaidStartDate, u.userPaidEndDate, GETDATE()) as PAYING FROM users u";
 				
-				break;					
+				break;
 		}
 		
 		return $dql;
@@ -390,7 +245,154 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 	}	
 	
 	
+	public function search($data, $page, $geoip){
 	
+		$sql = "EXEC admin_users_search_sa ";
+	
+		$userid = (!empty($data['userid'])) ? $data['userid'] : 'null';
+		$data['maritalstatusid'] = (isset($data['maritalstatusid'])) ? "'" . implode(",", $data['maritalstatusid']) . "'" : 'null';
+		$data['languageid'] = (isset($data['languageid'])) ? "'" . implode(",", $data['languageid']) . "'" : 'null';
+		$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['ethnicoriginid']) . "'" : 'null';
+	
+		//$data['ethnicoriginid'] = (isset($data['ethnicoriginid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
+	
+		$data['religionid'] = (isset($data['religionid'])) ? "'" . implode(",", $data['religionid']) . "'" : 'null';
+		$data['educationid'] = (isset($data['educationid'])) ? "'" . implode(",", $data['educationid']) . "'" : 'null';
+		$data['occupationid'] = (isset($data['occupationid'])) ? "'" . implode(",", $data['occupationid']) . "'" : 'null';
+		$data['incomeid'] = (isset($data['incomeid'])) ? "'" . implode(",", $data['incomeid']) . "'" : 'null';
+		$data['healthid'] = (isset($data['healthid'])) ? "'" . implode(",", $data['healthid']) . "'" : 'null';
+		$data['mobilityid'] = (isset($data['mobilityid'])) ? "'" . implode(",", $data['mobilityid']) . "'" : 'null';
+		$data['lookingforid'] = (isset($data['lookingforid'])) ? "'" . implode(",", $data['lookingforid']) . "'" : 'null';
+		$data['smokingid'] = (isset($data['smokingid'])) ? "'" . implode(",", $data['smokingid']) . "'" : 'null';
+		$data['drinkingid'] = (isset($data['drinkingid'])) ? "'" . implode(",", $data['drinkingid']) . "'" : 'null';
+		$data['appearanceid'] = (isset($data['appearanceid'])) ? "'" . implode(",", $data['appearanceid']) . "'" : 'null';
+		$data['bodytypeid'] = (isset($data['bodytypeid'])) ? "'" . implode(",", $data['bodytypeid']) . "'" : 'null';
+		$data['hairlengthid'] = (isset($data['hairlengthid'])) ? "'" . implode(",", $data['hairlengthid']) . "'" : 'null';
+		$data['haircolorid'] = (isset($data['haircolorid'])) ? "'" . implode(",", $data['haircolorid']) . "'" : 'null';
+		$data['eyescolorid'] = (isset($data['eyescolorid'])) ? "'" . implode(",", $data['eyescolorid']) . "'" : 'null';
+	
+		$data['characteristicid'] = (isset($data['characteristicid'])) ? implode(",", $data['characteristicid']) : 'null';
+		$data['hobbyid'] = (isset($data['hobbyid'])) ? "'" . implode(",", $data['hobbyid']) . "'" : 'null';
+		$data['sexprefid'] = (isset($data['sexprefid'])) ? "'" . implode(",", $data['sexprefid']) . "'" : 'null';
+	
+	
+		$data['paymentStartDateFrom'] = (!empty($data['paymentStartDateFrom'])) ? "'" . $data['paymentStartDateFrom'] . "'" : 'null';
+		$data['paymentStartDateTo'] = (!empty($data['paymentStartDateTo'])) ? "'" . $data['paymentStartDateTo'] . "'" : 'null';
+		$data['paymentEndDateFrom'] = (!empty($data['paymentEndDateFrom'])) ? "'" . $data['paymentEndDateFrom'] . "'" : 'null';
+		$data['paymentEndDateTo'] = (!empty($data['paymentEndDateTo'])) ? "'" . $data['paymentEndDateTo'] . "'" : 'null';
+		$data['registrationDateFrom'] = (!empty($data['registrationDateFrom'])) ? "'" . $data['registrationDateFrom'] . "'" : 'null';
+		$data['registrationDateTo'] = (!empty($data['registrationDateTo'])) ? "'" . $data['registrationDateTo'] . "'" : 'null';
+		$data['lastVisitDateFrom'] = (!empty($data['lastVisitDateFrom'])) ? "'" . $data['lastVisitDateFrom'] . "'" : 'null';
+		$data['lastVisitDateTo'] = (!empty($data['lastVisitDateTo'])) ? "'" . $data['lastVisitDateTo'] . "'" : 'null';
+	
+	
+		$data['useremail'] = (!empty($data['useremail'])) ? "'" . $data['useremail'] . "'" : 'null';
+		$data['usernic'] = (!empty($data['usernic'])) ? "'" . $data['usernic'] . "'" : 'null';
+		$data['userfname'] = (!empty($data['userfname'])) ? "'" . $data['userfname'] . "'" : 'null';
+		$data['userlname'] = (!empty($data['userlname'])) ? "'" . $data['userlname'] . "'" : 'null';
+	
+		$data['userBirthdayFrom'] = (!empty($data['userBirthdayFrom'])) ? "'" . $data['userBirthdayFrom'] . "'" : 'null';
+		$data['userBirthdayTo'] = (!empty($data['userBirthdayTo'])) ? "'" . $data['userBirthdayTo'] . "'" : 'null';
+	
+	
+		$data['countrycode'] = ($data['countrycode'] != '--' ) ? "'" . $data['countrycode'] . "'" : 'null';
+		$data = str_replace('_null', 'null', $data);
+	
+		$sql .=  $userid . ",";
+		$sql .=  $data['usernotactivated'] . ",";
+		$sql .=  $data['usernotcomlitedregistration'] . ",";
+		$sql .=  $data['usernotapproved'] . ",";
+		$sql .=  $data['userfrozen'] . ",";
+		$sql .=  $data['userblocked'] . ","; //
+		$sql .=  "null" . ","; // front page list
+		$sql .=  "null" . ","; // show only images
+		$sql .=  $data['userPaying'] . ","; // paing
+		$sql .=  "null" . ","; // prepaid points
+		$sql .=  $data['paymentStartDateFrom'] . ","; // paid start 1
+		$sql .=  $data['paymentStartDateTo'] . ","; // paid start 2
+		$sql .=  $data['paymentEndDateFrom'] . ","; // paid end 1
+		$sql .=  $data['paymentEndDateTo'] . ","; // paid end 2
+		$sql .=  $data['registrationDateFrom'] . ","; // Reg date 1
+		$sql .=  $data['registrationDateTo'] . ","; // Reg date 2
+		$sql .=  $data['lastVisitDateFrom'] . ","; // Last Visit 1
+		$sql .=  $data['lastVisitDateTo'] . ","; // Last Visit 2
+		$sql .=  $data['userBirthdayFrom'] . ","; // Birthday 1
+		$sql .=  $data['userBirthdayTo'] . ","; // Birthday 2
+		$sql .=  $data['useremail'] . ",";
+		$sql .=  $data['usernic'] . ",";
+				$sql .=  $data['userfname'] . ",";
+				$sql .=  $data['userlname'] . ",";
+				$sql .=  $data['usergender'] . ",";
+				$sql .=  "null" . ","; //Age1
+		$sql .=  "null" . ","; //Age2
+		$sql .=  $data['maritalstatusid'] . ",";
+		$sql .=  "null" . ","; //Children
+		$sql .=  "null" . ","; // Origin country
+		$sql .=  $data['languageid'] . ","; // Languages
+		$sql .=  $data['ethnicoriginid'] . ","; //Ethnic
+		$sql .=  $data['religionid'] . ","; //Religion
+		$sql .=  $data['educationid'] . ","; //Education
+		$sql .=  $data['occupationid'] . ","; //Occupation
+		$sql .=  $data['incomeid'] . ","; //Income
+		$sql .=  $data['healthid'] . ","; //Health
+		$sql .=  $data['mobilityid'] . ","; //Mobility
+		$sql .=  $data['lookingforid'] . ","; // Looking For
+				$sql .=  $data['smokingid'] . ","; // Smoking
+				$sql .=  $data['drinkingid'] . ","; // Drinking
+				$sql .=  $data['appearanceid'] . ","; // Appearance
+						$sql .=  "null" . ","; // Hight 1
+						$sql .=  "null" . ","; // Hight 2
+	
+						$sql .=  "null" . ","; // Weight 1
+						$sql .=  "null" . ","; // Weight 2
+						$sql .=  $data['bodytypeid'] . ","; // Body Type
+						$sql .=  $data['hairlengthid'] . ","; // Hair Length
+						$sql .=  $data['haircolorid'] . ","; // Hair Color
+						$sql .=  $data['eyescolorid'] . ","; // Eyes Color
+						$sql .=  $data['characteristicid'] . ","; // Characteristic
+						$sql .=  $data['hobbyid'] . ","; // Hobbies
+						$sql .=  $data['sexprefid'] . ","; // Sex Pref
+						$sql .=  "null" . ","; // User IP
+	
+						$sql .=  "null" . ","; // Affiliate Id
+						$sql .=  $data['countrycode'] . ","; // Country Code
+		$sql .=  "null" . ","; // Region Code
+		$sql .=  "null" . ","; // City Name
+		$sql .=  "null" . ","; // longitude_1
+		$sql .=  "null" . ","; // latitude_1
+		$sql .=  "null" . ","; // latitude_h
+		$sql .=  "null" . ","; // longitude_h
+			$sql .=  20 . ","; // Per Page
+			$sql .=  $page . ","; // page
+	
+		$sql .= ' "AND" ';
+	
+				
+			$this->connection = $this->getEntityManager()->getConnection();
+			$stmt = $this->connection->query($sql);
+			$stmt->execute();
+	
+			//$users = array();
+			$users['itemsNumber'] = 0;
+			$users['items'] = array();
+	
+			$result = $stmt->fetchAll();
+	
+			$users['itemsNumber'] = $result[0][""];
+				
+			$stmt->nextRowset();
+	
+			$result = $stmt->fetchAll();
+	
+			if(count($result)){
+				foreach ($result as $row){
+					$user = $this->find($row['userId']);
+					$users['items'][] = $this->completeUser($user, $geoip);
+				}
+			}
+	
+			return $users;
+	}
 	
 	public function test(){
 		$sql = "EXEC admin_users_search_sa ";

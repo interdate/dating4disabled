@@ -127,8 +127,19 @@
 		{% set payingActiveLabel = '' %}
 	{% endif %}
 	
+	{% if app.request.get('_route') == 'admin_users_photos_unapproved' %}
+		{% set pageTitle = 'Unapproved Photos' %}
+		{% set pageIcon = 'hide' %}		
+		{% set unapprovedImagesActiveItem = 'active' %}
+		{% set unapprovedImagesActiveLabel = 'blue' %}		
+	{% else %}
+		{% set unapprovedImagesActiveItem = '' %}
+		{% set unapprovedImagesActiveLabel = '' %}
+	{% endif %}
+	
 
 <input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
+<input type="hidden" id="page" value="{{ page }}" />
 
 
 <h2 class="ui header floated left">
@@ -143,9 +154,9 @@
 		    <i class="bar chart basic icon"></i>
 		    Statistics
 		</a>
-	    <a class="item blue">
+	    <a class="item blue" href="{{path('admin_users_reports')}}">
 		    <i class="ordered list icon"></i>
-		    Reports
+		    Flagged Reports
 		</a>
 	    <a class="item blue" href="{{path('admin_users_search')}}">
 		    <i class="search icon"></i>
@@ -160,15 +171,11 @@
 	
 	<div class="ui active tab segment" id="statWraper">
 	
-		<h3 class="ui header floated left">			
-			<i class="{{pageIcon}} icon circular small"></i>
-			{{pageTitle}}
-		</h3>
-		
-		<div class="ui small circular label">{{ users.getTotalItemCount }}</div>	
-		
-				
-		{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
+		{% if app.request.get('_route') == 'admin_users_photos_unapproved' %}
+			{{ include ('D4DAppBundle:Backend/Users:unapprovedPhotos.twig.html') }}
+		{% else %}
+			{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
+		{% endif %}
 		
 				
 		<div id="getSideBar">
@@ -254,10 +261,10 @@
 			
 			
 			
-			<a class="item">
-				<div class="ui small label"></div>
+			<a class="item {{unapprovedImagesActiveItem}}" href="/admin/users/photos/unapproved">
+				<div class="ui small label {{unapprovedImagesActiveLabel}}"></div>
 			    <i class="hide icon"></i>			    
-			    Unapproved Images
+			    Unapproved Photos
 			</a>
 			
 							

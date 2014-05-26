@@ -2,46 +2,38 @@
 							
 							<div class="ui pagination menu" id="searchPagination">
 							        {% if pagination.page > 1 %}
-							        	 <a class="icon item first" href="{{ path(pagination.route, pagination.route_params|merge({'page': 1})) }}">
+							        	 <a class="icon item first">
 							        	 	<i class="double angle left icon"></i>
+							        	 	<span class="hidden">1</span>
 										 </a> 
 										 
-										 <a class="icon item previous" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.page-1})) }}">
+										 <a class="icon item previous">
 											<i class="left arrow icon"></i>
+											<span class="hidden">{{ pagination.page-1 }}</span>
 										 </a>						
 							        {% endif %}
 							        							        
 							        {# display p numbers only from p-4 to p+4 but don't go < 1 or > pages_count #}
 							        
-							        {% for p in range(max(pagination.page - 4, 1), min(pagination.page + 4, pagination.pages_count)) %}
-							            <a class="{% if p == pagination.page %} active current blue {% endif %} item page" >
-										    {{ p }}
-										</a>
-							        {% endfor %}
-							        
-							        
-							        
+							        {% for p in range(max(pagination.page - 5, 1), min(pagination.page + 5, pagination.pages_count)) %}
+							            <a class="{% if p == pagination.page %} active current blue {% endif %} item page">{{ p }}</a>							            
+							        {% endfor %}							        
 							        
 							        {% if pagination.page < pagination.pages_count %}							        
-							        	 <a class="icon item next" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.page+1})) }}">
+							        	 <a class="icon item next">
 											<i class="right arrow icon"></i>
+											<span class="hidden">{{ pagination.page+1 }}</span>
 										 </a>
 										 
-										 <a class="icon item last" href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.pages_count})) }}">
+										 <a class="icon item last">
 											<i class="double angle right icon"></i>
+											<span class="hidden">{{ pagination.pages_count }}</span>
 										 </a>    
 							        {% endif %}
 							    
 							</div>
 							
-							
-							
-							
-							
-							
-							
-							
-							<form id="paginationForm" action="{{path('admin_users_search')}}" method="post">							
+							<form id="searchDataForm" action="{{path('admin_users_search')}}" method="post">							
 								{% if searchData is defined %}
 									{% for key,value in searchData %}
 										{% if searchData[key] is iterable %}						
@@ -54,9 +46,6 @@
 									{% endfor %}
 								{% endif %}
 								
-								
 								<input type="hidden" name="page" value="" id="requestedPage">
 															
 							</form>
-							
-							
