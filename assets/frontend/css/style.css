@@ -986,7 +986,7 @@ font-weight:bold
     padding-bottom: 1px;
 }
 
-.signup_warp {
+.signup_warp, .wrap {
     width: 90%;
     margin: 10px auto;
     position: relative;

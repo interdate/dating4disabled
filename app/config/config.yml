@@ -31,9 +31,9 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
       resources:
-          - "D4DAppBundle:Common/Form:form_div_layout.html.twig"
-          - "CCDNComponentBBCodeBundle:Form:fields.html.twig"
           - "D4DAppBundle:Common/Form:frontend_form_layout.html.twig"
+          - "D4DAppBundle:Common/Form:form_div_layout.html.twig"
+          - "CCDNComponentBBCodeBundle:Form:fields.html.twig"          
 
 # Assetic Configuration
 assetic:

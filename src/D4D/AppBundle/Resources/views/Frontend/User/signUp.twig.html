@@ -1,6 +1,6 @@
 {% extends "D4DAppBundle::frontend.layout.twig.html" %} 
 
-{% if form is defined %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+{% if form is defined and form %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
 
 {% block content %}
 <div id="content-body">
@@ -14,6 +14,7 @@
                         <div class="message_rows"></div>
                         <div class="signup_warp signups1">
                             <div class="ssp_width">
+                                {% if form %}
                                 <div class="field_text" style="margin-bottom:25px; font-weight:bold">
                                     Join - Step <span class="error">{{ step }}</span> of 2
                                 </div>
@@ -21,13 +22,25 @@
                                 <div class="field_text" style="margin-bottom:25px; font-size:20px; color:#dd4102">
                                     {% if step == 1 %}General Information{% elseif step == 2 %}Personal Details{% endif %}
                                 </div>
-                                <input type="hidden" value="{{ path('user_check') }}" id="checkRoute"/>
+                                <input type="hidden" value="{{ path('user_check_fields') }}" id="checkRoute"/>
+                                <input type="hidden" value="{{ path('user_load_regions') }}" id="chooseRoute"/>
                                 {{ form_start(form, {'attr': {'id': 'signUp_form', 'class': 'signform_01'}}) }} 
                                     <input type='hidden' value="{{ step }}" name="step" />
+                                    <input type='hidden' value="{{ userId }}" name="userId" />
                                     {% if step == 1 %}
                                         <div class="hidden">
                                             {{ form_widget(form.role) }}
                                         </div>
+                                        <div class="hidden field_text">
+                                            {{ form_widget(form.regioncode) }}
+                                        </div>
+                                        <div class="hidden field_text">
+                                            {{ form_widget(form.cityname) }}
+                                        </div>
+                                        <div class="hidden field_text">
+                                            {{ form_widget(form.usercityname) }}
+                                        </div>
+                                        
                                         {{ form_errors(form.useremail) }}
                                         {{ form_widget(form.useremail) }}
 
@@ -97,17 +110,22 @@
                                             </div>
                                         </div>                                         
 
-                                    {% elseif step == 2 %}                                        
-                                        {% for field in form %}
+                                    {% elseif step == 2 %}                                          
+                                        {% for field in form %}                                                                                        
                                             {{ form_row(field) }}
                                         {% endfor %}
                                     {% endif %}
                                     <div class="field_text" style="width:480px;">
-                                        <div id="signform_sub" class="signup-submit" style="margin-top:80px;" onclick="afterSubmit($('#signUp_submit'));"></div>
+                                        <div id="signform_sub" class="signup-submit" style="margin-top:80px;" onclick="{% if step == 1 %}afterSubmit($('#signUp_submit'));{% else %}$('#signUp_submit').click();{% endif %}"></div>
                                     </div>
                                     <div class="clear"></div>   
                                     <input style="display: none;" id="signUp_submit" type="submit" name="user(add)" value="add"/>
-                               {{ form_end(form) }} 
+                               {{ form_end(form) }}
+                               {% else %}
+                                    <div style="text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);color: #fff;font-size: 20px;background: #94ed90;text-align: center;padding: 10px 40px;border-radius: 18px;">
+                                       Congratulations! You have successfully completed the registration. Please activate your account for this Check the your mail.                                       
+                                    </div>
+                               {% endif %}
                             </div>
                         </div>
                     </div>
@@ -116,7 +134,7 @@
             </div>
         </div>
         
-        {{ include ('D4DAppBundle:Frontend:Common/sidebar_sineup.twig.html') }}
+        {{ include ('D4DAppBundle:Frontend:Common/sidebar_signUp.twig.html') }}
         
     </div>
 </div>

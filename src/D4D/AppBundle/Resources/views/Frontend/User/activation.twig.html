@@ -1,0 +1,42 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %} 
+
+{% block content %}
+<div id="content-body">
+    <div class="mwarp">
+        <div class="wide">
+            <div class="bg topblock">
+                <div class="top">&nbsp;</div>
+                <div class="middle">                    
+                    <div class="warpper full-col">
+                        <h2 class="iRegistration">Activation</h2>
+                        <div class="message_rows"></div>
+                        <div class="signup_warp signups1">
+                            <div class="ssp_width">
+                                {% if result %}
+                                    <div style="text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);color: #fff;font-size: 20px;background: #94ed90;text-align: center;padding: 10px 50px;border-radius: 18px;">
+                                       Congratulations! You have successfully activated your account. To log into your account, click
+                                       <a href="{{ path('user_login') }}">Login</a>
+                                    </div>
+                                {% else %}                                    
+                                    <div style="text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);color: #fff;font-size: 20px;background: #de4f15;text-align: center;padding: 10px;border-radius: 18px;">
+                                       Error: You entered invalid data</br>
+                                       Go to <a href="{{ path('homepage') }}">Home Page</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">&nbsp;</div>
+            </div>
+        </div>
+        
+        {{ include ('D4DAppBundle:Frontend:Common/sidebar_signUp.twig.html') }}
+        
+    </div>
+</div>
+
+
+
+
+{% endblock %}
