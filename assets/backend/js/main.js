@@ -1,7 +1,8 @@
 $(document).ready(
 	function(){
-		
+		$('.tabMenu .menu .item').tab();
 		//$('#searchForm .selDate option[selected="selected"]').val('_null');
+		
 		
 		curYear = new Date("Y");		
 		date1 = curYear - 90;
@@ -727,4 +728,4 @@ function setDatePeriods(objRef_l, objRef_h, period, dtformat) {
     	s = s.replace(/%f/g, dt.getMilliseconds());
     	return s;
     } 
-} 
+}

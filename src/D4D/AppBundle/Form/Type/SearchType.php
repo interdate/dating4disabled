@@ -39,8 +39,13 @@ class SearchType extends UsersType{
 		$builder->add('usergender', 'choice', array(
 			'label' => 'Gender',
 			'data' => '_null',
-			'choices' => array('_null' => "Doesn't matter", '0' => 'Male', '1' => 'Female'),
+			'choices' => array('_null' => "Doesn't matter", '0' => 'Male', '1' => 'Female', '2' => 'Other'),
 		));
+		
+		$builder->add('ageFrom', 'text', array('label' => 'Age (From)'));
+		$builder->add('ageTo', 'text', array('label' => 'Age (To)'));
+		
+		
 		
 		//$array = range(date('Y') - 18, date('Y') - 90);
 		
@@ -149,6 +154,12 @@ class SearchType extends UsersType{
     		'property' => 'maritalstatusname',
     	));
     	
+    	$builder->add('children', 'choice', array(
+    		'label' => 'Children',    		
+			'data' => '_null',
+			'choices' => $choices,)
+    	);
+    	
     	//Ethnicity
     	$builder->add('ethnicoriginid', 'entity', array(
     		'label' => 'Ethnicity',
@@ -208,7 +219,7 @@ class SearchType extends UsersType{
     	 
     	//Body type
     	$builder->add('bodytypeid', 'entity', array(
-    		'label' => 'Body Type',
+    		'label' => 'Body Style',
     		'multiple' => true,
     		'expanded' => true,
     		'class' => 'D4DAppBundle:Bodytype',
@@ -306,6 +317,11 @@ class SearchType extends UsersType{
     		'property' => 'mobilityname',
     	));
 		
+    	//With Pictures
+    	$builder->add('withPhotos', 'checkbox', array(
+    		'label' => 'Only members with photos',
+    	));
+    	
 		
 	}
 	

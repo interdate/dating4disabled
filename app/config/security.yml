@@ -37,8 +37,22 @@ security:
             logout:
                 path:   /user/logout
                 target: /user/login
+                
+        forum_area:
+            context: my_context            
+            pattern:   ^/forum
+            anonymous: ~
+            form_login:
+                login_path: user_login
+                check_path: user_login_check
+                default_target_path: ccdn_homepage
+            logout:
+                path:   /user/logout
+                target: /user/login
+                
     access_control:
         - { path: ^/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
-        - { path: ^/user/home, roles: ROLE_USER }
-        - { path: ^/admin, roles: ROLE_ADMIN } 
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user, roles: ROLE_USER }        
+        - { path: ^/admin, roles: ROLE_ADMIN }        

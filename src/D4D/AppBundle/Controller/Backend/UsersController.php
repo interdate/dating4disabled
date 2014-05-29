@@ -107,8 +107,8 @@ class UsersController extends Controller{
 	    		'route_params' => array(),
     		)	
     	));
-    }
-    
+    }        
+
     public function profileAction($userId){
     	$isAjax = $this->getRequest()->isXmlHttpRequest();
     	if($isAjax){    		
@@ -140,7 +140,7 @@ class UsersController extends Controller{
     		array('imgid' => 'ASC')
     	);
     	
-    	$active = ($active == 0) ? $photos[0]->getImgid() : $active;
+    	$active = ($active == 0) ? $imgId = isset($photos[0]) ? $photos[0]->getImgid() : 0 : $active;
     	
     	return $this->render('D4DAppBundle:Backend/Users:photos.twig.html', array(
     		'photos' => $photos,
@@ -255,7 +255,7 @@ class UsersController extends Controller{
     	 
     	$response->send();
     }
-    
+
     public function uploadPhotoAction($userId){
     	 
     	$request = $this->get('request');
@@ -285,6 +285,7 @@ class UsersController extends Controller{
     	
     	$this->sendResponse("success");
     	die;
+
     }
     
 }

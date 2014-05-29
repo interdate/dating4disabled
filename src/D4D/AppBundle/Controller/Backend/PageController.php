@@ -16,29 +16,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use D4D\AppBundle\Entity\Users;
 use D4D\AppBundle\Form\Type\LangDyncpagesType;
+use D4D\AppBundle\Form\Type\TemplatesType;
 use D4D\AppBundle\Entity\LangDyncpages;
 
 
 class PageController extends Controller{
     
-    public function indexAction(){
+    public function indexAction($type = 'page'){
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository('D4DAppBundle:LangDyncpages');
         
-        $pages = $repository->findAllPagination($this);
-        $page = $this->get('request')->query->get('page', 1);
+        $parameters = $repository->getIndexParameters($type);
+        $parameters['pagination'] = $repository->findAllPagination($this, $type);
+        $parameters['page'] = $this->get('request')->query->get('page', 1);
         
-        return $this->render('D4DAppBundle:Backend/Page:index.twig.html', array('pagination' => $pages, 'page' => $page));
+        return $this->render('D4DAppBundle:Backend/Page:index.twig.html', $parameters);
     }
     
 
-    public function formAction($id = 0, $page = 1){
+    public function formAction($id = 0, $page = 1, $type = 'page'){
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository('D4DAppBundle:LangDyncpages');  
         
-        $parameters = $repository->getFormParameters($id, $page, $this->get('router'));
-        $pages = ($id > 0) ? $repository->find($id) : new LangDyncpages();        
-        $form = $this->createForm(new LangDyncpagesType(), $pages);
+        $parameters = $repository->getFormParameters($id, $page, $this->get('router'), $type);
+        $pages = ($id > 0) ? $repository->find($id) : new LangDyncpages();
+        $formType = ($type == 'page') ? new LangDyncpagesType() : new TemplatesType();
+        $form = $this->createForm($formType, $pages);
         $request = $this->get('request');
         
         if ($request->isMethod('POST')) {                         
@@ -55,7 +58,7 @@ class PageController extends Controller{
         return $this->render('D4DAppBundle:Backend/Page:formPage.twig.html', $parameters);
     }
 
-    public function deleteAction($id = 0, $page = 1){
+    public function deleteAction($id = 0, $page = 1, $type = 'page'){
         
         if($id>0){
             $em = $this->getDoctrine()->getManager();
@@ -67,8 +70,8 @@ class PageController extends Controller{
                 $em->flush();
             }
         }
-        
-        return $this->redirect($this->generateUrl('admin_pages',$parameters));
+        $url = ($type == 'page') ? 'admin_pages' : 'admin_templates';
+        return $this->redirect($this->generateUrl($url,$parameters));
     }
     
 }

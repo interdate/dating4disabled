@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/assets/frontend/css/style.css" />
 	
 	<!--[if !IE]><!-->
-	<link rel="stylesheet" type="text/css" href="css/checkbox.css" ></link>
+	<link rel="stylesheet" type="text/css" href="/assets/frontend/css/checkbox.css" ></link>
 	<!--<![endif]-->
 	
 	<!--[if IE 9]>
@@ -27,7 +27,8 @@
 
 {% block js %}
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script type="text/javascript" src="selectbox/jquery.selectBox.js"></script>    
+	<script type="text/javascript" src="/assets/frontend/selectbox/jquery.selectBox.js"></script> 
+        <script type="text/javascript" src="/assets/frontend/selectbox/main.js"></script>
 	<script type="text/javascript">
 	$(function () {
 		$('select').selectBox();
@@ -111,16 +112,16 @@
 					$('.pick-1 #gan_wom').removeClass("current");
 					$('.pick-1 #gan_man').addClass("current");	
 					}
-			    });		         
+			    });
 			});
 			</script>
 			
 			<script type="text/javascript">
 				$(function () {
-					$("#order_id").selectbox();		
+					/*$("#order_id").selectbox();		
 					$("#age_st").selectbox();
 					$("#age_en").selectbox();
-					$("#area").selectbox();
+					$("#area").selectbox();*/
 				});
 			</script> 
 	    </div>

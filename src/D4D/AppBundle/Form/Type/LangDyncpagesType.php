@@ -22,6 +22,7 @@ class LangDyncpagesType extends AbstractType{
     	$builder->add('pagename', 'text', array('label' => 'Name')); 
         $builder->add('pagetitle', 'text', array('label' => 'Title')); 
         $builder->add('pagebody', 'textarea', array('label' => 'Body','required' => false)); //,'error_bubbling'   => true
+        $builder->add('pagetype', 'hidden', array('data' => 'dyncpage'));
     }
        
     

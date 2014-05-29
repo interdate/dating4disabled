@@ -53,7 +53,7 @@ class UsersType extends AbstractType{
     	$builder->add('usergender', 'choice', array(
     		'label' => 'Gender',
     		'data' => 1,
-    		'choices' => array('0' => 'Male', '1' => 'Female'),
+    		'choices' => array('0' => 'Male', '1' => 'Female', '2' => 'Other'), 
     	));
     	
     	//Sexual Preference
@@ -153,7 +153,7 @@ class UsersType extends AbstractType{
     	
     	//Body type
     	$builder->add('bodytypeid', 'entity', array(
-    		'label' => 'Body Type',
+    		'label' => 'Body Style',
     		'multiple' => false,
     		'expanded' => false,
     		'class' => 'D4DAppBundle:Bodytype',

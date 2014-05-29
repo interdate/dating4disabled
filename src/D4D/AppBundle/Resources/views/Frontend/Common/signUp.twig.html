@@ -1,0 +1,127 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %} 
+
+{% if form is defined %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+
+{% block content %}
+<div id="content-body">
+    <div class="mwarp">
+        <div class="wide">
+            <div class="bg topblock">
+                <div class="top">&nbsp;</div>
+                <div class="middle">                    
+                    <div class="warpper full-col">
+                        <h2 class="iRegistration">Free Registration</h2>
+                        <div class="message_rows"></div>
+                        <div class="signup_warp signups1">
+                            <div class="ssp_width">
+                                <div class="field_text" style="margin-bottom:25px; font-weight:bold">
+                                    Join - Step <span class="error">{{ step }}</span> of 2
+                                </div>
+                                
+                                <div class="field_text" style="margin-bottom:25px; font-size:20px; color:#dd4102">
+                                    {% if step == 1 %}General Information{% elseif step == 2 %}Personal Details{% endif %}
+                                </div>
+                                <input type="hidden" value="{{ path('user_check') }}" id="checkRoute"/>
+                                {{ form_start(form, {'attr': {'id': 'signUp_form', 'class': 'signform_01'}}) }} 
+                                    <input type='hidden' value="{{ step }}" name="step" />
+                                    {% if step == 1 %}
+                                        <div class="hidden">
+                                            {{ form_widget(form.role) }}
+                                        </div>
+                                        {{ form_errors(form.useremail) }}
+                                        {{ form_widget(form.useremail) }}
+
+                                        
+                                        {{ form_widget(form.userpass) }}
+                                        {{ form_errors(form.userpass) }}
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.usernic) }}
+                                            {{ form_widget(form.usernic) }}
+                                            {{ form_errors(form.usernic) }}
+                                        </div>
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.usergender) }}
+                                            {{ form_widget(form.usergender) }}
+                                            {{ form_errors(form.usergender) }}
+                                            <div class="clear"></div>
+                                        </div>
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.sexprefid) }}
+                                            {{ form_widget(form.sexprefid) }}
+                                            {{ form_errors(form.sexprefid) }}
+                                            <div class="clear"></div>
+                                        </div>                                                                                
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.userbirthday) }}                                            
+                                            {{ form_widget(form.userbirthday.day, {'attr': {'class':'day'}}) }}
+                                            /
+                                            {{ form_widget(form.userbirthday.month, {'attr': {'class':'month'}}) }}
+                                            /
+                                            {{ form_widget(form.userbirthday.year, {'attr': {'class':'year'}}) }}
+                                            <div class="clear"></div>
+                                        </div>
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.countrycode) }}
+                                            {{ form_widget(form.countrycode) }}
+                                            {{ form_errors(form.countrycode) }}
+                                            <div class="clear"></div>
+                                        </div>
+                                        
+                                        <div class="field_text">
+                                            {{ form_label(form.zipcode) }}
+                                            {{ form_widget(form.zipcode) }}
+                                            {{ form_errors(form.zipcode) }}
+                                        </div>
+                                                                                
+                                        <div class="field_text">
+                                            {{ form_label(form.countryoforigincode) }}
+                                            {{ form_widget(form.countryoforigincode) }}
+                                            {{ form_errors(form.countryoforigincode) }}
+                                            <div class="clear"></div>
+                                        </div>
+                                        
+                                        <div class="field_check" style="display: block;">
+                                            <div class="checkselect agree">
+                                                <input id="agree" class="css-checkbox" type="checkbox" />
+                                                <label for="agree" class="css-label" style=" width:10px;"></label>
+                                                I confirm that I have read and agreed to the 
+                                                <a href="">
+                                                    Terms and Conditions of Service 
+                                                </a>
+                                                of membership at Dating4disabled.com.
+                                            </div>
+                                        </div>                                         
+
+                                    {% elseif step == 2 %}                                        
+                                        {% for field in form %}
+                                            {{ form_row(field) }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="field_text" style="width:480px;">
+                                        <div id="signform_sub" class="signup-submit" style="margin-top:80px;" onclick="afterSubmit($('#signUp_submit'));"></div>
+                                    </div>
+                                    <div class="clear"></div>   
+                                    <input style="display: none;" id="signUp_submit" type="submit" name="user(add)" value="add"/>
+                               {{ form_end(form) }} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">&nbsp;</div>
+            </div>
+        </div>
+        
+        {{ include ('D4DAppBundle:Frontend:Common/sidebar_sineup.twig.html') }}
+        
+    </div>
+</div>
+
+
+
+
+{% endblock %}

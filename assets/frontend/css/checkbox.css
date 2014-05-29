@@ -1,5 +1,5 @@
 @charset "utf-8";
-
+.left{float:left;}
 
 input[type=checkbox].css-checkbox {
 position: absolute;

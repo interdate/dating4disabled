@@ -67,7 +67,7 @@
             , self     = this;
 
         control
-            .width(select.outerWidth())
+            .width(select.outerWidth()+25)
             .addClass(select.attr('class'))
             .attr('title', select.attr('title') || '')
             .attr('tabindex', tabIndex)

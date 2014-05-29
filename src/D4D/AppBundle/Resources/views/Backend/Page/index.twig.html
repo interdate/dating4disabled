@@ -1,20 +1,21 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
-{% block users_statistics %}
+{% block content %}
     <h2 class="ui header floated left">
-      <i class="text file icon"></i>
-      Pages
+      <i class="{{ globalIcon }} icon"></i>
+      {{ topTitle }}
     </h2>
     <div class="clear"></div>
     <div class="tabSegments" id="pagesWraper">
 	<div class="ui active tab segment" >
             <h3 class="ui header floated left">
-                    <i class="book icon circular small"></i>
-                    Manage Pages
+                    <i class="{{ globalIcon }} icon circular small"></i>
+                    Manage {{ topTitle }}
             </h3>
-            <a class="right" href="/admin/pages/add"><div class="ui labeled icon button blue mini">
+                      
+            <a class="right" href="{{ path('admin_' ~ section ~ '_add') }}"><div class="ui labeled icon button blue mini">
                 <i class="add inverted sign icon"></i>
-                Add Page
+                Add {{ addButtonTitle }}
             </div></a>       
             <table class="ui small table">
                 <thead>
@@ -30,13 +31,13 @@
                     <tr>
                       <td>{{ pages.pageid }}</td>
                       <td>{{ pages.pagename }}</td>
-                      <td class="center">
-                          <a title="Edit" href="/admin/pages/edit/{{ pages.pageid }}/{{ page }}">
+                      <td class="center">                          
+                          <a title="Edit" href="{{ path('admin_' ~ section ~ '_edit', {'id': pages.pageid, 'page': page}) }}">
                               <div><i class="edit blue large icon link"></i></div>
                           </a>
                       </td>
                       <td class="center">
-                          <a title="Delete" onclick="if (!confirm('Are you sure?')) return false;" href="/admin/pages/delete/{{ pages.pageid }}/{{ page }}">
+                          <a title="Delete" onclick="if (!confirm('Are you sure?')) return false;" href="{{ path('admin_' ~ section ~ '_delete', {'id': pages.pageid, 'page': page}) }}">
                               <div><i class="trash blue large icon link"></i></div>
                           </a>
                       </td>
@@ -49,10 +50,10 @@
                         <div class="left">
                             {{ knp_pagination_render(pagination) }}
                         </div>
-                        <a class="right" href="/admin/pages/add">
+                        <a class="right" href="{{ path('admin_' ~ section ~ '_add') }}">
                             <div class="ui labeled icon button blue mini">
                                 <i class="add inverted sign icon"></i>
-                                Add Page
+                                Add {{ addButtonTitle }}
                             </div>
                         </a> 
                         </th>
