@@ -1,0 +1,7 @@
+{% if nick is defined %}
+    {% if nick %}
+        <span class="error {{ class }}">Available</span>
+    {% else %}
+        <span class="success {{ class }}">Not Available</span>
+    {% endif %}
+{% endif %}

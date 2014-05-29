@@ -9,7 +9,7 @@ use D4D\AppBundle\Form\Type\UsersType;
 
 class SignUpType extends UsersType{   
     
-    private $step1Fields = array('useremail','userpass','usernic','usergender','sexprefid','userbirthday','countrycode','zipcode','countryoforigincode','role');
+    private $step1Fields = array('useremail','userpass','usernic','usergender','sexprefid','userbirthday','countrycode','zipcode','countryoforigincode');
     
     private $role = 'ROLE_USER';
             
@@ -19,22 +19,19 @@ class SignUpType extends UsersType{
     }        
 
     public function buildForm(FormBuilderInterface $builder, array $options){
-        $rolesRepo = $this->doctrine->getRepository('D4DAppBundle:Roles');
-        $role = $rolesRepo->findOneByRole($this->role);
-        //var_dump($role);die;
-        $builder->add('role','entity',array(
-            "class" => "D4D\AppBundle\Entity\Roles",
-            'property' => 'role',
-            'empty_value'  => $role->getId(),
-            'label' => false,
-            //'attr'  => array('class' => 'hidden')
-        ));
-        
         if($this->step == 1){
-            //foreach ($builder as $field){
-            //var_dump($builder->get('children'));die;
-            //}
-            $builder->add('userNotComlitedRegistration', 'hidden', array('data' => 1));
+            $rolesRepo = $this->doctrine->getRepository('D4DAppBundle:Roles');
+            $role = $rolesRepo->findOneByRole($this->role);
+            $builder->add('role','entity',array(
+                "class" => "D4D\AppBundle\Entity\Roles",
+                'property' => 'role',
+                'empty_value'  => $role->getId(),
+                'label' => false,
+            ));
+            $builder->add('regioncode', 'hidden', array('data' => null));
+            $builder->add('cityname', 'hidden', array('data' => null));
+            $builder->add('usercityname', 'hidden', array('data' => null));
+            $builder->add('usernotcomlitedregistration', 'hidden', array('data' => 1));
             $builder->add('useremail', 'repeated', array(
                 'type'              => 'text',
                 'invalid_message'   => 'The E-mail fields must match.',
@@ -103,28 +100,34 @@ class SignUpType extends UsersType{
             
         }elseif($this->step == 2){
             
-            parent::buildForm($builder, $options);
+            parent::buildForm($builder, $options);            
             foreach ($this->step1Fields as $field){
                 //$func = 'get' . ucfirst($field);   
                 //$builder->add($field, 'hidden', array('data' => $this->user->$func()));
                 $builder->remove($field);
+            }            
+        }elseif(is_array($this->step)){
+            if(count($this->step['regions']) == 0 || count($this->step['cities']) == 0){
+                $builder->add('usercityname', 'text', array('label' => 'City'));
             }
-//            $builder->add('useremail', 'repeated', array(
-//                'type'              => 'text',
-//                'invalid_message'   => 'The E-mail fields must match.',
-//                'options'           => array('attr' => array('style' => 'display:none')),
-//                'required'          => true,
-//                'first_options'     => array('label' => ''),
-//                'second_options'    => array('label' => ''),
-//            ));
-//            $builder->add('userpass', 'repeated', array(
-//                'type'              => 'password',
-//                'invalid_message'   => 'The password fields must match.',
-//                'options'           => array('attr' => array('style' => 'display:none')),
-//                'required'          => true,
-//                'first_options'     => array('label' => ''),
-//                'second_options'    => array('label' => ''),
-//            ));
+            if($this->step['regions'] && count($this->step['regions'])>0){                
+                foreach($this->step['regions'] as $region){
+                    $regionsList[$region->getRegioncode()] = $region->getRegionname();
+                }
+                $builder->add('regioncode', 'choice', array(
+                    'label' => 'Regions',
+                    'choices' => $regionsList
+                ));
+            }
+            if($this->step['cities'] && count($this->step['cities'])>0){                
+                foreach($this->step['cities'] as $cities){
+                    $citiesList[$cities->getCityname()] = $cities->getCityname();
+                }
+                $builder->add('cityname', 'choice', array(
+                    'label' => 'Regions',
+                    'choices' => $citiesList
+                ));
+            }
         }
     }
     

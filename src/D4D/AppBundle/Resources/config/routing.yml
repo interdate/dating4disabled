@@ -33,9 +33,17 @@ user_sign_up:
     path: /sign_up
     defaults: { _controller: D4DAppBundle:Frontend\User:signUp }
     
-user_check:   
+user_check_fields:   
     path:     /sine_up/check
-    defaults: { _controller: D4DAppBundle:Frontend\User:check }
+    defaults: { _controller: D4DAppBundle:Frontend\User:checkFields }
+    
+user_load_regions:   
+    path:     /sine_up/load
+    defaults: { _controller: D4DAppBundle:Frontend\User:loadRegions }
+    
+user_activation:   
+    path:     /activation/{code}/{email}
+    defaults: { _controller: D4DAppBundle:Frontend\User:activation, code:false, email:false }
     
 
 

@@ -1,0 +1,13 @@
+{% if form is defined %}
+    {% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}
+    {% for field in form %} 
+        {% if field.vars.name != '_token' %}
+            <div class="field_text">
+                {{ form_label(field) }}
+                {{ form_widget(field) }}
+                <div class="clear"></div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+                                                                 

@@ -65,8 +65,8 @@ D4D\AppBundle\Entity\Users:
       - Length:
             min: 4
             minMessage: "Min 4 letters in Password"
-            max: 12
-            maxMessage: "Min 12 letters in Password"
+#            max: 12
+#            maxMessage: "Max 12 letters in Password"
     usernic:
     usergender:
     userfname:
