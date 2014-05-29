@@ -1,17 +1,17 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
 
-{% block content %}	
+
+{% block content %}
+
 	
 
 <input type="hidden" id="filter" value="{{ app.request.get('filter') }}" />
-
 
 <h2 class="ui header floated left">
   <i class="users icon "></i>
   Manage Users
 </h2>
-
 
 <div class="tabMenu">
 	<div class="ui pointing secondary demo menu floated right">
@@ -19,9 +19,9 @@
 		    <i class="bar chart basic icon"></i>
 		    Statistics
 		</a>
-	    <a class="item blue">
+	    <a class="item blue" href="{{path('admin_users_reports')}}">
 		    <i class="ordered list icon"></i>
-		    Reports
+		    Flagged Reports
 		</a>
 	    <a class="active item blue" href="{{path('admin_users_search')}}">
 		    <i class="search icon"></i>
@@ -369,6 +369,10 @@
 									<div class="field">
 				    					{{ form_label(form.usergender) }}							
 										{{ form_widget(form.usergender) }}
+										<br><br>
+										{{ form_label(form.children) }}							
+										{{ form_widget(form.children) }}
+										
 				    				</div>
 				    				
 				    				<div class="field selDate">
@@ -499,8 +503,7 @@
 					    		
 					    		{% set field = form.lookingforid %}					    		
 								{% set columnsNumber = 3 %}								
-					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
-					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
 					    								
 							</div>
 							
@@ -515,8 +518,7 @@
 					    		
 					    		{% set field = form.mobilityid %}
 								{% set columnsNumber = 2 %}
-					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}					    		
-					    		<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>					    		
+					    		{{ include ('D4DAppBundle:Backend/Users:multiple_choice_field.twig.html') }}
 							
 							</div>
 							
@@ -538,19 +540,22 @@
 			
 			<div class="clear"></div>
 			
-			{% if users|length %}
-			
-				<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>
-			
-				<h3 class="ui header floated left">			
-					<i class="users basic icon circular small"></i>
-					Search Results
-				</h3>
+			{% if users.items|length %}
 				
-				<div class="ui small circular label">{{usersNumber}}</div>				
-				{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
+				<div id="searchResults">			
+					<div class="ui horizontal icon divider"><i class="pin basic icon"></i></div>							
+					{{ include ('D4DAppBundle:Backend/Users:usersTable.twig.html') }}
+				</div>
 								
-			{% endif %}	
+			{% endif %}
+			
+			
+			<br /><br />
+			
+			<form action="{{ path('admin_users_upload_photo', {'userId':110872}) }}" enctype="multipart/form-data" method="post">			
+				<input type="file" name="file" >
+				<input type="submit" value="UPLOAD"> 
+			</form>	
 		
 	
 		

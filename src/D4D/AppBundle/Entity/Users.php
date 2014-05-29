@@ -374,6 +374,11 @@ class Users implements userInterface, \Serializable
      */
     private $age;
     
+    /**
+     * @var integer
+     */
+    private $unapprovedPhoto;
+    
     
     
     
@@ -2057,6 +2062,30 @@ class Users implements userInterface, \Serializable
     public function getAge()
     {
     	return $this->age;
+    }
+    
+    
+    /**
+    * Set unapprovedPhoto
+    *
+    * @param \D4D\AppBundle\Entity\Images $unapprovedPhoto
+    * @return Users
+    */
+    public function setUnapprovedPhoto(\D4D\AppBundle\Entity\Images $unapprovedPhoto)
+    {
+    	$this->unapprovedPhoto = $unapprovedPhoto;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get unapprovedPhoto
+     *
+     * @return \D4D\AppBundle\Entity\Images
+     */
+    public function getUnapprovedPhoto()
+    {
+    	return $this->unapprovedPhoto;
     }
     
     

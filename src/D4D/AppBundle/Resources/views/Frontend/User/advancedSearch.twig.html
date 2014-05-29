@@ -1,0 +1,429 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %}
+
+{% if form is defined %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+
+{% block content %}
+
+
+
+	<div id="content-body">
+        <div class="mwarp">
+            <div class="wide">
+                <div class="bg topblock">
+                    <div class="top">&nbsp;</div>
+                    <div class="middle">
+                        <div class="warpper full-col search">
+                            <h2 class="iSearch">Advanced Search</h2>
+                            
+           					<div class="signup_warp">
+           					
+           						<form action="/" id="advancedSeearchForm">
+           						
+	           						
+	           						<h3>General information</h3>
+	           						<br />   
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.usergender) }}	           						
+		           						{{ form_widget(form.usergender) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.ageFrom) }}
+		           						{{ form_widget(form.ageFrom) }}
+		           						
+		           						
+		           						{{ form_label(form.ageTo) }}
+		           						{{ form_widget(form.ageTo) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.countrycode) }}	           						
+		           						{{ form_widget(form.countrycode) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.sexprefid) }}	           						
+		           						{{ form_widget(form.sexprefid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						<h3>Background</h3>
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.maritalstatusid) }}	           						
+		           						{{ form_widget(form.maritalstatusid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.children) }}	           						
+		           						{{ form_widget(form.children) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.languageid) }}	           						
+		           						{{ form_widget(form.languageid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.ethnicoriginid) }}	           						
+		           						{{ form_widget(form.ethnicoriginid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.religionid) }}	           						
+		           						{{ form_widget(form.religionid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.educationid) }}	           						
+		           						{{ form_widget(form.educationid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.occupationid) }}	           						
+		           						{{ form_widget(form.occupationid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.incomeid) }}	           						
+		           						{{ form_widget(form.incomeid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						<h3>Appearance</h3>
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.appearanceid) }}	           						
+		           						{{ form_widget(form.appearanceid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.bodytypeid) }}	           						
+		           						{{ form_widget(form.bodytypeid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.hairlengthid) }}	           						
+		           						{{ form_widget(form.hairlengthid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.haircolorid) }}	           						
+		           						{{ form_widget(form.haircolorid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.eyescolorid) }}	           						
+		           						{{ form_widget(form.eyescolorid) }}
+	           						</div>
+	           						
+	           						
+	           						<br />
+	           						<h3>Personality And Interests</h3>
+	           						<br />
+	           						
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.smokingid) }}	           						
+		           						{{ form_widget(form.smokingid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.drinkingid) }}	           						
+		           						{{ form_widget(form.drinkingid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.lookingforid) }}	           						
+		           						{{ form_widget(form.lookingforid) }}
+	           						</div>
+	           						
+	           						
+	           						<br />
+	           						<h3>Disability Information</h3>
+	           						<br />
+	           						
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.healthid) }}	           						
+		           						{{ form_widget(form.healthid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.mobilityid) }}	           						
+		           						{{ form_widget(form.mobilityid) }}
+	           						</div>
+	           						
+	           						<br /><br />
+	           						
+	           						<div class="field_text">		           							           						
+		           						{{ form_widget(form.withPhotos) }}
+	           						</div>
+	           						
+	           						
+	           						
+	           						
+           						</form>
+           						
+           						
+           						                 
+                                                        
+	                            <div class="search_rows first">
+	                                <p>Showing 1 - 15 of 10384 results.</p>
+	                            </div>
+	                            <div class="search_rows">
+	                                <div class="search-nav">
+	                                    <ul>
+	                                        <li><a href="#">1</a></li>
+	                                        <li><a href="#">2</a></li>
+	                                        <li><a href="#">3</a></li>
+	                                        <li><a href="#">4</a></li>
+	                                        <li><a href="#">5</a></li>
+	                                        <li><a href="#">6</a></li>
+	                                        <li>&nbsp; | &nbsp; <a href="#">Next </a></li>
+	                                        <li>&nbsp; | &nbsp; <a href="#">Next Group</a></li>
+	                                    </ul>
+	                                </div>
+	                                <div class="member_tag">Paying Member</div>
+	                                <div class="display">Display By: <a href="#" class="listing">Listing</a></div>
+	                                <div class="clear"></div>
+	                            </div>
+	                            
+	                            <div class="member_list">
+	                                
+	                                <div class="lisiting-item">
+	                                    <div class="list-image">
+	                                        <div class="portrait">               
+	                                        <div class="por_name">
+	                                        <a href="#">
+	                                        <span>Sendi</span>
+	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
+	                                        </a>
+	                                        </div> 
+	                                        <img src="images/pics/thumb_1.jpg" height="144" width="112" />
+	                                        </div>
+	                                    </div>
+	                                    <div class="list-text">
+	                                        <h4>Sendi Mor</h4>
+	                                        <p>iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                        iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                       Texto Paper Company Tabaco K. Hawaiian...</p>
+	                                        <div class="list-links">
+	                                            <a href="#" class="profile">View Profile</a>
+	                                            <a href="#" class="message">Send Message</a>
+	                                            <a href="#" class="friend">Add Friend</a>
+	                                            <a href="#" class="chat">Chat</a>
+	                                        </div>
+	                                    </div>
+	                                    <div class="clear"></div>
+	                                </div>
+	
+	                            </div>
+	                            
+						        <div class="profile-listing-ex listingt">
+						            <div class="frow">
+						                <div class="profile-links">
+						                    <a href="#" class="message">Send Message</a>
+						                    <a href="#" class="chat">Chat</a>
+						                    <a href="#" class="favorites">Add to Favorites</a>
+						                    <a href="#" class="block">Block</a>
+						                </div>
+						                <div class="close">
+						                    <a href="#">Close</a>
+						                </div>
+						                <div class="clear"></div>
+						            </div>
+						            <div class="frow">
+						                <div class="pimages">
+						                    <div class="image-main">
+						                        <div class="ribbon">&nbsp;</div>
+						                        <img src="images/pics/main-prof.jpg" height="370" width="286" />
+						                    </div>
+						                    <div class="image-thumbs">
+						                        <img src="images/pics/thumb-prof.jpg" height="116" width="90" />
+						                        <img src="images/pics/thumb-prof.jpg" height="116" width="90" />
+						                        <img src="images/pics/thumb-prof.jpg" height="116" width="90" />
+						                    </div>
+						                    <div class="clear"></div>
+						                </div>
+						                <div class="pdesc">
+						                    <h1>Sendi Mor</h1>
+						                    <p>iento Cajas premium Cigarrillos 
+						                    Filtros elementosTabaco K. 
+						                    Hawaiian Sku iento Cajas 
+						                    premium Cigarrillos Filtros 
+						                    elementosTabaco K. Hawaiian 
+						                    Texto Paper Company Tabaco 
+						                    K. Hawaiian...
+						                    iento Cajas premium Cigarrillos 
+						                    Filtros elementosTabaco K. 
+						                    Hawaiian Skuiento Cajas 
+						                    premium Cigarrillos Filtros 
+						                    elementosTabaco K. Hawaiian 
+						                    iento Cajas premium Cigarrillos 
+						                    Filtros elementosTabaco K. 
+						                    Hawaiian Skuiento Cajas 
+						                    premium Cigarrillos Filtros 
+						                    elementosTabaco K. Hawaiian 
+						                    </p>
+						                </div>
+						                <div class="clear"></div>
+						            </div>
+						            <div class="frow">
+						                <div class="pcol">
+						                    <h2> General information </h2>
+						                    <ul>
+						                        <li>AdminD4Dcom (ID# 28461)</li>
+						                        <li><label>Gender </label>Female</li>
+						                        <li><label>Age  </label>Female</li>
+						                        <li><label>Country  </label>Female</li>
+						                        <li><label>Country Region </label>Female</li>
+						                        <li><label>Zodiac Sign </label>Female</li>
+						                        <li><label>Sexual Prefernce  </label>Female</li>
+						                    </ul>
+						                    <h2>  Physical appearance </h2>
+						                    <ul>
+						                        <li><label>Appearance </label>Female</li>
+						                        <li><label>Body Type </label>Female</li>
+						                        <li><label>Height  </label>Female</li>
+						                        <li><label>Weight  </label>Female</li>
+						                        <li><label>Hair color </label>Female</li>
+						                        <li><label>Hair style </label>Female</li>
+						                        <li><label>Eye color  </label>Female</li>
+						                    </ul>
+						                    <h2> Disability Information </h2>
+						                    <ul>
+						                        <li><label>My Life Challenge </label>I am not disabled</li>
+						                        <li><label>Mobility  </label>Independent </li>
+						                    </ul>
+						                </div>
+						                <div class="pcol">
+						                    <h2> Background </h2>
+						                    <ul>
+						                        <li><label>Relationshi Children </label>Female</li>
+						                        <li><label>I am looking for </label>Female</li>
+						                        <li><label>I speak  </label>Female</li>
+						                        <li><label>My Ethnicity </label>Female</li>
+						                        <li><label>My Religion </label>Female</li>
+						                        <li><label>My Education  </label>Female</li>
+						                        <li><label>Country I was born in</label>Female</li>
+						                        <li><label>My Annual Income</label>Female</li>
+						                        <li class="full"><label>Occupation</label>Administrative/Human Resources </li>
+						                    </ul>
+						                    <h2> Personality And Interests </h2>
+						                    <ul>
+						                        <li class="full"><label>My Personality </label>Easygoing/Flexible/Open-Minded, Friendly/Kind, Energy, Humorous/Witty, Self Confident</li>
+						                        <li class="full"><label>My Hobbies </label>Animal-related , Arts and Crafts , Collecting , Cooking , Music</li>
+						                        <li><label>Drinking Habits  </label>On occasion</li>
+						                        <li><label>Smoking habits   </label>Non-Smoker </li>
+						                    </ul>
+						                </div>
+						                <div class="clear"></div>
+						            </div>
+						            <div class="frow moreinfo">
+						                <p><strong>About Me</strong></p>
+						                <p>
+						                    I'm Merryl, the Dating4Disabled.com group administrator/moderator;
+						                    Contact me with questions, thoughts, suggestions. Read FAQ's, and 
+						                    safety rules and new member information. Tx ! 
+						                </p>
+						                <p><strong>Looking for</strong></p>
+						                <p>
+						                    II am the happily married administrator of Dating4Disabled.com and am not interested in dating.
+						                    Feel free to contact me with site questions/comments. 
+						                </p>
+						                <p><strong>Remarks:</strong></p>
+						                <textarea name="comments" rows="" cols=""> </textarea>
+						            </div>
+						        </div>
+						                            
+	                            <div class="member_list">
+	                                
+	                                <div class="lisiting-item">
+	                                    <div class="list-image">
+	                                        <div class="portrait">               
+	                                        <div class="por_name">
+	                                        <a href="#">
+	                                        <span>Sendi</span>
+	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
+	                                        </a>
+	                                        </div> 
+	                                        <img src="images/pics/thumb_1.jpg" height="144" width="112" />
+	                                        </div>
+	                                    </div>
+	                                    <div class="list-text">
+	                                        <h4>Sendi Mor</h4>
+	                                        <p>iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                        iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                       Texto Paper Company Tabaco K. Hawaiian...</p>
+	                                        <div class="list-links">
+	                                            <a href="#" class="profile">View Profile</a>
+	                                            <a href="#" class="message">Send Message</a>
+	                                            <a href="#" class="friend">Add Friend</a>
+	                                            <a href="#" class="chat">Chat</a>
+	                                        </div>
+	                                    </div>
+	                                    <div class="clear"></div>
+	                                </div>
+	                                <div class="lisiting-item">
+	                                    <div class="list-image">
+	                                        <div class="portrait">               
+	                                        <div class="por_name">
+	                                        <a href="#">
+	                                        <span>Sendi</span>
+	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
+	                                        </a>
+	                                        </div> 
+	                                        <img src="images/pics/thumb_1.jpg" height="144" width="112" />
+	                                        </div>
+	                                    </div>
+	                                    <div class="list-text">
+	                                        <h4>Sendi Mor</h4>
+	                                        <p>iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                        iento Cajas premium Cigarrillos Filtros elementosTabaco K. Hawaiian Sku
+	                                       Texto Paper Company Tabaco K. Hawaiian...</p>
+	                                        <div class="list-links">
+	                                            <a href="#" class="profile">View Profile</a>
+	                                            <a href="#" class="message">Send Message</a>
+	                                            <a href="#" class="friend">Add Friend</a>
+	                                            <a href="#" class="chat">Chat</a>
+	                                        </div>
+	                                    </div>
+	                                    <div class="clear"></div>
+	                                </div>
+	
+	                            </div>
+                            
+                            
+                    		</div>        
+                            
+                            <div class="pagination">
+                            <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
+                            <a href="#" class="more">&nbsp;</a>
+                            </div> 
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="bottom">&nbsp;</div>
+                </div>
+
+            </div>  
+
+			{{ include ('D4DAppBundle:Frontend:User/sidebar.twig.html') }}
+
+
+        </div>
+    </div>
+    
+    
+
+
+
+{% endblock %}
+
+

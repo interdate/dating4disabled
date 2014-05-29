@@ -46,26 +46,17 @@ class Images
     
     
     /**
-     * Image path
+     * Image ext
      *
-     * @var string
-     *
-     * @ORM\Column(type="text", length=255, nullable=false)
+     * @var string     
      */
-    protected $path;
+    protected $ext;
     
     
     /**
      * Image file
      *
-     * @var File
-     *
-     * @Assert\File(
-     *     maxSize = "5M",
-     *     mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff"},
-     *     maxSizeMessage = "The maxmimum allowed file size is 5MB.",
-     *     mimeTypesMessage = "Only the filetypes image are allowed."
-     * )
+     * @var File          
      */
     protected $file;
     
@@ -212,7 +203,8 @@ class Images
     	if (null !== $this->file) {
     		// do whatever you want to generate a unique name
     		$filename = sha1(uniqid(mt_rand(), true));
-    		$this->path = $filename.'.'.$this->file->guessExtension();
+    		//$this->ext = $filename.'.'.$this->file->guessExtension();
+    		$this->ext = $this->file->guessExtension();
     	}
     }
     
@@ -250,11 +242,12 @@ class Images
     	// target filename to move to
     	$this->file->move(
     			$this->getUploadRootDir(),
-    			$this->path
+    			//$this->ext
+    			$this->imgid . '.' .$this->ext
     	);
     
-    	// set the path property to the filename where you've saved the file
-    	//$this->path = $this->file->getClientOriginalName();
+    	// set the ext property to the filename where you've saved the file
+    	//$this->ext = $this->file->getClientOriginalName();
     
     	// clean up the file property as you won't need it anymore
     	$this->file = null;
@@ -262,26 +255,26 @@ class Images
     
     
     /**
-     * Set path
+     * Set ext
      *
-     * @param string $path
+     * @param string $ext
      * @return Image
      */
-    public function setPath($path)
+    public function setExt($ext)
     {
-    	$this->path = $path;
+    	$this->ext = $ext;
     
     	return $this;
     }
     
     /**
-     * Get path
+     * Get ext
      *
      * @return string
      */
-    public function getPath()
+    public function getExt()
     {
-    	return $this->path;
+    	return $this->ext;
     }
     
     
@@ -314,30 +307,30 @@ class Images
     
     public function getAbsolutePath()
     {
-    	return null === $this->path
+    	return null === $this->ext
     	? null
-    	: $this->getUploadRootDir().'/'.$this->path;
+    	: $this->getUploadRootDir() . '/' . $this->imgid . '.' . $this->ext;
     }
     
     public function getWebPath()
     {
-    	return null === $this->path
+    	return null === $this->ext
     	? null
-    	: $this->getUploadDir().'/'.$this->path;
+    	: $this->getUploadDir() . '/' . $this->imgid . '.' . $this->ext;
     }
     
     protected function getUploadRootDir()
     {
-    	// the absolute directory path where uploaded
+    	// the absolute directory ext where uploaded
     	// documents should be saved
-    	return __DIR__.'/../../../../uploads/'.$this->getUploadDir();
+    	return __DIR__.'/../../../..'.$this->getUploadDir();
     }
     
     protected function getUploadDir()
     {
     	// get rid of the __DIR__ so it doesn't screw up
     	// when displaying uploaded doc/image in the view.
-    	return 'userpics';
+    	return '/uploads/userpics';
     }
     
     

@@ -3,6 +3,7 @@
 namespace D4D\AppBundle\Entity;
 
 use Symfony\Component\Config\Definition\stringNode;
+
 class UsersSearch extends Users
 {
 	/**
@@ -54,6 +55,28 @@ class UsersSearch extends Users
 	 * @var string
 	 */
 	private $lastVisitDateTo;
+	
+	/**
+	 * @var string
+	 */
+	private $ageFrom;
+	
+	/**
+	 * @var string
+	 */
+	private $ageTo;
+	
+	/**
+	 * @var string
+	 */
+	private $children;
+	
+	/**
+	 * @var string
+	 */
+	private $withPhotos;
+	
+	
 	
 	
 	
@@ -298,6 +321,97 @@ class UsersSearch extends Users
 		return $this->lastVisitDateTo;
 	}
 	
+	/**
+	 * Set ageFrom
+	 *
+	 * @param string $ageFrom
+	 * @return UsersSearch
+	 */
+	public function setAgeFrom($ageFrom)
+	{
+		$this->ageFrom = $ageFrom;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get ageFrom
+	 *
+	 * @return string
+	 */
+	public function getAgeFrom()
+	{
+		return $this->ageFrom;
+	}
+	
+	/**
+	 * Set ageTo
+	 *
+	 * @param string $ageTo
+	 * @return UsersSearch
+	 */
+	public function setAgeTo($ageTo)
+	{
+		$this->ageTo = $ageTo;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get ageTo
+	 *
+	 * @return string
+	 */
+	public function getAgeTo()
+	{
+		return $this->ageTo;
+	}
+	
+	/**
+	 * Set children
+	 *
+	 * @param string $children
+	 * @return UsersSearch
+	 */
+	public function setChildren($children)
+	{
+		$this->children = $children;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get children
+	 *
+	 * @return string
+	 */
+	public function getChildren()
+	{
+		return $this->children;
+	}
+	
+	/**
+	 * Set withPhotos
+	 *
+	 * @param string $withPhotos
+	 * @return UsersSearch
+	 */
+	public function setWithPhotos($withPhotos)
+	{
+		$this->withPhotos = $withPhotos;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get withPhotos
+	 *
+	 * @return string
+	 */
+	public function getWithPhotos()
+	{
+		return $this->withPhotos;
+	}
 	
 	
 	

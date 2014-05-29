@@ -1,0 +1,70 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+
+{% block content %}
+
+<h2 class="ui header floated left">
+  <i class="users icon "></i>
+  Manage Users
+</h2>
+
+<div class="tabMenu">
+	<div class="ui pointing secondary demo menu floated right">
+	    <a class="item blue" href="{{path('admin_home')}}">
+		    <i class="bar chart basic icon"></i>
+		    Statistics
+		</a>
+	    <a class="active item blue" href="{{path('admin_users_reports')}}">
+		    <i class="ordered list icon"></i>
+		    Flagged Reports
+		</a>
+	    <a class="item blue" href="{{path('admin_users_search')}}">
+		    <i class="search icon"></i>
+		    Search
+		</a>
+	</div>
+</div>	
+
+<div class="clear"></div>
+
+<div class="tabSegments">	
+	<div class="ui active tab segment" id="flaggedReportsWraper">
+	
+		<h3 class="ui header floated left">			
+			<i class="ordered list icon circular small"></i>
+			Flagged Reports
+		</h3>
+				
+		<div class="clear"></div>
+		
+		{% for report in reports %}
+				
+			<div class="ui label">
+			
+				{% if (report.isstats) %}
+					{% set link = report.savedreportlink %}
+				{% else %}
+					{% set link = path('admin_users_search') ~ '?' ~ report.savedreportlink %}
+				{% endif %}
+			
+				<a href="{{ link }}">{{ report.savedreportname }}</a>				
+				<i class="delete icon" onclick="if(confirm('Unflag report?')){ window.location.href='{{ path('admin_users_report_delete', {id:report.savedreportid}) }}'}"></i>				
+			</div>
+			
+		
+		{% endfor %}
+		
+		
+		
+	
+	</div>	
+</div>
+
+
+
+
+
+
+
+{% endblock%}

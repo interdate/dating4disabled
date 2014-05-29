@@ -296,8 +296,12 @@ a{
 }
 
 
-#statWraper .label{
+#statWraper .label,  #searchResults .label{
 	margin-top: 0.5em;
+}
+
+#unapprovedPhotos .label{ 
+	margin-top: 0em;
 }
 
 #statSidebar .label{
@@ -602,6 +606,31 @@ form .ui.button{
 
 .forumUrl.right{margin: 5px 0;}
 
+#unapprovedPhotos .ui.segment{
+	margin-right: 25px;
+}
+
+.unapprovedPhoto{
+	width: 225px;	
+}
+
+.unapprovedPhoto img{
+	width: 100%;
+}
+
+#createReportForm{
+	width: 450px;
+	height: 165px;
+}
+
+#flaggedReportsWraper .ui.label{
+	margin-bottom: 15px;
+}
+
+#editReportWraper{
+	width:435px;
+}
+
 .item.subItem{width: 49%; float:left;}
 
 .field.sel label{line-height: 40px !important;}
@@ -609,3 +638,4 @@ form .ui.button{
 #globalWraper .ui.segment{margin: 0px;}
 
 #globalWraper .success{ padding: 0 20px; width: 90%;}
+

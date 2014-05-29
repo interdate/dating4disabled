@@ -15,17 +15,61 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use D4D\AppBundle\Entity\Users;
-use D4D\AppBundle\Entity\Images;
-use D4D\AppBundle\Entity\UsersSearch;
 use D4D\AppBundle\Entity\Adminsavedreports;
-
-use D4D\AppBundle\Form\Type\UsersType;
-use D4D\AppBundle\Form\Type\SearchType;
+use D4D\AppBundle\Form\Type\ReportsType;
 
 
 
-class UsersController extends Controller{
+
+
+class ReportsController extends Controller{
+	
+	
+	public function indexAction(){    	
+    	$reportsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Adminsavedreports');    	
+    	$reports = $reportsRepo->findAll();    	
+    	return $this->render('D4DAppBundle:Backend/Reports:index.twig.html', array(
+    		'reports' => $reports,    		
+    	));
+    } 
+    
+    public function editAction($reportId){
+    	$reportsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Adminsavedreports');
+    	$report = $reportsRepo->find($reportId);    	
+    	$form = $this->createForm(new ReportsType(), $report);
+    	
+    	$request = $this->get('request');
+
+    	if($request->isMethod('POST')) {
+    		$form->submit($request);
+    		$em = $this->getDoctrine()->getManager();
+    		$em->persist($report);
+    		$em->flush();    		
+    		return $this->redirect($this->generateUrl('admin_reports'));
+    	}
+    	
+    	return $this->render('D4DAppBundle:Backend/Reports:edit.twig.html', array(
+    		'report' => $report,
+    		'form' => $form->createView(),
+    	));
+    }
+    
+    public function deleteAction($reportId){    	
+    	$reportsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Adminsavedreports');
+    	$report = $reportsRepo->find($reportId);
+    	    	
+    	$em = $this->getDoctrine()->getManager();
+    	$em->remove($report);
+    	$em->flush();
+    	
+    	$reports = $reportsRepo->findAll();
+    	return $this->render('D4DAppBundle:Backend/Reports:index.twig.html', array(
+    		'reports' => $reports,
+    	));
+    	
+    	$reportsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Adminsavedreports');
+    	$report = $reportsRepo->find($reportId);
+    }
 	    
     public function statisticsAction(Request $request, $filter){
     	$page = $this->get('request')->query->get('page', 1);    	
@@ -107,8 +151,8 @@ class UsersController extends Controller{
 	    		'route_params' => array(),
     		)	
     	));
-    }        
-
+    }
+    
     public function profileAction($userId){
     	$isAjax = $this->getRequest()->isXmlHttpRequest();
     	if($isAjax){    		
@@ -132,19 +176,12 @@ class UsersController extends Controller{
     	}
     }    
     
-    public function photosAction($userId, $active){    	
+    public function photosAction($userId){    	
     	$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
     	$request = $this->get('request');    
-    	$photos = $photosRepo->findBy(
-    		array('userid' => $userId),
-    		array('imgid' => 'ASC')
-    	);
-    	
-    	$active = ($active == 0) ? $imgId = isset($photos[0]) ? $photos[0]->getImgid() : 0 : $active;
-    	
+    	$photos = $photosRepo->findByUserid($userId);
     	return $this->render('D4DAppBundle:Backend/Users:photos.twig.html', array(
-    		'photos' => $photos,
-    		'active' => $active,    		
+    		'photos' => $photos
     	));    	
     }
     
@@ -153,8 +190,7 @@ class UsersController extends Controller{
     	$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
     	$photo = $photosRepo->find($photoId);
     	$photosRepo->execute($action, $photo);
-    	$active = ($action == 'remove') ? 0 : $photo->getImgid();
-    	return $this->redirect($this->generateUrl('admin_users_photos', array( 'userId' => $photo->getUserid()->getUserid(), 'active' => $active )));
+    	return $this->redirect($this->generateUrl('admin_users_photos', array( 'userId' => $photo->getUserid()->getUserid() )));
     }
     
     public function unapprovedPhotosAction(Request $request){
@@ -231,7 +267,7 @@ class UsersController extends Controller{
     	die;
     }
     
-    public function deleteReportAction($id){
+    public function removeReportAction($id){
     	$reportsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Adminsavedreports');
     	$report = $reportsRepo->find($id);
     	$report->setIshomepage(false);
@@ -255,7 +291,7 @@ class UsersController extends Controller{
     	 
     	$response->send();
     }
-
+    
     public function uploadPhotoAction($userId){
     	 
     	$request = $this->get('request');
@@ -285,7 +321,6 @@ class UsersController extends Controller{
     	
     	$this->sendResponse("success");
     	die;
-
     }
     
 }

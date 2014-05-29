@@ -156,4 +156,47 @@ class UserController extends Controller{
         ));
     }
 
+    public function advancedSearchAction(){
+    	$user = new UsersSearch();
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
+    	$form = $this->createForm(new SearchType($user, $this->getDoctrine()), $user);
+    	$request = $this->get('request');
+    	
+    	$action = $request->query->get('action', false);
+    	$page = $request->query->get('page', 1);
+    	
+    	$users['itemsNumber'] = 0;
+    	$users['items'] = array();
+    	$searchData = false;
+    	
+    	$post = $request->request->all();
+    	$get = $request->query->all();
+    	
+    	if(isset($post['users']) or isset($get['users'])){
+    		$form->submit($request);
+    		$searchData = isset($post['users']) ? $post['users'] : $get['users'];
+    		$geoip = $this->get('maxmind.geoip');
+    		$page = isset($post['page']) ? $post['page'] : $page;
+    		$users = $usersRepo->search($searchData, $page, $geoip);
+    	}
+    	
+    	return $this->render('D4DAppBundle:Frontend/User:advancedSearch.twig.html', array(
+    		//'pageIcon' => "users basic",
+    		//'pageTitle' => "Search Results",
+    		
+    		'form' => $form->createView(),
+    		'users' => $users,
+    		'page' => $page,
+    		'searchData' => $searchData,
+    		'pagination' => array(
+    			'page' => $page,
+    			'route' => 'user_search_advanced',
+    			'pages_count' => ceil($users['itemsNumber'] / 20),
+    			'route_params' => array(),
+    		)
+    		
+    	));
+    	
+    }
+
 }

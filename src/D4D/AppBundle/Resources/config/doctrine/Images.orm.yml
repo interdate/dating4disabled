@@ -34,7 +34,11 @@ D4D\AppBundle\Entity\Images:
         homepage: 
             type: boolean
             nullable: true            
-            column: homepage    
+            column: homepage
+        ext: 
+            type: string
+            nullable: true            
+            column: ext        
     manyToOne:
         userid:
             targetEntity: Users

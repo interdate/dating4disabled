@@ -1,0 +1,67 @@
+{% extends "D4DAppBundle::backend.layout.twig.html" %}
+
+
+
+{% block content %}
+
+<div class="ui breadcrumb">
+	<a class="section" href="{{ path('admin_reports') }}">Reports</a>
+	<div class="divider"> / </div>
+	<div class="active section">Edit Report</div>
+</div>	
+
+<div class="clear"></div>
+
+<div class="tabSegments">	
+	<div class="ui active tab segment" id="reportsWraper">
+	
+		
+		
+		
+		<h3 class="ui header floated left">			
+			<i class="edit icon circular small"></i>
+			Edit Report
+		</h3>
+		<div class="clear"></div>
+		
+		<div id="editReportWraper">
+			<form action="{{ path('admin_reports_edit', {'reportId':report.savedreportid}) }}" method="post">		
+				<div class="ui form blue stacked segment">
+				
+					<div class="field">
+						{{ form_label(form.savedreportname) }}							
+						{{ form_widget(form.savedreportname) }}
+					</div>
+					
+					<div class="ui checkbox">												
+						{{ form_widget(form.ishomepage) }}
+						{{ form_label(form.ishomepage) }}
+					</div>
+					
+					<div class="clear"></div>
+					<br>
+					
+					<div class="ui labeled icon button blue small saveReport">
+						<i class="inverted save icon"></i>
+						Save
+					</div>
+									
+				</div>
+			</form>
+		</div>
+		
+		
+		
+		
+		
+	
+	</div>	
+</div>
+
+
+
+
+
+
+
+{% endblock%}

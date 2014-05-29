@@ -10,6 +10,7 @@ app_service_override_passwords:
     pattern:  /service/overridePasswords
     defaults: { _controller: D4DAppBundle:AppService:overridePasswords }
 
+
 homepage:
     path:     /home
     defaults: { _controller: D4DAppBundle:Frontend\Default:index }
@@ -47,6 +48,13 @@ user_activation:
 
 
 
+user_search_advanced:
+    path:     /user/search/advanced
+    defaults: { _controller: D4DAppBundle:Frontend\User:advancedSearch }
+
+
+
+
 admin_home:   
     path:     /admin/users/statistics/{filter}
     defaults: { _controller: D4DAppBundle:Backend\Users:statistics, filter:total} 
@@ -75,16 +83,53 @@ admin_users_profile:
 admin_users_search:   
     path:     /admin/users/search
     defaults: { _controller: D4DAppBundle:Backend\Users:search }
+    
+admin_users_photos_unapproved:   
+    path:     /admin/users/photos/unapproved
+    defaults: { _controller: D4DAppBundle:Backend\Users:unapprovedPhotos}        
 
 admin_users_photos:   
-    path:     /admin/users/photos/{userId}
-    defaults: { _controller: D4DAppBundle:Backend\Users:photos, userId:0 }
+    path:     /admin/users/photos/{userId}/{active}
+    defaults: { _controller: D4DAppBundle:Backend\Users:photos, userId:0, active:0 }
     
 admin_users_photo:   
-    path:     /admin/users/photos/{action}/{photoId}
+    path:     /admin/users/photo/{action}/{photoId}
     defaults: { _controller: D4DAppBundle:Backend\Users:photo }
+    
+admin_users_upload_photo:   
+    path:     /admin/users/{userId}/photo/upload
+    defaults: { _controller: D4DAppBundle:Backend\Users:uploadPhoto }
 
+admin_users_block_and_delete:   
+    path:     /admin/users/blockAndDelete
+    defaults: { _controller: D4DAppBundle:Backend\Users:blockAndDelete }
 
+admin_users_reports:
+    path:     /admin/users/reports
+    defaults: { _controller: D4DAppBundle:Backend\Users:reports }
+
+admin_users_report:
+    path:     /admin/users/report
+    defaults: { _controller: D4DAppBundle:Backend\Users:report }
+
+admin_users_report_delete:
+    path:     /admin/users/report/{id}/delete
+    defaults: { _controller: D4DAppBundle:Backend\Users:deleteReport }
+
+    
+
+    
+admin_reports:    
+    path:     /admin/reports
+    defaults: { _controller: D4DAppBundle:Backend\Reports:index }
+    
+admin_reports_edit:    
+    path:     /admin/reports/{reportId}
+    defaults: { _controller: D4DAppBundle:Backend\Reports:edit, reportId:0 }    
+
+admin_reports_delete:
+    path:     /admin/reports/{reportId}/delete
+    defaults: { _controller: D4DAppBundle:Backend\Reports:delete, reportId:0 }
 
 
 admin_faq:

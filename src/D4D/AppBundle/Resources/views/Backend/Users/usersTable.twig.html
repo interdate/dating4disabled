@@ -1,6 +1,13 @@
 		
 		<input type="hidden" id="profileRoute" value="{{ path('admin_users_profile') }}" />
-		<input type="hidden" id="photosRoute" value="{{ path('admin_users_photos') }}" />		
+		<input type="hidden" id="photosRoute" value="{{ path('admin_users_photos') }}" />
+		
+		<h3 class="ui header floated left">			
+			<i class="{{pageIcon}} icon circular small"></i>
+			{{pageTitle}}
+		</h3>
+		
+		<div class="ui small circular label">{{ users.itemsNumber }}</div>				
 		
 		<div class="right">
 			<div class="ui bottom pointing dropdown labeled icon button blue mini" id="usersActions">
@@ -59,6 +66,37 @@
 			
 		</div>
 		
+		
+		<div class="right">
+			<div class="ui labeled icon button blue mini" id="createReport" style="margin-right: 25px;" data-position="bottom center">
+				<i class="inverted ordered list icon"></i> 
+				Create Report
+			</div>
+		</div>
+		
+		<div id="reportCreationTemplate" class="hidden">
+			<form id="createReportForm" action="{{path('admin_users_report')}}" method="post">
+				<div class="ui form">					
+					<div class="field">
+						<label>Name</label>
+						<input type="text" name="name" value="">					 
+					</div>					
+					<div class="ui checkbox">						
+						<input type="checkbox" name="homepage" value="1">
+						<label>Flag Report</label>					 
+					</div>					
+					<input type="hidden" name="link" value="">					
+					<input type="hidden" name="stats" value="">					
+					<div class="clear"></div>										
+					<br>					
+					<div class="ui labeled icon button blue small create">
+						<i class="inverted file icon"></i>
+						Create
+					</div>						
+				</div>
+			</form>
+		</div>
+		
 		<table class="ui small table users">
 			<thead>
 			    <tr>
@@ -85,7 +123,7 @@
 		
 		  
 		  	<tbody>
-		  		{% for user in users %}
+		  		{% for user in users.items %}
 				<tr class="userRow">
 					<td>
 						<div class="ui checkbox">
@@ -213,9 +251,13 @@
 		 		<tr>
 		 			<th colspan="15">
 		 				{% if app.request.get('_route') == 'admin_users_search' %}
-		 					{{ include ('D4DAppBundle:Backend/Users:searchPagination.twig.html') }}
-		 				{% else %}
-		    				{{ knp_pagination_render(users) }}
+		 					{{ include ('D4DAppBundle:Backend/Users:searchPagination.twig.html') }}		 				
+		 				{% else %} 
+		 					{% if app.request.get('filter') == 'unapprovedPhotos' %}	
+		 						
+		 					{% else %}
+		    					{{ knp_pagination_render(users.items) }}
+		    				{% endif %}
 		    			{% endif %}	
 		 			</th>
 		 		</tr>
