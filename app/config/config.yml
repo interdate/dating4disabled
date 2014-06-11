@@ -94,4 +94,30 @@ knp_paginator:
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
-        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template    
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+
+liip_imagine:            
+    resolvers:
+       default:
+          web_path: ~              
+
+    filter_sets:
+        cache: ~
+        my_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [120, 90], mode: outbound }
+                        
+        my_thumb2:
+            quality: 75
+            filters:
+                thumbnail: { size: [100, 100], mode: inset }
+                
+        user_thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [116, 140], mode: inset }
+        
+gregwar_image: ~
+    

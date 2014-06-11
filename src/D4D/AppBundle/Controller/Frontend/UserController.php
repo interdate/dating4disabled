@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use D4D\AppBundle\Entity\Users;
-use D4D\AppBundle\Entity\UsersRepository;
+//use D4D\AppBundle\Entity\UsersRepository;
 
 use D4D\AppBundle\Entity\Images;
-use D4D\AppBundle\Entity\ImagesRepository;
+//use D4D\AppBundle\Entity\ImagesRepository;
 
 use D4D\AppBundle\Entity\UsersSearch;
 
@@ -115,7 +115,7 @@ class UserController extends Controller{
     }
     
     public function sendMailAction($user, $pass = '', $templates = array()){  
-        if(is_string($templates))$templates = array($templates);
+        if(is_string($templates)) $templates = array($templates);
         $templatesRepo = $this->getDoctrine()->getRepository('D4DAppBundle:LangDyncpages');
         $code = md5($user->getUseremail() . $user->getUsernic() . $user->getUserId());        
         $hostName = $this->getRequest()->getHost();
@@ -165,38 +165,77 @@ class UserController extends Controller{
     	$action = $request->query->get('action', false);
     	$page = $request->query->get('page', 1);
     	
+    	//$viewType = 0;
+    	
     	$users['itemsNumber'] = 0;
     	$users['items'] = array();
-    	$searchData = false;
+    	$searchSettings = false;
     	
     	$post = $request->request->all();
     	$get = $request->query->all();
     	
     	if(isset($post['users']) or isset($get['users'])){
     		$form->submit($request);
-    		$searchData = isset($post['users']) ? $post['users'] : $get['users'];
+    		$searchSettings = isset($post['users']) ? $post['users'] : $get['users'];
     		$geoip = $this->get('maxmind.geoip');
     		$page = isset($post['page']) ? $post['page'] : $page;
-    		$users = $usersRepo->search($searchData, $page, $geoip);
-    	}
-    	
-    	return $this->render('D4DAppBundle:Frontend/User:advancedSearch.twig.html', array(
-    		//'pageIcon' => "users basic",
-    		//'pageTitle' => "Search Results",
+    		$perPage = ($request->get('_route') == 'user_search_advanced') ? 20 : 66;
+    		$users = $usersRepo->search($searchSettings, $page, $geoip, $perPage);
+    		$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');	
     		
+    		foreach ($users['items'] as $item){    			
+    			$mainPhoto = $photosRepo->findOneBy(array(
+    				'userid' => $item->getUserid(),
+    				'imgmain' => true,    						
+    			));
+    			    			 
+    			if($mainPhoto instanceof Images && is_file($mainPhoto->getAbsolutePath())){
+    				$item->setMainPhoto( $mainPhoto );
+    			}
+    		}
+
+		}
+    	
+    	return $this->render('D4DAppBundle:Frontend/User:advancedSearch.twig.html', array(    	
     		'form' => $form->createView(),
     		'users' => $users,
     		'page' => $page,
-    		'searchData' => $searchData,
+    		'searchSettings' => $searchSettings,
+    		//'viewType' => $viewType,
     		'pagination' => array(
     			'page' => $page,
-    			'route' => 'user_search_advanced',
+    			'route' => $request->get('_route'),
     			'pages_count' => ceil($users['itemsNumber'] / 20),
     			'route_params' => array(),
-    		)
-    		
+    		)    		
     	));
     	
     }
+    
+    public function viewProfileAction(){
+    	$isAjax = $this->getRequest()->isXmlHttpRequest();
+    	if($isAjax){
+    		$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    		$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
+    		$request = $this->get('request');
+    		
+    		$userId = $request->query->get('userId');
+    		$user = $usersRepo->find($userId);
+    		    		
+    		$photos = $photosRepo->findBy(
+    			array('userid' => $userId),
+    			array('imgmain' => 'DESC', 'imgid' => 'ASC')
+    		);
+    		
+    		$user->setMainPhoto($photos[0]);    		
+    		
+    		return $this->render('D4DAppBundle:Frontend/User:viewProfile.twig.html', array(    			
+    			'user' => $user,
+    			'photos' => $photos,
+    		));
+    	}
+    }
+    
+    
 
 }

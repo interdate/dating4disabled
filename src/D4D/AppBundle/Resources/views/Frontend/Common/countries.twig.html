@@ -1,0 +1,5 @@
+<select name="users[countrycode]" class="area" id="area">
+	{% for country in countries %}
+		<option {% if loop.index == 1 %}selected="selected"{% endif %} value="{{ country.countryCode }}">{{ country.countryName|slice(0,20) }}</option>
+	{% endfor %}
+</select>

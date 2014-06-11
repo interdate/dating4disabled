@@ -28,26 +28,49 @@ use D4D\AppBundle\Form\Type\SearchType;
 class UsersController extends Controller{
 	    
     public function statisticsAction(Request $request, $filter){
-    	$page = $this->get('request')->query->get('page', 1);    	
-    	$action = $this->get('request')->query->get('action', false);    	
-    	$paginator  = $this->get('knp_paginator');
+    	//$page = $request->query->get('page', 1);
     	
-    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
-    	$post = $request->request->all();
+    	$action = $request->request->get('action', false);
+    	$usersIds = $request->request->get('usersIds', false);
+    	$page = $request->request->get('page', 1);
     	
-    	if($post){
-    		$usersRepo->execute($action, $post['usersIds']);
+    	
+    	//$usersIds =  (isset($post['usersIds'])) ? $post['usersIds'] : array();
+    	
+    	//$paginator  = $this->get('knp_paginator');
+    	
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');   	
+    	//$post = $request->request->all();
+    	//$page = isset($post['page']) ? $post['page'] : 1;
+    	
+    	//echo $page;
+    	//die;
+    	
+    	if($usersIds){
+    		$usersRepo->execute($action, $usersIds);
     	}
     	
     	$geoip = $this->get('maxmind.geoip');
     	$usersRepo->setFilter($filter);
-    	$users = $usersRepo->getUsers($paginator, $page, $geoip);    	
+    	
+    	$searchSettings = $usersRepo->getSearchSettings();
+    	$users = $usersRepo->search($searchSettings, $page, $geoip);
+    	
+    	//$users = $usersRepo->getUsers($paginator, $page, $geoip);    	
     	//$statistics = $usersRepo->getStatistics();
     	    	
     	return $this->render('D4DAppBundle:Backend/Users:statistics.twig.html', array(
     		'users' => $users, 
     		//'statistics' => $statistics,
-    		'page' => $page,    					
+    		'page' => $page,
+
+    		'searchSettings' => $searchSettings,
+    		'pagination' => array(
+    			'page' => $page,
+    			'route' => $request->get('_route'),
+    			'pages_count' => ceil($users['itemsNumber'] / 20),
+    			'route_params' => array(),
+    		)
     	));
     }
     
@@ -70,7 +93,7 @@ class UsersController extends Controller{
     	    	
     	$users['itemsNumber'] = 0;
     	$users['items'] = array(); 
-    	$searchData = false;
+    	$searchSettings = false;
     	
     	$post = $request->request->all();
     	$get = $request->query->all();
@@ -82,13 +105,13 @@ class UsersController extends Controller{
     			$usersRepo->execute($action, $post['usersIds']);
     		}
     		    		    		
-    		$searchData = isset($post['users']) ? $post['users'] : $get['users'];    		
+    		$searchSettings = isset($post['users']) ? $post['users'] : $get['users'];    		
     		$geoip = $this->get('maxmind.geoip');
     		$page = isset($post['page']) ? $post['page'] : $page;
-    		$users = $usersRepo->search($searchData, $page, $geoip);
+    		$users = $usersRepo->search($searchSettings, $page, $geoip);
     		
     		/*
-    		print_r($searchData);
+    		print_r($searchSettings);
     		die;
     		*/    		
     	}    	
@@ -99,10 +122,10 @@ class UsersController extends Controller{
     		'form' => $form->createView(),
     		'users' => $users,
     		'page' => $page,
-    		'searchData' => $searchData,    		
+    		'searchSettings' => $searchSettings,    		
     		'pagination' => array(    			
 	    		'page' => $page,
-	    		'route' => 'admin_users_search',
+	    		'route' => $request->get('_route'),
 	    		'pages_count' => ceil($users['itemsNumber'] / 20),
 	    		'route_params' => array(),
     		)	

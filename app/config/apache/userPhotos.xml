@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Directory "/Users/yuvalkatz/Sites/dating4disabled/uploads/userpics">
+	AllowOverride None
+	Allow from All
+</Directory>

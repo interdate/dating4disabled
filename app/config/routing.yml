@@ -8,3 +8,6 @@ CCDNForumForumBundle:
 ccdn_homepage:
     pattern: /forum
     defaults: { _controller: CCDNForumForumBundle:UserCategory:index, _locale: en, forumName: default }
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

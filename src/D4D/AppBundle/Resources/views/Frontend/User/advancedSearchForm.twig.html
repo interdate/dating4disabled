@@ -1,0 +1,164 @@
+  						
+           						{% if searchSettings %} <span id="show_sf">Show andvanced search form </span><br /><br />{% endif %}
+           					
+           						<form action="{{ app.request.uri }}" id="advancedSearchForm" method="post" {% if searchSettings %}class="hidden"{% endif %}>
+           							
+           							<input type="hidden" name="page" value="1" id="requestedPage">
+	           						
+	           						<h3>General information</h3>
+	           						<br />   
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.usergender) }}	           						
+		           						{{ form_widget(form.usergender) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.ageFrom) }}
+		           						{{ form_widget(form.ageFrom) }}
+		           						
+		           						
+		           						{{ form_label(form.ageTo) }}
+		           						{{ form_widget(form.ageTo) }}
+	           						</div>
+	           						
+	           						<div class="field_text searchCountryByCountry">
+		           						{{ form_label(form.countrycode) }}	           						
+		           						{{ form_widget(form.countrycode) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.sexprefid) }}	           						
+		           						{{ form_widget(form.sexprefid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						<h3>Background</h3>
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.maritalstatusid) }}	           						
+		           						{{ form_widget(form.maritalstatusid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.children) }}	           						
+		           						{{ form_widget(form.children) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.languageid) }}	           						
+		           						{{ form_widget(form.languageid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.ethnicoriginid) }}	           						
+		           						{{ form_widget(form.ethnicoriginid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.religionid) }}	           						
+		           						{{ form_widget(form.religionid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.educationid) }}	           						
+		           						{{ form_widget(form.educationid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.occupationid) }}	           						
+		           						{{ form_widget(form.occupationid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.incomeid) }}	           						
+		           						{{ form_widget(form.incomeid) }}
+	           						</div>
+	           						
+	           						<br />
+	           						<h3>Appearance</h3>
+	           						<br />
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.appearanceid) }}	           						
+		           						{{ form_widget(form.appearanceid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.bodytypeid) }}	           						
+		           						{{ form_widget(form.bodytypeid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.hairlengthid) }}	           						
+		           						{{ form_widget(form.hairlengthid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.haircolorid) }}	           						
+		           						{{ form_widget(form.haircolorid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.eyescolorid) }}	           						
+		           						{{ form_widget(form.eyescolorid) }}
+	           						</div>
+	           						
+	           						
+	           						<br />
+	           						<h3>Personality And Interests</h3>
+	           						<br />
+	           						
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.smokingid) }}	           						
+		           						{{ form_widget(form.smokingid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.drinkingid) }}	           						
+		           						{{ form_widget(form.drinkingid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.lookingforid) }}	           						
+		           						{{ form_widget(form.lookingforid) }}
+	           						</div>
+	           						
+	           						
+	           						<br />
+	           						<h3>Disability Information</h3>
+	           						<br />
+	           						
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.healthid) }}	           						
+		           						{{ form_widget(form.healthid) }}
+	           						</div>
+	           						
+	           						<div class="field_text">
+		           						{{ form_label(form.mobilityid) }}	           						
+		           						{{ form_widget(form.mobilityid) }}
+	           						</div>
+	           						
+	           						<br /><br />
+	           						
+	           						{#
+	           						<div class="field_text">		           							           						
+		           						{{ form_widget(form.withPhotos) }}
+	           						</div>	           						
+	           						<br />
+	           						#}
+	           						
+	           						<div class="field_text" style="width:300px;">
+                                        <div id="signform_sub" onclick="$(this).parents('form').submit();"></div>
+                                    </div>
+                                    
+                                    <br clear="both" />
+	           						
+           						</form>
+           						
+         

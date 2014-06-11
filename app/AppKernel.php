@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new CCDNComponent\BBCodeBundle\CCDNComponentBBCodeBundle(),
             //new CCDNComponent\BBCodeBundle\DependencyInjection\CCDNComponentBBCodeExtension(),
             new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
+        	new Liip\ImagineBundle\LiipImagineBundle(),
+        	new Gregwar\ImageBundle\GregwarImageBundle(),
             new D4D\AppBundle\D4DAppBundle(),        	
         );
 

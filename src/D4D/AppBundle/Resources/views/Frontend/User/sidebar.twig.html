@@ -1,78 +1,57 @@
-			<div class="sidebar">
-                <div class="bg info">
-                    <h3>Halow Sharon,</h3>
+				<div class="bg info">
+                    <h3>Hello, </h3>
                     <div class="field incoming"><span><strong>5</strong> new massages</span></div>
                     <div class="field users_online"><span><strong>242</strong> members on site</span></div>
                     <div class="field online_status"><span>Chat</span>  <img src="/assets/frontend/images/chat-on.png" height="38" width="70" /> </div>
                     
                     <div class="search">
-                       <form>
-                           <label>Search:</label>
+                       <form action="{{ path('user_search_advanced') }}" id="qs_form" method="post">
+                           <label>Gender:</label>
                            <div class="inputwarp">
+                                
+                                {#
+                               	<select name="users[usergender]" class="select selectBox">
+                               		<option value="_null">Doesn't matter</option>
+                               		<option value="0">Male</option>
+                               		<option value="1">Female</option>
+                               		<option value="2">Other</option>
+                               	</select>
+                               #}
+                              
+                                
                                 <div class="picker pick-1">
-                                    <div id="gan_wom" class="gen_picker current">Woman </div>
+                                    <div id="gan_wom" class="gen_picker current">Woman<input type="hidden" class="gender" value="1" /></div>
                                     <div class="select_switch man"> <div id="bpic">&nbsp;</div> </div>
-                                    <div id="gan_man" class="gen_picker">Man</div>
+                                    <div id="gan_man" class="gen_picker">Man<input type="hidden" class="gender" value="0" /></div>
+                                    <input type="hidden" name="users[usergender]" value="" id="qs_user_gender" />
                                 </div>
+                                
+                                
+                                
                                 <div class="clear"></div>
+                                
                            </div>
                            <div class="clear"></div>
                            <label>Age:</label>
                            <div class="inputwarp age_picker">
-                               <span style="margin-right: 16px;"><select name="age_st"  id="age_st"> <option selected="selected" value=""> 20 </option> </select></span>
+                           		<input type="text" id="users_ageFrom" name="users[ageFrom]" />
+                           		<input type="text" id="users_ageTo" name="users[ageTo]" />
+                               {#
+                               <span style="margin-right: 16px;">
+                               		<select name="age_st"  id="age_st"> <option selected="selected" value=""> 20 </option> </select>
+                               </span>
                                <select name="age_st" id="age_en"> <option selected="selected" value=""> 30 </option> </select></span>
+                               #}
                            </div>
                            <div class="clear"></div>
-                           <label>Search:</label>
+                           
                            <div class="inputwarp">
-                               <select name="area" class="area" id="area"> <option selected="selected" value=""> Israel </option> </select>
+                               {{ render(controller('D4DAppBundle:Common/AppService:fetchCountries')) }} 
                            </div>  
                            <div class="clear"></div>
-                           <a href="{{ path('user_search_advanced') }}">Advanced Search</a><input type="submit" value="" id="search-submit" />
+                           <a href="{{ path('user_search_advanced') }}">Advanced Search</a><input type="button" onclick="quickSearch();" value="" id="search-submit" />
                            <div class="clear"></div>
                        </form>
                    </div> 
                     
                 </div>
-                <div class="bg members">
-                    <h2 class="iMembers">New Members</h2>
-                    <div class="more_pics">
-                        <div class="portrait">               
-                        <div class="por_name">
-                        <a href="#">
-                        <span>Sendi</span>
-                        <span style="font-size:11px;">25, from Tel Aviv</span>
-                        </a>
-                        </div> 
-                            <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-                        </div>
-
-                        <div class="portrait">               
-                        <div class="por_name">
-                        <a href="#">
-                        <span>Sendi</span>
-                        <span style="font-size:11px;">25, from Tel Aviv</span>
-                        </a>
-                        </div> 
-                        <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-                        </div>
-
-                        <div class="portrait">               
-                        <div class="por_name">
-                        <a href="#">
-                        <span>Sendi</span>
-                        <span style="font-size:11px;">25, from Tel Aviv</span>
-                        </a>
-                        </div> 
-                        <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="sidebar-link">
-                    <img src="/assets/frontend/images/sidebar-link-google.png" height="78" width="235" />
-                </a>
-                <a href="#" class="sidebar-link">
-                    <img src="/assets/frontend/images/sidebar-link-apple.png" height="78" width="235" />
-                </a>
-            </div>
-            <div class="clear"></div>

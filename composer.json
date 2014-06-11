@@ -24,7 +24,9 @@
         "maxmind/geoip": "dev-master",
         "codeconsortium/ccdn-forum-bundle": "~2.0",
         "codeconsortium/ccdn-component-bb-code": "dev-master",
-        "codeconsortium/ccdn-component-bb-code-bundle": "dev-master"
+        "codeconsortium/ccdn-component-bb-code-bundle": "dev-master",
+        "liip/imagine-bundle": "dev-master",
+        "gregwar/image-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

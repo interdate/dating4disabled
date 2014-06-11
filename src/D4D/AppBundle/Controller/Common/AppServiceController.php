@@ -1,6 +1,6 @@
 <?php
 
-namespace D4D\AppBundle\Controller;
+namespace D4D\AppBundle\Controller\Common;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -129,11 +129,14 @@ class AppServiceController extends Controller
     	
     	die();
     	
-    }
+    }    
     
-    
-    
-    
-    
+    public function fetchCountriesAction(){
+    	 
+    	$countriesRepo = $this->getDoctrine()->getRepository('D4DAppBundle:LocCountries');
+    	$countries = $countriesRepo->findAll();
+    	
+    	return $this->render('D4DAppBundle:Frontend/Common:countries.twig.html', array('countries' => $countries));
+    }    
     
 }

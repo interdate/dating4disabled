@@ -47,22 +47,23 @@
 				</div>
 			</div>
 			
+			{#
 			<form action="#" id="usersIdsForm" method="post">
-				<input type="hidden" id="usersIds" name="usersIds[]" value="" />
 				
-				{% if searchData is defined %}
-					{% for key,value in searchData %}
-						{% if searchData[key] is iterable %}						
-							{% for key2,value2 in searchData[key] %}
-								<input type="hidden" class="searchData" name="users[{{ key }}][{{ key2 }}]" value="{{ value2 }}" />
+				{% if searchSettings is defined %}
+					{% for key,value in searchSettings %}
+						{% if searchSettings[key] is iterable %}						
+							{% for key2,value2 in searchSettings[key] %}
+								<input type="hidden" class="searchSettings" name="users[{{ key }}][{{ key2 }}]" value="{{ value2 }}" />
 							{% endfor %}
 						{% else %}
-							<input type="hidden" class="searchData" name="users[{{ key }}]" value="{{ value }}" />
+							<input type="hidden" class="searchSettings" name="users[{{ key }}]" value="{{ value }}" />
 						{% endif %}						
 					{% endfor %}
 				{% endif %}
 								
 			</form>
+			#}
 			
 		</div>
 		
@@ -250,7 +251,14 @@
 		 	<tfoot>
 		 		<tr>
 		 			<th colspan="15">
-		 				{% if app.request.get('_route') == 'admin_users_search' %}
+		 				{% if app.request.get('filter') != 'unapprovedPhotos' %}
+		 					{{ include ('D4DAppBundle:Backend/Users:searchPagination.twig.html') }}
+		    			{% endif %}	
+		    			
+		    			
+		    			
+		    			{#
+		    			{% if app.request.get('_route') == 'admin_users_search' %}
 		 					{{ include ('D4DAppBundle:Backend/Users:searchPagination.twig.html') }}		 				
 		 				{% else %} 
 		 					{% if app.request.get('filter') == 'unapprovedPhotos' %}	
@@ -259,6 +267,9 @@
 		    					{{ knp_pagination_render(users.items) }}
 		    				{% endif %}
 		    			{% endif %}	
+		    			
+		    			#}
+		    			
 		 			</th>
 		 		</tr>
 		 	</tfoot>		    

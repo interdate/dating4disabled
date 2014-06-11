@@ -379,6 +379,11 @@ class Users implements userInterface, \Serializable
      */
     private $unapprovedPhoto;
     
+    /**
+     * @var integer
+     */
+    private $mainPhoto;
+    
     
     
     
@@ -2086,6 +2091,29 @@ class Users implements userInterface, \Serializable
     public function getUnapprovedPhoto()
     {
     	return $this->unapprovedPhoto;
+    }
+    
+    
+    /**
+     * Set mainPhoto
+     *
+     * @param \D4D\AppBundle\Entity\Images $mainPhoto
+     * @return Users
+     */
+    public function setMainPhoto(\D4D\AppBundle\Entity\Images $mainPhoto)
+    {
+    	$this->mainPhoto = $mainPhoto;    
+    	return $this;
+    }
+    
+    /**
+     * Get mainPhoto
+     *
+     * @return \D4D\AppBundle\Entity\Images
+     */
+    public function getMainPhoto()
+    {
+    	return $this->mainPhoto;
     }
     
     

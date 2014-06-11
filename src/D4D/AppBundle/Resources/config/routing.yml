@@ -52,6 +52,22 @@ user_search_advanced:
     path:     /user/search/advanced
     defaults: { _controller: D4DAppBundle:Frontend\User:advancedSearch }
 
+user_search_advanced_gallery:
+    path:     /user/search/advanced/gallery
+    defaults: { _controller: D4DAppBundle:Frontend\User:advancedSearch }
+
+user_quick_search_countries:
+    path:     /user/quick/search/countries
+    defaults: { _controller: D4DAppBundle:Common\AppService:fetchCountries }
+    
+user_users_profile:
+    path:     /user/users/profile
+    defaults: { _controller: D4DAppBundle:Frontend\User:viewProfile }
+    
+user_statistics:
+    path:     /user/statistics
+    defaults: { _controller: D4DAppBundle:Frontend\User:statistics }
+
 
 
 

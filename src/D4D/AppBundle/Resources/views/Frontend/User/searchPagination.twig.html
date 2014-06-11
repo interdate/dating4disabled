@@ -1,0 +1,44 @@
+							
+							{% if pagination.pages_count > 1 %}							
+							
+								<div class="pagination" id="searchPagination">
+								        {% if pagination.page > 1 %}
+								        	 <span>
+								        	 	&#60;
+								        	 	&#60;
+								        	 	<input type="hidden" value="1" />
+											 </span> 
+											 
+											 <span>
+												&#60;											
+												<input type="hidden" value="{{ pagination.page-1 }}" />											
+											 </span>						
+								        {% endif %}
+								        							        
+								        {# display p numbers only from p-4 to p+4 but don't go < 1 or > pages_count #}
+								        
+								        {% for p in range(max(pagination.page - 5, 1), min(pagination.page + 5, pagination.pages_count)) %}
+								            <span class="{% if p == pagination.page %}bold{% endif %}">
+								            	{{ p }}
+								            	<input type="hidden" value="{{ p }}" />
+								            </span>							            
+								        {% endfor %}							        
+								        
+								        {% if pagination.page < pagination.pages_count %}							        
+								        	 <span>
+												&#62;
+												<input type="hidden" value="{{ pagination.page+1 }}" />											
+											 </span>
+											 
+											 <span>
+												&#62;
+												&#62;
+												<input type="hidden" value="{{ pagination.pages_count }}" />											
+											 </span>    
+								        {% endif %}
+								    
+								</div>
+								
+								<div class="clear"></div>
+							
+							{% endif %}

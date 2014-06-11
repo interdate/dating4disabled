@@ -7,4 +7,7 @@
 /app/config/config.yml
 /.gitignore
 /.htaccess
-/uploads/userpics/
+/uploads/
+/web/uploads/
+/web/cache/
+/web/media/

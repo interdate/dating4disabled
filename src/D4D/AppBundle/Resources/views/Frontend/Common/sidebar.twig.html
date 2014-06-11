@@ -1,74 +1,12 @@
-{% block sidebar %}
-			<div class="sidebar">
-	                <div class="bg info">
-	                    <h3>Halow Sharon,</h3>
-	                    <div class="field incoming"><span><strong>5</strong> new massages</span></div>
-	                    <div class="field users_online"><span><strong>242</strong> members on site</span></div>
-	                    <div class="field online_status"><span>Chat</span>  <img src="/assets/frontend/images/chat-on.png" height="38" width="70" /> </div>
-	                    
-	                    <div class="search">
-	                       <form>
-	                           <label>Search:</label>
-	                           <div class="inputwarp">
-	                                <div class="picker pick-1">
-	                                    <div id="gan_wom" class="gen_picker current">Woman </div>
-	                                    <div class="select_switch man"> <div id="bpic">&nbsp;</div> </div>
-	                                    <div id="gan_man" class="gen_picker">Man</div>
-	                                </div>
-	                                <div class="clear"></div>
-	                           </div>
-	                           <div class="clear"></div>
-	                           <label>Age:</label>
-	                           <div class="inputwarp age_picker">
-	                               <span style="margin-right: 16px;"><select name="age_st"  id="age_st"> <option selected="selected" value=""> 20 </option> </select></span>
-	                               <select name="age_st" id="age_en"> <option selected="selected" value=""> 30 </option> </select></span>
-	                           </div>
-	                           <div class="clear"></div>
-	                           <label>Search:</label>
-	                           <div class="inputwarp">
-	                               <select name="area" class="area" id="area"> <option selected="selected" value=""> Israel </option> </select>
-	                           </div>  
-	                           <div class="clear"></div>
-	                           <span>Búsqueda Avanzada</span><input type="submit" value="" id="search-submit" />
-	                           <div class="clear"></div>
-	                       </form>
-	                   </div> 
-	                    
-	                </div>
-	                <div class="bg members">
-	                    <h2 class="iMembers">New Members</h2>
-	                    <div class="more_pics">
-	                        <div class="portrait">               
-	                        <div class="por_name">
-	                        <a href="#">
-	                        <span>Sendi</span>
-	                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                        </a>
-	                        </div> 
-	                            <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                        </div>
-	
-	                        <div class="portrait">               
-	                        <div class="por_name">
-	                        <a href="#">
-	                        <span>Sendi</span>
-	                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                        </a>
-	                        </div> 
-	                        <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                        </div>
-	
-	                        <div class="portrait">               
-	                        <div class="por_name">
-	                        <a href="#">
-	                        <span>Sendi</span>
-	                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                        </a>
-	                        </div> 
-	                        <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                        </div>
-	                    </div>
-	                </div>
+
+				<div class="sidebar">
+	                
+	                {{ include ('D4DAppBundle:Frontend:User/sidebar.twig.html') }}
+	                
+	                
+	                
+	                
+	                                
 	                <a href="#" class="sidebar-link">
 	                    <img src="/assets/frontend/images/sidebar-link-google.png" height="78" width="235" />
 	                </a>
@@ -77,4 +15,4 @@
 	                </a>
 	            </div>
 	            <div class="clear"></div>
-{% endblock %}	            
+            

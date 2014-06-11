@@ -323,7 +323,7 @@ class Images
     {
     	// the absolute directory ext where uploaded
     	// documents should be saved
-    	return __DIR__.'/../../../..'.$this->getUploadDir();
+    	return $_SERVER['DOCUMENT_ROOT'] . $this->getUploadDir();
     }
     
     protected function getUploadDir()

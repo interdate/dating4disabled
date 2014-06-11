@@ -1,0 +1,129 @@
+  	<div id="warp-floatblock" class="hidden">
+        <div class="floatblock">
+            <div class="frow">
+                <div class="profile-links">
+                    <a href="#" class="message">Send Message</a>
+                    <a href="#" class="chat">Chat</a>
+                    <a href="#" class="favorites">Add to Favorites</a>
+                    <a href="#" class="block">Block</a>
+                </div>
+                <div class="close">
+                    <a href="#">Close</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="frow">
+                <div class="pimages">
+                    <div class="image-main">
+                        
+                        {% if user.userPaying %}
+			            	<div class="ribbon">&nbsp;</div>
+			            {% endif %}
+                        <img src="{{ web_image(user.mainPhoto.getWebPath).resize(286, 370) }}" />
+                        
+                    </div>
+                    <div class="image-thumbs">
+                    	{% for photo in photos %}
+                        	<img src="{{ web_image(photo.getWebPath).resize(90, 116) }}" height="116" width="90" />
+                        {% endfor %}
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="pdesc">
+                    <h1>{{user.usernic}}</h1>
+                    <p>{{user.useraboutme|raw}}</p> 
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="frow">
+                <div class="pcol">
+                    <h2> General information </h2>
+                    <ul>
+                        <li>{{user.usernic}} (ID# {{ user.userid }})</li>
+                        <li><label>Gender </label>{{ user.usergender }}</li>
+                        <li><label>Age  </label>{{ user.age }}</li>
+                        <li><label>Country  </label>{{ user.countrycode }}</li>
+                        {# <li><label>Country Region </label>99999999</li> #}
+                        {# <li><label>Zodiac Sign </label>Female</li> #}
+                        <li><label>Sexual Preference  </label>{{ user.sexprefid.sexprefname }}</li>
+                    </ul>
+                    <h2>  Appearance </h2>
+                    <ul>
+                        <li><label>Appearance </label>{{ user.appearanceid.appearancename }}</li>
+                        <li><label>Body Type </label>{{ user.bodytypeid.bodytypename }}</li>
+                        <li><label>Height  </label>{{ user.userhight }}</li>
+                        <li><label>Weight  </label>{{ user.userweight }}</li>
+                        <li><label>Hair color </label>{{ user.haircolorid.haircolorname }}</li>
+                        <li><label>Hair style </label>{{ user.hairlengthid.hairlengthname }}</li>
+                        <li><label>Eye color  </label>{{ user.eyescolorid.eyescolorname }}</li>
+                    </ul>
+                    <h2> Disability Information </h2>
+                    <ul>
+                        <li><label>My Life Challenge </label>{{ user.healthid.healthname }}</li>
+                        <li><label>Mobility  </label>{{ user.mobilityid.mobilityname }}</li>
+                    </ul>
+                </div>
+                <div class="pcol">
+                    <h2> Background </h2>
+                    <ul>
+                        <li><label>Children </label>{{ user.userchildren }}</li>
+                        <li><label>I am looking for </label>{{ user.userlookingfor|raw }}</li>
+                        <li>
+                        	<label>I speak  </label>                        	
+                        	{% for language in user.languageid %}
+                        		{{ language.languagename }},
+                        	{% endfor %}
+                        </li>
+                        <li><label>My Ethnicity </label>{{ user.ethnicoriginid.ethnicoriginname }}</li>
+                        <li><label>My Religion </label>{{ user.religionid.religionname }}</li>
+                        <li><label>My Education  </label>{{ user.educationid.educationname }}</li>
+                        <li><label>Country I was born in</label>{{ user.countryoforigincode }}</li>
+                        <li><label>My Annual Income</label>{{ user.incomeid.incomename }}</li>
+                        <li class="full"><label>Occupation</label>{{ user.occupationid.occupationname }}</li>
+                    </ul>
+                    <h2> Personality And Interests </h2>
+                    <ul>
+                        <li class="full">
+                        	<label>My Personality </label>                        	
+                        	{% for characteristic in user.characteristicid %}
+                        		{{ characteristic.characteristicname }},
+                        	{% endfor %}
+                        </li>
+                        <li class="full">
+                        	<label>My Hobbies </label>                        	
+                        	{% for hobby in user.hobbyid %}
+                        		{{ hobby.hobbyname }},
+                        	{% endfor %}
+                        </li>
+                        <li>
+                        	<label>Drinking Habits</label>
+                        	{% for drinking in user.drinkingid %}
+                        		{{ drinking.drinkingname }},
+                        	{% endfor %}
+                        </li>
+                        <li>
+                        	<label>Smoking habits</label>
+                        	{% for smoking in user.smokingid %}
+                        		{{ smoking.smokingname }},
+                        	{% endfor %}                        	
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="frow moreinfo">
+                <p><strong>Looking for</strong></p>
+                <p>                    
+                    {% for lookingfor in user.lookingforid %}
+                        {{ lookingfor.lookingforname }},
+                    {% endfor %}
+                </p>
+                
+                {#
+                <p><strong>Remarks:</strong></p>
+                <textarea name="comments" rows="" cols=""> </textarea>
+                #}
+            </div>
+        </div>
+    </div>
+    

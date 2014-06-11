@@ -1,0 +1,38 @@
+								{% for user in users.items %}
+									
+									<div class="member_list">    
+		                                
+		                                <div class="lisiting-item">
+		                                    <div class="list-image" onclick="viewUserProfile({{ user.userid }}, $(this).offset().top)">
+		                                        <div class="portrait">               
+		                                        <div class="por_name">
+		                                        <a>
+			                                        <span>{{ user.usernic }}</span>
+			                                        <span style="font-size:11px;">{{ user.age }}, from {{ user.cityname }}</span>
+		                                        </a>
+		                                        </div>		                                        
+		                                        {% if user.userPaying %}
+			                                    	<div class="ribbon">&nbsp;</div>
+			                                    {% endif %}
+		                                        {% if user.mainPhoto %}
+		                                        	{# <img src="{{user.mainPhoto|imagine_filter('my_thumb2')}}"> #}
+		                                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(116, 140) }}">
+		                                        {% endif %}
+		                                        </div>
+		                                    </div>
+		                                    <div class="list-text">
+		                                        <h4>{{ user.usernic }}</h4>
+		                                        <p>{{ user.useraboutme|raw }}</p>
+		                                        <div class="list-links">
+		                                            <a class="profile" onclick="viewUserProfile({{ user.userid }}, $(this).offset().top)">View Profile</a>
+		                                            <a href="#" class="message">Send Message</a>
+		                                            <a href="#" class="friend">Add Friend</a>
+		                                            <a href="#" class="chat">Chat</a>
+		                                        </div>
+		                                    </div>
+		                                    <div class="clear"></div>
+		                                </div>		                                
+		                                	
+		                            </div>
+		                            
+								{% endfor %}
