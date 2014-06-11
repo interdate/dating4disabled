@@ -1,0 +1,17 @@
+    <div class="bg members">
+        <h2 class="iMembers">New Members</h2>
+        <div class="more_pics">
+            {% for user in users %}
+                <div class="portrait">               
+                    <div class="por_name">
+                        <a href="#">
+                            <span>{{ user.user.usernic }}</span>
+                            <span style="font-size:11px;">{{ user.age }}, from {{ user.country }}</span>
+                        </a>
+                    </div> 
+                    <img src="{{ user.image.getWebPath }}" height="144" width="112" />
+                </div>
+            {% endfor %}	                        
+        </div>
+    </div>
+           

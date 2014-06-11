@@ -37,6 +37,10 @@ user_check_fields:
     path:     /sine_up/check
     defaults: { _controller: D4DAppBundle:Frontend\User:checkFields }
     
+user_check_fields_profile:   
+    path:     /user/check
+    defaults: { _controller: D4DAppBundle:Frontend\User:checkFields }
+    
 user_load_regions:   
     path:     /sine_up/load
     defaults: { _controller: D4DAppBundle:Frontend\User:loadRegions }
@@ -44,6 +48,19 @@ user_load_regions:
 user_activation:   
     path:     /activation/{code}/{email}
     defaults: { _controller: D4DAppBundle:Frontend\User:activation, code:false, email:false }
+    
+user_payment:
+    path:     /user/payment
+    defaults: { _controller: D4DAppBundle:Frontend\User:payment}
+    
+user_profile:
+    path:     /user/profile
+    defaults: { _controller: D4DAppBundle:Frontend\User:profile}
+    
+user_photos:
+    path:     /user/photos
+    defaults: { _controller: D4DAppBundle:Frontend\User:photos}
+    
     
 
 

@@ -107,6 +107,9 @@ class SignUpType extends UsersType{
                 $builder->remove($field);
             }            
         }elseif(is_array($this->step)){
+            if(isset($this->step['form']) && $this->step['form']=='edit'){
+                parent::buildForm($builder, $options);
+            }
             if(count($this->step['regions']) == 0 || count($this->step['cities']) == 0){
                 $builder->add('usercityname', 'text', array('label' => 'City'));
             }
@@ -124,7 +127,7 @@ class SignUpType extends UsersType{
                     $citiesList[$cities->getCityname()] = $cities->getCityname();
                 }
                 $builder->add('cityname', 'choice', array(
-                    'label' => 'Regions',
+                    'label' => 'City',
                     'choices' => $citiesList
                 ));
             }

@@ -42,23 +42,24 @@
 		    <div id="header">
 		        <div class="mwarp">
 		            <div class="main-menu">
+                                {% block login %}{% endblock %}
 		                <div id="menu">
-		                <ul>
-		                    <li class="current"><a href="#">Home</a></li>
-		                    <li><a href="#">About</a></li>
-		                    <li><a href="#">Forums</a></li>
-		                    <li><a href="#">Blogs</a></li>
-		                    <li><a href="#">Members</a></li>
-		                    <li><a href="#">Inbox</a></li>
-		                    <li><a href="#">FAQ</a></li>
-		                    <li><a href="#">Settings</a></li>
-		                    <li><a href="#">Contact</a></li>
-		                </ul> 
+                                    <ul>
+                                        <li class="current"><a href="{{ path('user_home') }}">Home</a></li>
+                                        <li><a href="#">About</a></li>
+                                        <li><a href="{{ path('ccdn_homepage') }}">Forums</a></li>
+                                        <li><a href="#">Blogs</a></li>
+                                        <li><a href="#">Members</a></li>
+                                        <li><a href="#">Inbox</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                        <li><a href="#">Settings</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul> 
 		                    <div class="clear"></div>
 		                </div>
 		            </div>
 		            <div class="main-logo">
-		                <img src="/assets/frontend/images/logo.png" id="logo" alt="D4D" width="302" height="119"/>
+		                <a href="{{ path('user_home') }}"><img src="/assets/frontend/images/logo.png" id="logo" alt="D4D" width="302" height="119"/></a>
 		            </div>
 		            <div class="clear"></div>
 		        </div>
@@ -78,7 +79,7 @@
 		                Dating For Disabled is an online dating service for people with disabilities. We are a community where disabled singles can find love & friendship. Dating4Disabled is the number one disabled dating site, and registration is one hundred percent free!  
 		            </p>
 		            <ul class="footer-menu">
-		                <li><a href="#">Home</a> | </li>
+		                <li><a href="{{ path('user_home') }}">Home</a> | </li>
 		                <li><a href="#">About Us</a> | </li>
 		                <li><a href="#">Press Room</a> | </li>
 		                <li><a href="#">Safety</a> | </li>
@@ -98,21 +99,51 @@
 		    
 		    <script type="text/javascript">
 			$(document).ready(function () {
-			    $('.pick-1 .select_switch #bpic').click(function () {
-					if($(this).parent('.select_switch').hasClass('man')) {
-					$(this).animate({left:'-6'}, 300);
-					$(this).parent('.select_switch').removeClass('man');
-					$(this).parent('.select_switch').addClass('woman');
-					$('.pick-1 #gan_man').removeClass("current");
-					$('.pick-1 #gan_wom').addClass("current");			
-					} else {
-					$(this).animate({left:'32'}, 300);
-					$(this).parent('.select_switch').removeClass('woman');
-					$(this).parent('.select_switch').addClass('man');
-					$('.pick-1 #gan_wom').removeClass("current");
-					$('.pick-1 #gan_man').addClass("current");	
-					}
-			    });
+			    /*$('.pick-1 .select_switch #bpic').click(function () {
+                                if($(this).parent('.select_switch').hasClass('man')) {
+                                    $(this).animate({left:'-6'}, 300);
+                                    $(this).parent('.select_switch').removeClass('man');
+                                    $(this).parent('.select_switch').addClass('woman');
+                                    $('.pick-1 #gan_man').removeClass("current");
+                                    $('.pick-1 #gan_wom').addClass("current");			
+                                } else {
+                                    $(this).animate({left:'32'}, 300);
+                                    $(this).parent('.select_switch').removeClass('woman');
+                                    $(this).parent('.select_switch').addClass('man');
+                                    $('.pick-1 #gan_wom').removeClass("current");
+                                    $('.pick-1 #gan_man').addClass("current");	
+                                }
+			    });*/
+                            $('.pick-1 .select_switch #bpic').click(function () {
+                                if($(this).parent('.select_switch').hasClass('man')) {
+                                    $(this).animate({left:'-7'}, 300);
+                                    $(this).parent('.select_switch').removeClass('man');
+                                    $(this).parent('.select_switch').addClass('woman');
+                                    $('.pick-1 #gan_man').removeClass("current");
+                                    $('.pick-1 #gan_wom').addClass("current");			
+                                } else {
+                                    $(this).animate({left:'40'}, 300);
+                                    $(this).parent('.select_switch').removeClass('woman');
+                                    $(this).parent('.select_switch').addClass('man');
+                                    $('.pick-1 #gan_wom').removeClass("current");
+                                    $('.pick-1 #gan_man').addClass("current");	
+                                }
+                            });	
+                            $('.pick-2 .select_switch #bpicb').click(function () {
+                                if($(this).parent('.select_switch').hasClass('man')) {
+                                    $(this).animate({left:'-7'}, 300);
+                                    $(this).parent('.select_switch').removeClass('man');
+                                    $(this).parent('.select_switch').addClass('woman');
+                                    $('.pick-2 #gan_manb').removeClass("current");
+                                    $('.pick-2 #gan_womb').addClass("current");			
+                                } else {
+                                    $(this).animate({left:'40'}, 300);
+                                    $(this).parent('.select_switch').removeClass('woman');
+                                    $(this).parent('.select_switch').addClass('man');
+                                    $('.pick-2 #gan_womb').removeClass("current");
+                                    $('.pick-2 #gan_manb').addClass("current");	
+                                }
+                            });	
 			});
 			</script>
 			

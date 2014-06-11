@@ -50,9 +50,22 @@ security:
                 path:   /user/logout
                 target: /user/login
                 
+        signUp_area:
+            context: my_context            
+            pattern:   ^/sign_up
+            anonymous: ~
+            form_login:
+                login_path: user_login
+                check_path: user_login_check
+                default_target_path: ccdn_homepage
+            logout:
+                path:   /user/logout
+                target: /user/login
+                
     access_control:
         - { path: ^/user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/forum, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/sign_up, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user, roles: ROLE_USER }        
         - { path: ^/admin, roles: ROLE_ADMIN }        

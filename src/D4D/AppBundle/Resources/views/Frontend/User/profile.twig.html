@@ -1,0 +1,116 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %} 
+
+{% if form is defined and form %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+
+{% block content %}
+<div id="content-body">
+    <div class="mwarp">
+        <div class="wide">
+            <div class="bg topblock">
+                <div class="top">&nbsp;</div>
+                <div class="middle">                    
+                    <div class="warpper full-col">
+                        <h2 class="iRegistration">Edit Profile</h2>
+                        <div class="message_rows"></div>
+                        <div class="signup_warp signups1">
+                            <div class="ssp_width">
+                                {% if save %}
+                                    <div style="text-shadow: 0px 1px 0px green;color: #fff;font-size: 20px;background: #94ed90;text-align: center;padding: 10px 40px;border-radius: 18px;margin: -20px 0 10px;">
+                                       Your profile was saved successfully.                                       
+                                    </div>
+                                {% endif %}
+                                {{ form_start(form, {'attr': {'id': 'signUp_form', 'class': 'signform_01'}}) }}
+                                    <input type="hidden" value="{{ path('user_check_fields_profile') }}" id="checkRoute"/>
+                                    <input type="hidden" value="{{ path('user_load_regions') }}" id="chooseRoute"/>                                                                     
+                                    <h3 style="width: 100%;margin:0 0 10px -12px;">General Info</h3>
+                                    {% set user = app.security.getToken().getUser() %}
+                                    {{ form_row(form.usernic) }}
+                                    {{ form_row(form.userfname) }}
+                                    {{ form_row(form.userlname) }}
+                                    {{ form_row(form.useremail) }}
+                                    {{ form_row(form.countrycode) }}                                                                        
+                                    {% if user.regioncode != null %}
+                                        {{ form_row(form.regioncode) }}
+                                    {% endif %}
+                                    {% if user.regioncode != null and user.cityname != null %}
+                                        {{ form_row(form.cityname) }}
+                                    {% endif %}
+                                    {% if user.regioncode == null and user.usercityname != null %}
+                                        {{ form_row(form.usercityname) }}
+                                    {% endif %}                                    
+                                    <div class="field_text">
+                                        {{ form_label(form.userbirthday) }}                                            
+                                        {{ form_widget(form.userbirthday.day, {'attr': {'class':'day'}}) }}
+                                        /
+                                        {{ form_widget(form.userbirthday.month, {'attr': {'class':'month'}}) }}
+                                        /
+                                        {{ form_widget(form.userbirthday.year, {'attr': {'class':'year'}}) }}
+                                        <div class="clear"></div>
+                                    </div>
+                                    {{ form_row(form.usergender) }}
+                                    {{ form_row(form.sexprefid) }}
+                                    {{ form_row(form.zipcode) }}                                    
+                                    
+                                    <h3 style="width: 100%;margin:20px 0 10px -12px;">Background</h3>  
+                                    {{ form_row(form.maritalstatusid) }}
+                                    {{ form_row(form.userchildren) }}
+                                    {{ form_row(form.ethnicoriginid) }}
+                                    {{ form_row(form.religionid) }}
+                                    {{ form_row(form.educationid) }}
+                                    {{ form_row(form.occupationid) }}
+                                    {{ form_row(form.incomeid) }}
+                                    {{ form_row(form.languageid) }}
+                                    
+                                    <h3 style="width: 100%;margin:20px 0 10px -12px;">Appearance</h3>
+                                    {{ form_row(form.appearanceid) }}
+                                    {{ form_row(form.bodytypeid) }}
+                                    {{ form_row(form.userhight) }}
+                                    {{ form_row(form.userweight) }}
+                                    {{ form_row(form.hairlengthid) }}
+                                    {{ form_row(form.haircolorid) }}
+                                    {{ form_row(form.eyescolorid) }}
+                                    
+                                    <h3 style="width: 100%;margin:20px 0 10px -12px;">Personality And Interests</h3>
+                                    {{ form_row(form.smokingid) }}
+                                    {{ form_row(form.drinkingid) }}
+                                    {{ form_row(form.userhobbies) }}
+                                    {{ form_row(form.useraboutme) }}
+                                    {{ form_row(form.userlookingfor) }}
+                                    {{ form_row(form.hobbyid) }}
+                                    {{ form_row(form.characteristicid) }}
+                                    {{ form_row(form.lookingforid) }}
+                                    
+                                    <h3 style="width: 100%;margin:20px 0 10px -12px;">Disability Info</h3>
+                                    {{ form_row(form.healthid) }}
+                                    {{ form_row(form.mobilityid) }}
+                                    
+                                    {% for field in form %}                                                                                        
+                                        {{ form_row(field) }}
+                                    {% endfor %}
+
+                                    <div class="field_text" style="width:480px;">
+                                        <div class="submit" onclick="afterSubmit($('#profile_submit'));">Save</div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div class="clear"></div>   
+                                    <input style="display: none;" id="profile_submit" type="submit" name="user(add)" value="add"/>
+                               {{ form_end(form) }}
+                                    
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">&nbsp;</div>
+            </div>
+        </div>
+        
+        {{ include ('D4DAppBundle:Frontend:Common/sidebar_signUp.twig.html') }}
+        
+    </div>
+</div>
+
+
+
+
+{% endblock %}

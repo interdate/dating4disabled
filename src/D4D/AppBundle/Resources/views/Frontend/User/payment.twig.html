@@ -1,0 +1,114 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %} 
+
+{% block js %}
+{{- parent() }}
+    <script type="text/javascript">
+        function payment(str){            
+            var form = $('#pp');
+            $('#checkout').find('input[name="product_id"]').val(str);            
+            switch(str){
+                case 1:                    
+                    form.find('input[name="a3"]').val('19.90');                    
+                    form.find('input[name="p3"]').val('1');
+                    form.find('input[name="t3"]').val('M');
+                    form.find('input[name="custom"]').val('1');
+                    break;
+                case 2:
+                    form.find('input[name="a3"]').val('39.90');
+                    form.find('input[name="p3"]').val('3');
+                    form.find('input[name="t3"]').val('M');
+                    form.find('input[name="custom"]').val('3');
+                    break;                                      
+                case 3:
+                    form.find('input[name="a3"]').val('69.90');
+                    form.find('input[name="p3"]').val('6');
+                    form.find('input[name="t3"]').val('M');
+                    form.find('input[name="custom"]').val('6');
+                    break;                                                  
+                case 4:
+                    form.find('input[name="a3"]').val('120.00');
+                    form.find('input[name="p3"]').val('1');
+                    form.find('input[name="t3"]').val('Y');
+                    form.find('input[name="custom"]').val('12');
+                    break;                                                  
+            }
+            $('.payStep1').hide();
+            $('.payStep2').show();
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div id="content-body">
+    <div class="mwarp">
+        <div class="wide">
+            <div class="bg topblock">
+                <div class="top">&nbsp;</div>
+                <div class="middle">                    
+                    <div class="warpper full-col">
+                        <h2 class="iRegistration">Payment</h2>
+                        <div class="message_rows"></div>
+                        <div class="signup_warp signups1">
+                            <div class="ssp_width">
+                                {% set user = app.security.getToken().getUser() %}
+                                <div class="payStep1">
+                                    <p><a href="" onclick="payment(1);return false;">1 month recurring subscription</a> ($19.90 each month)</p>
+                                    <p><a href="" onclick="payment(2);return false;">3 months recurring subscription</a> ($39.90 every 3 months / $13.30 a month)-Our most popular paid subscription.</p>
+                                    <p><a href="" onclick="payment(3);return false;">6 months recurring subscription</a> ($69.90 every 6 months / $11.65 a month)</p>
+                                    <p><a href="" onclick="payment(4);return false;">12 months recurring subscription</a> ($120.00 every 12 months / $10.00 a month)</p>
+                                </div>
+                                <div class="payStep2" style="display: none;">
+                                    <div class="left" style="width: 50%">
+                                        <a href="" onclick="$('#pp').submit();return false;">Pay by PayPal</a>
+                                    </div>
+                                    <div class="left" style="width: 50%">
+                                        <a href="" onclick="$('#checkout').submit();return false;">Pay by Checkout</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div style="display: none;">
+                                    <form id="pp" action="https://www.paypal.com/il/cgi-bin/webscr" method="post">                           
+                                        <input type="hidden" name="cmd" value="_xclick-subscriptions"/>
+                                        <input type="hidden" name="item_number" value="{{ user.userid }}mb0"/>
+                                        <input type="hidden" name="a3" value="99">
+                                        <input type="hidden" name="p3" value="1">
+                                        <input type="hidden" name="t3" value="W">
+                                        <input type="hidden" name="business" value="9S2NAS2UYRH94">
+                                        <INPUT TYPE="hidden" name="charset" value="utf-8">
+                                        <input type="hidden" name="currency_code" value="USD">
+                                        <input type="hidden" name="item_name" value="Dating4Disabled Subscription ">
+                                        <input type="hidden" name="no_shipping" value="1">
+                                        <input type="hidden" name="src" value="1">
+                                        <input type="hidden" name="custom" value="1">
+                                        <input name="notify_url" value="http://ricosybellas.com/payment/success_renew" type="hidden">
+
+                                        <input type="hidden" name="cbt" value="Please press here to complete your purchase">
+                                        <input type="hidden" name="return" value="http://ricosybellas.com/payment/success">
+                                        <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - הדרך הקלה והבטוחה לשלם באופן מקוון!"/>
+                                        <img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110429-1/en_US/i/scr/pixel.gif" width="1" height="1"/>
+                                    </form>
+                                    <form id="checkout" action="https://www.2checkout.com/2co/buyer/purchase" method="get">
+                                        <input type="hidden" name="sid" value="1400004"/>
+                                        <input type="hidden" name="quantity" value="1"/>
+                                        <input type="hidden" name="userid" value="{{ user.userid }}mb0"/>
+                                        <input type="hidden" name="usernick" value="{{ user.usernic }}"/>
+                                        <input type="hidden" name="product_id" value="1"/>
+                                    </form>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom">&nbsp;</div>
+            </div>
+        </div>
+        
+        {{ include ('D4DAppBundle:Frontend:Common/sidebar_signUp.twig.html') }}
+        
+    </div>
+</div>
+
+
+
+
+{% endblock %}

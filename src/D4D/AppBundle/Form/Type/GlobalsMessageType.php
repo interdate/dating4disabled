@@ -5,10 +5,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
-#use Symfony\Component\Form\FormEvents;
+//use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\FaqRepository;
+use Symfony\Component\Validator\Constraints;
 
 
 class GlobalsMessageType extends AbstractType{
@@ -21,9 +22,14 @@ class GlobalsMessageType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options){  
         
-    	//$builder->add('body', 'bb_editor', array('label' => '','attr' => array('acl_group' => 'admin')));
-        $builder->add('body', 'textarea', array('label' => ''));
-                  
+    	//$builder->add('body', 'bb_editor', array('label' => '','attr' => array('acl_group' => 'admin')));                
+        $builder->add('body', 'textarea', array(
+               'label' => ' ',
+               'constraints' => array(
+                   new Constraints\NotBlank(),
+                   new Constraints\Length(array('min' => 10)),               
+               ),
+           ));
     }
        
     
@@ -31,7 +37,7 @@ class GlobalsMessageType extends AbstractType{
     {
         $resolver->setDefaults(array(
             //'csrf_protection' => false,
-            //'attr' => array('novalidate' => 'novalidate')
+            'attr' => array('novalidate' => 'novalidate')			
         ));
     }
     

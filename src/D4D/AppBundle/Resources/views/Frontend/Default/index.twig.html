@@ -1,217 +1,96 @@
-{% extends "D4DAppBundle::frontend.layout.twig.html" %}
+{% extends "D4DAppBundle::frontend.layout.twig.html" %} 
+
+{% block js %}
+    {{- parent() }}
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $('body').attr('class','home2');
+            $('#menu').addClass('nomargin');
+        });
+    </script>
+{% endblock %}
+
+{% block login %}
+    <div class="home-menu">
+        {% if error is defined and error %}
+            <div>{{ error.message }}</div>
+        {% endif %}
+        <form id="login" action="{{ path('user_login_check') }}" method="post">
+            <label for="username">Email/Nick:</label><input type="text" id="username" name="_username" value="{{ last_username }}" />
+            <label for="password">Password:</label><input type="password" id="password" name="_password" />
+            {#
+                If you want to control the URL the user
+                is redirected to on success (more details below)
+                <input type="hidden" name="_target_path" value="/user/home" /> 
+            #}
+            <input type="submit" value="Sign In" id="logins"/>
+        </form>
+        <a href="#" class="forgotp">Forgot Password</a>
+        <div class="social-login">
+        <span> Register with Facebook/Google+ </span>
+        <a href="#" class="google">google+</a>
+        <a href="#" class="facebook">facebook</a>
+        <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+{% endblock %}
 
 {% block content %}
-		<div id="content-body">
-	        <div class="mwarp">
-	            <div class="wide">
-	                <div class="bg topblock">
-	                    <div class="top">&nbsp;</div>
-	                    <div class="middle">
-	                        <div class="warpper">
-	                            <div class="col1 mat">
-	                                <h2 class="iMatches">Matches</h2>
-	                                <div class="match_line">
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <a href="#">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </a>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                               <div style="clear:both;"></div>     
-	                               </div>
-	                            </div>
-	                            <div class="col2 cme">
-	                                <h2 class="iContacted">Contacted Me</h2>
-	                                <div class="action_list">
-	                                    <a href="#" class="icon5">Contacted me </a>
-	                                    <a href="#" class="icon2">Viewed My Card</a>
-	                                    <a href="#" class="icon3">Add to Favorites</a>
-	                                    <a href="#" class="icon4">Message</a>
-	                                    <a href="#" class="icon1"> People I contacted</a>
-	                                    <a href="#" class="icon6"> Black Listed</a>
-	                                <!--end action_list--></div>
-	                            </div>
-	                            <div class="clear"></div>
-	                            <div class="col1 pro">
-	                                <h2 class="iProfile">My Profile</h2>
-	                                <div class="profile_line">
-	                                        <div class="portrait">
-	                                        <div class="por_name">
-	                                        <span>Sendi</span>
-	                                        <span style="font-size:11px;">25, from Tel Aviv</span>
-	                                        </div>
-	                                    <img src="/assets/frontend/images/pics/thumb_1.jpg" height="144" width="112" />
-	                                    </div>
-	                                    <div class="dis">
-	                                        <p>  iento Cajas premium Cigarrillos Filtros elementos
-	                                        Texto Paper Company Tabaco K. Hawaiian Skunk
-	                                        mium elementos de texto orgánico papel de fumar
-	                                        miento Cajas premium Cigarrillos Filtros elementos
-	                                         iento Cajas premium Cigarrillos Filtros elementos
-	                                        Texto Paper Company Tabaco K. Hawaiian Skunk
-	                                        .de tabaco cubano</p>
-	                                    </div>
-	                                    <div class="clear"></div>       
-	                                    <div class="actions">
-	                                    <a href="#" class="view_profile">Edit Profile</a>
-	                                    <a href="#" class="add"> Add Pictures</a>
-	                                    </div>        
-	                                <!--end profile_line--></div>
-	                            </div>
-	                            <div class="col2 ic">
-	                                <h2 class="iContacted">I Contacted</h2>
-	                                <div class="action_list">
-	                                    <a href="#" class="icon1">Contacted me </a>
-	                                    <a href="#" class="icon2">Viewed My Card</a>
-	                                    <a href="#" class="icon3">Add to Favorites</a>
-	                                    <a href="#" class="icon4">Message</a>
-	                                    <a href="#" class="icon5"> People I contacted</a>
-	                                    <a href="#" class="icon6"> Black Listed</a>
-	                                <!--end action_list--></div>
-	                            </div>
-	                            <div style="clear:both;"></div>  
-	                        </div>
-	                    </div>
-	                    <div class="bottom">&nbsp;</div>
-	                </div>
-	                <div class="bg forumblock">
-	                    <div class="top">&nbsp;</div>
-	                    <div class="middle">
-	                        <h2 class="iForum h2m">Forums</h2>
-	                        <div class="warpper">
-	                            <div>
-	                                <div class="blog_short">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>     
-	                                <div class="blog_short">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>   
-	                                <div class="blog_short no-bor">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>            
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="bottom">&nbsp;</div>
-	                </div>
-	                <div class="bg blogblock">
-	                    <div class="top">&nbsp;</div>
-	                    <div class="middle">
-	                        <h2 class="iBlog h2m">Blogs</h2>
-	                        <div class="warpper">
-	                            <div>
-	                                <div class="blog_short">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>     
-	                                <div class="blog_short">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>   
-	                                <div class="blog_short no-bor">
-	                                    <a href="#">
-	                                    <span class="title">Sharon</span> |
-	                                    <span class="date">21/7/2013</span> |
-	                                    <span class="disc">elementos premium Cigarrillos Filtros elementos premium Cigarrillos Filtros elementos</span>
-	                                    </a>
-	                                </div>            
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="bottom">&nbsp;</div>
-	                </div>
-	                
-	            </div>
-	            
-	            
-	            {{ include ('D4DAppBundle:Frontend:Common/sidebar.twig.html') }}
-	            
-	            
-	            
-	        </div>
-	    </div>	    
-{% endblock %}	    
+    <div id="content-body">
+        <div class="mwarp home">
+            <div class="home-left">
+                <div class="qoute"><img src="/assets/frontend/images/home-title-q2.png" height="218" width="186" /></div>
+                <div class="clear"></div>
+                <div class="homeintro">
+                    <p><img src="/assets/frontend/images/home-title.png" height="101" width="410" /></p>
+                    <p>Dating4Disabled is an online community for people with disabilities. <br/>
+                    Our members use our dating service not only to find love, but also friendship.  <br/>
+                    Dating for Disabled is a great way to meet other singles with disabilities;  <br/>
+                    so what are you waiting for?! Registration is FREE!  
+                    </p>
+                </div>
+            </div>
+            <div class="home-right">
+                <div class="sidebar-block">
+                    <a href="{{ path('user_sign_up') }}" class="regist">Free Registration</a>
+                    <div class="spacer"></div>
+                    <a href="#" class="facebook">Facebook Registration</a>
+                    <div class="search">
+                        <form>
+                           <label>I am a:</label>
+                           <div class="inputwarp">
+                                <div class="picker pick-1">
+                                <div id="gan_man" class="gen_picker">Man </div>
+                                <div class="select_switch woman"> <div id="bpic">&nbsp;</div> </div>
+                                <div id="gan_wom" class="gen_picker current">Woman </div>
+                                </div>
+                                <div class="clear"></div>
+                           </div>
+                           <div class="clear"></div>
+                           <label class="ie7fix">Seeking a:</label>
+                           <div class="inputwarp">
+                                <div class="picker pick-2">
+                                <div id="gan_manb" class="gen_picker current">Man </div>
+                                <div class="select_switch man"> <div id="bpicb">&nbsp;</div> </div>
+                                <div id="gan_womb" class="gen_picker">Woman </div>
+                                </div>
+                                <div class="clear"></div>
+                           </div>
+                           <div class="clear"></div>
+                           <input type="submit" value="Search" id="search-submit" />
+                        </form>
+                    </div>
+                </div>
+                <a href="#" class="sidebar-link">
+                    <img src="/assets/frontend/images/sidebar-link-google2.png" height="86" width="270" />
+                </a>
+                <a href="#" class="sidebar-link">
+                    <img src="/assets/frontend/images/sidebar-link-apple2.png" height="86" width="270" />
+                </a>
+                
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{% endblock %}
