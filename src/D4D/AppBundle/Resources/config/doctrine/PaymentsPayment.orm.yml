@@ -42,4 +42,25 @@ D4D\AppBundle\Entity\PaymentsPayment:
             nullable: false
             unsigned: false
             column: numOfMonths
+        paymentname:
+            type: string
+            nullable: true
+            length: 255
+            column: paymentName        
+        enddate:
+            type: datetime
+            nullable: true
+            default: CURRENT_TIMESTAMP
+            column: endDate
+        adminnote:
+            type: string
+            nullable: true
+            length: max
+            column: adminNote
+        parenttranzilaindex:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            column: parentTranzilaIndex
     lifecycleCallbacks: {  }

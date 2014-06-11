@@ -19,9 +19,12 @@ use D4D\AppBundle\Entity\Users;
 
 class SecurityController extends Controller{
 	
-	public function userLoginAction(Request $request){	
-    	$result = $this->auth($request);
-        return $this->render('D4DAppBundle:Frontend/Common:login.twig.html', $result);      
+    public function userLoginAction(Request $request){
+        if( is_object($this->getUser()) ){            
+            return $this->redirect($this->generateUrl('user_home'));
+        }    
+        $result = $this->auth($request);
+        return $this->render('D4DAppBundle:Frontend/Default:index.twig.html', $result);      
     }  
     
     

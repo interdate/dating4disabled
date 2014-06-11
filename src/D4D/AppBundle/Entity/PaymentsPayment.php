@@ -43,7 +43,26 @@ class PaymentsPayment
      * @var integer
      */
     private $numofmonths;
-
+    
+    /**
+     * @var string
+     */
+    private $paymentname;
+    
+    /**
+     * @var \DateTime
+     */
+    private $enddate;
+    
+    /**
+     * @var string
+     */
+    private $adminnote;
+    
+    /**
+     * @var string
+     */
+    private $parenttranzilaindex;
 
     /**
      * Get paymentid
@@ -191,5 +210,97 @@ class PaymentsPayment
     public function getNumofmonths()
     {
         return $this->numofmonths;
+    }
+    
+    /**
+     * Set paymentname
+     *
+     * @param string $paymentname
+     * @return PaymentsPayment
+     */
+    public function setPaymentname($paymentname)
+    {
+        $this->paymentname = $paymentname;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentname
+     *
+     * @return string 
+     */
+    public function getPaymentname()
+    {
+        return $this->paymentname;
+    }
+    
+    /**
+     * Set enddate
+     *
+     * @param \DateTime $enddate
+     * @return PaymentsPayment
+     */
+    public function setEnddate($enddate)
+    {
+        $this->enddate = $enddate;
+
+        return $this;
+    }
+
+    /**
+     * Get enddate
+     *
+     * @return \DateTime 
+     */
+    public function getEnddate()
+    {
+        return $this->enddate;
+    }
+    
+    /**
+     * Set adminnote
+     *
+     * @param string $adminnote
+     * @return PaymentsPayment
+     */
+    public function setAdminnote($adminnote)
+    {
+        $this->adminnote = $adminnote;
+
+        return $this;
+    }
+
+    /**
+     * Get adminnote
+     *
+     * @return string 
+     */
+    public function getAdminnote()
+    {
+        return $this->adminnote;
+    }
+    
+    /**
+     * Set parenttranzilaindex
+     *
+     * @param string $parenttranzilaindex
+     * @return PaymentsPayment
+     */
+    public function setParenttranzilaindex($parenttranzilaindex)
+    {
+        $this->parenttranzilaindex = $parenttranzilaindex;
+
+        return $this;
+    }
+
+    /**
+     * Get parenttranzilaindex
+     *
+     * @return string 
+     */
+    public function getParenttranzilaindex()
+    {
+        return $this->parenttranzilaindex;
     }
 }

@@ -416,14 +416,15 @@ p { margin-bottom: 12px; }
     display: inline-block;
     height: 34px;
     line-height: 34px;
-    padding-right: 38px;
+    padding: 0 38px 0 0;
 }
 
 .blue-nav {
     background:  url(../images/blue-nav-bg.png) no-repeat center;
-    background-size: 100% auto;
-    height: 40px;
+    background-size: 100% 100%;
+    /*height: 40px;*/
     margin: 10px auto !important;
+    border-radius: 8px
 }
 .blue-nav .forums_search {
     padding: 3px 0 4px 18px;
@@ -431,7 +432,7 @@ p { margin-bottom: 12px; }
 .blue-nav label {
     font-weight: bold;
     color: #fff;
-    padding-top: 6px;
+    padding-top: 2px;
 }
 #forum-submit {
     width: 69px;
@@ -1353,45 +1354,31 @@ p.credit-info {
     position: relative;
 }
 
-.signform_01 label 
-{
-width:200px;
-float:left;
-font-weight:bold
-
+.signform_01 label{
+    width:200px;
+    float:left;
+    font-weight:bold;
 }
 
 .signform_01 .field_text input, #advancedSearchForm input { border:none; padding:0 6px; background: url(../images/inputbg.png) no-repeat center; height:27px; width:152px; vertical-align:top;}
 
-.signform_01 .field_text, #advancedSearchForm .field_text {  margin-bottom:14px; min-height:30px; line-height:25px;  }
+.signform_01 .field_text, #advancedSearchForm .field_text, form .field_text {  margin-bottom:14px; min-height:30px; line-height:25px;  }
 
-
-.signform_01 a.check, .signform_01 a.img_add { background:url(../images/form_button.png) no-repeat center; display:inline-block; width:144px; height:27px; color:#414141; line-height:27px; text-align:center; margin-right:6px; vertical-align:top; font-size:12px;
-  }
+.signform_01 a.check, .signform_01 a.img_add { background:url(../images/form_button.png) no-repeat center; display:inline-block; width:144px; height:27px; color:#414141; line-height:27px; text-align:center; margin-right:6px; vertical-align:top; font-size:12px; }
   
-  
- span.char
- {
- margin-left:0px;
+span.char{
+    margin-left:0px;
+} 
  
- } 
- 
- #signform_sub
- {
- width:103px;
- height:30px;
- background:url(../images/submit.jpg) no-repeat center;
- float:right;
- border:none;
- cursor:pointer;
- }
 
-
-
-
-
-
-
+#signform_sub{
+	width:103px;
+	height:30px;
+	background:url(../images/submit.jpg) no-repeat center;
+	float:right;
+	border:none;
+	cursor:pointer;
+}
 
 .hidden, .Useremail.success{ display: none; }
 
@@ -1411,7 +1398,7 @@ font-weight:bold
     padding-bottom: 1px;
 }
 
-.signup_warp {
+.signup_warp, .wrap {
     width: 90%;
     margin: 10px auto;
     position: relative;
@@ -1521,4 +1508,28 @@ body {
   }
 }
 
+.breadcrumb span{
+    padding: 0 5px;
+}
 
+.forum_rows{width: auto;}
+
+table tr th{padding: 5px 0;}
+
+table tr th:last-child{border-radius: 0 7px 0 0; }
+
+table tr th:first-child{border-radius: 7px 0 0; }
+
+.submit{
+    background: url(../images/submit_.png);
+    background-size: 100% 100%;
+    padding: 5px 0;
+    margin-top: 40px;
+    width: 115px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    float: right;
+    cursor: pointer;
+}

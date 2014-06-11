@@ -1,8 +1,22 @@
 {% extends "D4DAppBundle::backend.layout.twig.html" %}
 
 {% block editor%}
-    <link rel="stylesheet" href="/assets/backend/css/default.css" />
-    <script src="/assets/backend/js/jquery.bbeditor.js"></script>        
+    <!--<link rel="stylesheet" href="/assets/backend/css/default.css" />
+    <script src="/assets/backend/js/jquery.bbeditor.js"></script> -->
+    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script type="text/javascript">
+            tinymce.init({
+                selector:'textarea#globalMessage_body',
+                theme: "modern",
+                plugins: [
+                    "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "save table contextmenu directionality emoticons template paste textcolor"
+                ],
+                content_css: "css/content.css",
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
+            });
+    </script>
 {% endblock%}
 
 {% block content %}
@@ -34,9 +48,11 @@
                 <div class="clear"></div>
                 {{ form_start(points, {'attr': {'id': 'globalPoint_form'}}) }}
                 {{ form_errors(points) }}
-                {% if info %}
+                {% if info and info['form'] == 'point' %}
                     {% for class,text in info %}
-                        <div class="{{ class }}">{{ text }}</div>
+                        {% if class != 'form' %}
+                            <div class="{{ class }}">{{ text }}</div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
                 <div class="field sel">
@@ -72,17 +88,24 @@
                 </h3>
                 <div class="clear"></div>
                 {{ form_start(messages, {'attr': {'id': 'globalPoint_form'}}) }}
-                {{ form_errors(messages) }}                
-                
+                {{ form_errors(messages) }} 
+                {% if info and info['form'] == 'message' %}
+                    {% for class,text in info %}
+                        {% if class != 'form' %}
+                            <div class="{{ class }}">{{ text }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {{ form_errors(messages.body) }}
                 <div class="field">
                     {{ form_label(messages.body) }}
                     <div class="clear"></div>
-                    <div class="textarea">
+                    <!--<div class="textarea">-->
                         {{ form_widget(messages.body) }} 
-                        <div class="ui corner label top1">
+                        <!--<div class="ui corner label top1">
                                 <i class="icon asterisk"></i>
-                        </div>
-                    </div>
+                        </div>-->
+                    <!--</div>-->
                 </div>
                 <div class="clear"></div>                                                 
 

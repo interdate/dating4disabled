@@ -1,0 +1,84 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %}
+
+{% if form is defined and form %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+
+{% block content %}
+    <div id="content-body">
+        <div class="mwarp">
+            <div class="wide">
+                <div class="bg topblock">
+                    <div class="top">&nbsp;</div>
+                    <div class="middle">
+                        <div class="warpper full-col">
+                            <h2 class="iMatches">My Pictures</h2>
+                            <div class="profile-listing-ex listingt" style="width: 88%;padding: 15px;">
+                                <div class="frow">
+                                    <div class="profile-links">
+                                        <input id="userImages" type="hidden" value="{{ path('user_photos') }}"/>
+                                        <a id="setMain" style="background: url(/assets/frontend/images/action_icons.png) no-repeat;background-position: 0 -102px;padding: 11px 0 8px 35px;" href="#">
+                                            Set Main
+                                        </a>
+                                            <a href="#" id="remove" class="close" style="float: none;padding: 7px 0 10px 37px;">Remove</a>
+
+                                    </div>
+
+                                    <div class="clear"></div>
+                                </div>
+                                <div id="images" class="frow" style="display: inline-block;">
+                                    <div class="image-main" style="float: left;width: 286px;margin-right: 20px;">
+                                        {% for photo in photos %}
+                                            {% if photo.imgmain and imgMain is not defined %}
+                                                {% set imgMain = photo.getWebPath %}
+                                                <img style="margin-bottom: 15px;" width="286" height="370" approved="{{ photo.imgvalidated }}" imgMain="{{ photo.imgmain }}" src="{{ photo.getWebPath }}" />
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if photos[0] is not defined and imgMain is not defined %}
+                                            <img style="margin-bottom: 15px;" width="286" height="370" approved="{{ photos[0].imgvalidated }}" imgMain="{{ photos[0].imgmain }}" src="{{ photos[0].getWebPath }}" />
+                                        {% endif %}
+                                        <div class="clear"></div>
+                                        {{ form_start(form, {'attr': {'id': 'image_form'}}) }}
+                                            {% for field in form %}                                                                                        
+                                                {{ form_row(field) }}
+                                            {% endfor %}
+
+                                            <div class="field_text">
+                                                <div style="margin-top: 0px;" class="submit" onclick="$('#image_submit').click();">Upload</div>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="clear"></div>   
+                                            <input style="display: none;" id="image_submit" type="submit" name="image(add)" value="add"/>
+                                       {{ form_end(form) }}
+                                       <div class="clear"></div>
+                                    </div>
+                                    {% for photo in photos %}
+                                    <div class="portrait">
+                                        <div class="por_name">
+                                        <a href="#">
+                                        <span>{% if photo.imgvalidated %}Approved{% else %}Unapproved{% endif %}</span>                                            
+                                        </a>
+                                        </div>
+                                    <img approved="{{ photo.imgvalidated }}" imgMain="{{ photo.imgmain }}" src="{{ photo.getWebPath }}" height="144" width="112" />
+                                    </div>
+                                    {% endfor %}
+                               <div style="clear"></div>     
+                               </div>
+                            </div>                       
+                            <div class="clear"></div>                           
+                        </div>
+                    </div>
+                    <div class="bottom">&nbsp;</div>
+                </div>
+                
+            </div>
+            
+            
+            {{ include ('D4DAppBundle:Frontend:Common/sidebar.twig.html') }}
+            
+            
+        </div>
+    </div>
+    
+
+
+
+{% endblock %}

@@ -30,11 +30,8 @@ use D4D\AppBundle\Form\Type\SearchType;
 class DefaultController extends Controller{
 	    
     public function indexAction(Request $request){
-    	    	
-    	return $this->render('D4DAppBundle:Frontend/Default:index.twig.html', array(
-    				
-    	));
-    	
+        $result = $this->get('d4d_security')->auth($request);
+    	return $this->render('D4DAppBundle:Frontend/Default:index.twig.html', $result);    	
     }
     
     

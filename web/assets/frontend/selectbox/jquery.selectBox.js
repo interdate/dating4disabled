@@ -159,7 +159,7 @@
                 arrow = $('<span class="selectBox-arrow" />');
 
             // Update label
-            label.attr('class', this.getLabelClass()).text(this.getLabelText());
+            label.attr('class', this.getLabelClass()).html(this.getLabelText());
             options = this.getOptions('dropdown');
             options.appendTo('BODY');
 
@@ -358,7 +358,7 @@
      */
     SelectBox.prototype.getLabelText = function () {
         var selected = $(this.selectElement).find('OPTION:selected');
-        return selected.text() || '\u00A0';
+        return '<i class="glyphicon glyphicon' + selected.attr('title') + '"></i>' + selected.text() || '\u00A0';
     };
 
     /**
@@ -375,7 +375,7 @@
         control
             .find('.selectBox-label')
             .attr('class', this.getLabelClass())
-            .text(this.getLabelText());
+            .html(this.getLabelText());
     };
 
     /**
@@ -1046,7 +1046,8 @@
         var li = $('<li />'), a = $('<a />');
         li.addClass(self.attr('class'));
         li.data(self.data());
-        a.attr('rel', self.val()).text(self.text());
+        a.attr('rel', self.val()).html('<i class="glyphicon glyphicon' + self.attr('title') + '"></i>' + self.text());
+        //alert(self.attr('title'));        
         li.append(a);
         if (self.attr('disabled')) {
             li.addClass('selectBox-disabled');

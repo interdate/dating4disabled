@@ -1,12 +1,9 @@
-
 				<div class="sidebar">
 	                
-	                {{ include ('D4DAppBundle:Frontend:User/sidebar.twig.html') }}
+	                {{ include ('D4DAppBundle:Frontend:User/sidebar.twig.html') }}	                
 	                
+	                {{ render(controller('D4DAppBundle:Frontend/Common:newUsers')) }}
 	                
-	                
-	                
-	                                
 	                <a href="#" class="sidebar-link">
 	                    <img src="/assets/frontend/images/sidebar-link-google.png" height="78" width="235" />
 	                </a>
@@ -14,5 +11,4 @@
 	                    <img src="/assets/frontend/images/sidebar-link-apple.png" height="78" width="235" />
 	                </a>
 	            </div>
-	            <div class="clear"></div>
-            
+	            <div class="clear"></div>          
