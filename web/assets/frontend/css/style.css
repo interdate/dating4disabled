@@ -1533,3 +1533,10 @@ table tr th:first-child{border-radius: 7px 0 0; }
     float: right;
     cursor: pointer;
 }
+
+.loginError{	
+	background: #78b7ff;
+	padding: 2px;	
+	color: #bd3c67;
+	margin-bottom: 4px;	
+}

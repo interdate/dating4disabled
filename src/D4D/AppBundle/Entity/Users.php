@@ -385,6 +385,12 @@ class Users implements userInterface, \Serializable
     private $mainPhoto;
     
     
+    /**
+     * @var integer
+     */
+    private $noPhoto;
+    
+    
     
     
 
@@ -2114,6 +2120,30 @@ class Users implements userInterface, \Serializable
     public function getMainPhoto()
     {
     	return $this->mainPhoto;
+    }
+    
+    
+    /**
+     * Set noPhoto
+     *
+     * @param float $noPhoto
+     * @return Users
+     */
+    public function setNoPhoto($noPhoto)
+    {
+    	$this->noPhoto = $noPhoto;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get noPhoto
+     *
+     * @return float
+     */
+    public function getNoPhoto()
+    {
+    	return $this->noPhoto;
     }
     
     

@@ -13,7 +13,7 @@
 {% block login %}
     <div class="home-menu">
         {% if error is defined and error %}
-            <div>{{ error.message }}</div>
+            <div class="loginError">{{ error.message }}</div>
         {% endif %}
         <form id="login" action="{{ path('user_login_check') }}" method="post">
             <label for="username">Email/Nick:</label><input type="text" id="username" name="_username" value="{{ last_username }}" />

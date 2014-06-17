@@ -326,7 +326,6 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 				
 		$this->connection = $this->getEntityManager()->getConnection();
 		$stmt = $this->connection->query($sql);
-		$stmt->execute();
 
 		$users['itemsNumber'] = 0;
 		$users['items'] = array();
@@ -338,19 +337,143 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$stmt->nextRowset();
 	
 		$result = $stmt->fetchAll();
-	
+			
 		if(count($result)){
 			foreach ($result as $row){
 				$user = $this->find($row['userId']);
-				$user->setUserPaying($row['isUserPaying']);
-				$user->setUserPaying($row['isUserPaying']);
+				$user->setUserPaying($row['isUserPaying']);				
 				$user->setAge($row['userAge']);
 				$users['items'][] = $this->setUserGeoData($user, $geoip);
 			}
 		}
 	
 		return $users;
-	}	
+	}
+
+	public function  getUsersByGroup($userId, $groupName, $page, $perPage, $geoip){
+				
+		$sql = "EXEC site_lists_sa " . $userId . ", " . $groupName . ", " . $page . ", " . $perPage;
+		$this->connection = $this->getEntityManager()->getConnection();
+		$stmt = $this->connection->query($sql);
+		$result = $stmt->fetchAll();
+		
+		//print_r($result);
+		
+		$users['items'] = array();		
+		$users['itemsNumber'] = $result[0][""];
+		
+		if($users['itemsNumber'] > 0){
+			$stmt->nextRowset();
+			$result = $stmt->fetchAll();
+			
+			//print_r($result);
+			//die;
+			
+			foreach ($result as $row){ 
+				//echo $row['userId'] . '<br>';				
+				$user = $this->find($row['userId']);
+				$user->setUserPaying($row['isUserPaying']);				
+				$user->setAge($row['userAge']);
+				$users['items'][] = $this->setUserGeoData($user, $geoip);
+				
+			}
+		}
+		
+		
+		return $users;
+	}
+	
+	public function getUserData($userId){
+		$sql = "EXEC site_userEnter " . $userId . ", 1";
+		$this->connection = $this->getEntityManager()->getConnection();
+		$stmt = $this->connection->query($sql);
+		
+		$result = $stmt->fetchAll();		
+		$stmt->nextRowset();		
+		$result = $stmt->fetchAll();
+
+		return array(
+			'statistics' => array(
+				'favorites' => $result[0]['fav'],
+				'blackList' => $result[0]['blackList'],
+				'lookedAtMe' => $result[0]['atme'],
+				'contacted' => $result[0]['contacted'],
+				'contactedMe' => $result[0]['contactedMe'],
+				'addedMeToFavorites' => $result[0]['favMe'],
+			)
+		);
+		
+		/*
+		$stmt->nextRowset();		
+		$result = $stmt->fetchAll();
+		$stmt->nextRowset();
+		*/
+		
+	}
+	
+	public function getGroupHeaderByGroupName($groupName){
+		
+		switch ($groupName) {
+			case 'fav':
+				return 'Added You To Friends';
+			
+			case 'coni': 
+				return 'People I contacted';
+
+			case 'favme':
+				return 'Added You To Friends';
+
+			case 'atme':
+				return 'Viewed Your Profile';
+				
+			case 'black':
+				return 'Black Listed';		
+					
+		}
+		
+	}
+	
+	public function getViewTypeDataByCurrentRoute($currentRoute){
+		
+		switch ($currentRoute) {			
+			case 'user_search_advanced':
+				$name = 'Gallery';
+				$route = 'user_search_advanced_gallery';
+				$cssClass = 'gallery';
+				break;
+					
+			case 'user_users_group':
+				$name = 'Gallery';
+				$route = 'user_users_group_gallery';
+				$cssClass = 'gallery';				
+				break;
+				
+			case 'user_search_advanced_gallery':
+				$name = 'Listing';
+				$route = 'user_search_advanced';
+				$cssClass = 'listing';
+				break;
+						
+			case 'user_users_group_gallery':
+				$name = 'Listing';
+				$route = 'user_users_group';
+				$cssClass = 'listing';
+				break;		
+		}
+		
+		
+		//echo $route;
+		//die();
+		
+		return
+			array(
+	    		'name' => $name,
+	    		'route' => $route,
+				'cssClass' => $cssClass,
+    		);
+				
+	}
+	
 
 }
 

@@ -19,7 +19,9 @@
                         {% if user.userPaying %}
 			            	<div class="ribbon">&nbsp;</div>
 			            {% endif %}
-                        <img src="{{ web_image(user.mainPhoto.getWebPath).resize(286, 370) }}" />
+                        {% if user.mainPhoto %}
+                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(286, 370) }}" />
+                        {% endif%} 
                         
                     </div>
                     <div class="image-thumbs">

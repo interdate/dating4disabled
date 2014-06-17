@@ -7,7 +7,7 @@ $(document).ready(
 	    $('#users_usernic').keyup(function(){ checkField(this,'Usernic'); });
 	    $('#users_useremail_first,#users_useremail').keyup(function(){ checkField(this,'Useremail'); });
 	    
-	    $('.signUpCountryCode select').change(function(){ choose($(this)); });
+	    $('.promptToLoad select').change(function(){ choose($(this)); });
 	    
 	    $('.dropdown-toggle').click(function(){
 	        if($(this).next('ul').css('display')=='none'){
@@ -31,7 +31,7 @@ $(document).ready(
 		$('#searchPagination span').click(function(){
 			var page = $(this).find('input[type="hidden"]').val();			
 			$('#requestedPage').val(page);			
-			$('#advancedSearchForm').submit();
+			$('#searchSettingsForm').submit();
 		});
 		
 		$('#show_sf').click(function(){
@@ -46,7 +46,7 @@ function actionImage(el){
     var id = $('#images .image-main img').attr('src').match(/\d/g).join("");
     var route = $('#userImages').val();
     var action = $(el).attr('id');
-    //alert(id);
+    
     $.ajax({
         url: route,
         type: 'Post',
@@ -63,18 +63,15 @@ function actionImage(el){
 }
 
 function clickImage(elem){
-    var src = $(elem).attr('src');
-    //$(this).parent().parent().find('.image-main img.background').remove();
+    var src = $(elem).attr('src');    
     var el = $(elem).parent().parent().find('.image-main img');
     el.parent().css({position:'relative'});
-    //el.after('<img style="position:absolute;" class="background" width="286" height="370" src="' + el.attr('src') + '">');
-    el.css({opasity:'0'}).attr('src',src).animate({opacity:'1'},5000);//.next('img').remove();
+    el.css({opasity:'0'}).attr('src',src).animate({opacity:'1'},5000);
     selectImage($(elem));
 }
 
 function selectImage(sel){
     $('#setMain').show();
-    //alert(sel.attr('imgmain')+','+sel.attr('src'));
     if(sel.attr('imgmain') === '1' || sel.attr('approved') !== '1'){
         $('#setMain').hide();
     }
@@ -86,9 +83,7 @@ function checkField(el,field){
     if((value.length > 3 && field == 'Usernic')||(email_pattern.test(value) && field == 'Useremail')){            
         var route = $('#checkRoute').val();
         var data = 'field=' + field + '&value=' + value;
-//        if(parseInt($(el).attr('userid'))>0){
-//            data = data + '&user_id=' + $(el).attr('userid');
-//        }
+
         $.ajax({
             url: route,
             type: 'Post',
@@ -97,8 +92,8 @@ function checkField(el,field){
                 //alert(JSON.stringify(error));
             },
             success: function(data){
-                    $('.' + field).remove();
-                    $(el).after(data);
+            	$('.' + field).remove();
+            	$(el).after(data);
             },
         });	
     }
@@ -140,11 +135,9 @@ function choose(el){
     var id = '';
     if(field == 'users_regioncode'){
         countrycode = $('#users_countrycode').val();
-        $('#users_cityname,#users_usercityname').parent().addClass('hidden').remove();
-        //$('#users_cityname,#users_usercityname').remove();
+        $('#users_cityname,#users_usercityname').parent().addClass('hidden').remove();        
     }else{
         $('#users_cityname,#users_usercityname,#users_regioncode').parent().addClass('hidden').remove();
-        //$('#users_cityname,#users_usercityname,#users_regioncode').remove();
     }
     var route = $('#chooseRoute').val();
     if(value != '--'){
@@ -173,24 +166,20 @@ function choose(el){
 
 function displayUsers(actionAttr){
 	$('#requestedPage').val(1);
-	$('#advancedSearchForm').attr({'action':actionAttr}).submit();
+	$('#searchSettingsForm').attr({'action':actionAttr}).submit();
 }
 
 
 function quickSearch(){
 	var userGender = $('.gen_picker.current').find('input').val();
 	$('#qs_user_gender').val(userGender);
-	//alert($('#qs_user_gender').val());
 	$('#qs_form').submit();	
 }
 
 function viewUserProfile(userId, offSetTop){	
 	var route = $('#viewUserProfileRoute').val();
-	//$('#profile_' + userId).html("").css({"height":"480px"}).siblings('.dimmer').dimmer('show');
-	$('#warp-floatblock, #darken').remove();
-	
+	$('#warp-floatblock, #darken').remove();	
 	$('<div id="darken"><div class="loader">Loading</div></div>').insertBefore('#page-warp');
-	
 	
 	$.ajax({
 		url: route,
@@ -199,18 +188,13 @@ function viewUserProfile(userId, offSetTop){
 		error: function(error){
 			$('.error').html(JSON.stringify(error));
 		},
-		success: function(data){
-			//$('#profile_' + userId).html(data).css({"height":"0px"}).siblings('.dimmer').dimmer('hide');
-			//initInterfaceItems();
-			//alert(data);
+		success: function(data){			
 			$(data).insertBefore('#darken');
 			var marginTop = offSetTop - 400;	
 			var marginLeft = ( $(window).width() / 2 ) - ( $('.floatblock').width() / 2 );
 			
 			$('#darken .loader').remove();
 			$('#warp-floatblock').show();
-			
-			
 			
 			$('#warp-floatblock').css({'margin-top': marginTop + 'px', 'margin-left' : marginLeft + 'px'}); 
 			

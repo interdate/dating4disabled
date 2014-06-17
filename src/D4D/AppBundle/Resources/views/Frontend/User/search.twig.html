@@ -11,7 +11,7 @@
                     <div class="top">&nbsp;</div>
                     <div class="middle">
                         <div class="warpper full-col search">
-                            <h2 class="iSearch">{% if searchSettings %} Search Results {% else %} Advanced Search {% endif %}</h2>
+                            <h2 class="iSearch">{{ header }}</h2>
                             
            					<div class="signup_warp">
            						
@@ -47,19 +47,20 @@
 		                                <div class="member_tag">Paying Member</div>
 		                                
 		                                <div class="display">
-		                                	Display By: 
-		                                	{% if app.request.get('_route') == 'user_search_advanced' %}
-		                                		<a onclick="displayUsers('{{ path('user_search_advanced_gallery') }}')" class="gallery">Gallery</a>
+		                                	Display By:
+		                                	{% if groupName is defined %}
+		                                		<a onclick="displayUsers('{{ path(viewType.route, {'groupName':groupName}) }}')" class="{{ viewType.cssClass }}">{{ viewType.name }}</a>
 		                                	{% else %}
-		                                		<a onclick="displayUsers('{{ path('user_search_advanced') }}')" class="listing">Listing</a>
-		                                	{% endif %}	
+		                                		<a onclick="displayUsers('{{ path(viewType.route) }}')" class="{{ viewType.cssClass }}">{{ viewType.name }}</a>
+		                                	{% endif %}
+		                                		
 		                                </div>
 		                                <div class="clear"></div>
 		                            </div>
 		                            
 		                            <div class="error"></div>
 		                            
-		                            {% if app.request.get('_route') == 'user_search_advanced' %}
+		                            {% if app.request.get('_route') == 'user_search_advanced' or app.request.get('_route') == 'user_users_group' %}
 		                            	{{ include ('D4DAppBundle:Frontend:User/searchResultsListing.twig.html', { 'users': users }) }}
 		                            {% else %}
 		                                {{ include ('D4DAppBundle:Frontend:User/searchResultsGallery.twig.html', { 'users': users }) }}

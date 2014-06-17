@@ -120,4 +120,11 @@ liip_imagine:
                 thumbnail: { size: [116, 140], mode: inset }
         
 gregwar_image: ~
+
+
+
+services:    
+    messenger:
+        class:        D4D\AppBundle\Services\Messenger\Messenger
+        #arguments: ['@doctrine.orm.entity_manager']    
     

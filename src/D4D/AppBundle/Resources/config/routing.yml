@@ -77,13 +77,51 @@ user_quick_search_countries:
     path:     /user/quick/search/countries
     defaults: { _controller: D4DAppBundle:Common\AppService:fetchCountries }
     
+    
+    
+    
 user_users_profile:
     path:     /user/users/profile
-    defaults: { _controller: D4DAppBundle:Frontend\User:viewProfile }
+    defaults: { _controller: D4DAppBundle:Frontend\User:viewProfile }    
+
+user_users_group_gallery:
+    path:     /user/users/group/gallery/{groupName}
+    defaults: { _controller: D4DAppBundle:Frontend\User:group, groupName:false }
+
+user_users_group:
+    path:     /user/users/group/{groupName}
+    defaults: { _controller: D4DAppBundle:Frontend\User:group, groupName:false }
     
-user_statistics:
-    path:     /user/statistics
-    defaults: { _controller: D4DAppBundle:Frontend\User:statistics }
+
+
+
+user_messenger_chat_open:
+    path:     /user/messenger/chat/open/userId:{userId}/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:openChat }
+    
+user_messenger_chat_close:
+    path:     /user/messenger/chat/close/userId:{userId}/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:closeChat }
+    
+user_messenger_active_chats:
+    path:     /user/messenger/activeChats/userId:{userId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:activeChats }
+    
+user_messenger_active_chats_new_messages:
+    path:     /user/messenger/activeChats/newMessages/userId:{userId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:activeChatsNewMessages }
+
+user_messenger_new_messages:
+    path:     /user/messenger/newMessages/userId:{userId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:newMessages }
+    
+user_messenger_message_send:
+    path:     /user/messenger/message/send/userId:{userId}/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:sendMessage }    
+
+user_messenger_message_read:
+    path:     /user/messenger/message/read/messageId:{messageId}/userId:{userId}/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:readMessage }
 
 
 

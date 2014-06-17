@@ -8,7 +8,7 @@ php_value max_execution_time 259200
 </IfModule>
 
 RewriteCond ${REQUEST_URI} ^.+$
-RewriteCond %{REQUEST_FILENAME} \.(gif|jpg|jpeg|png|js|css|swf|php|ico|txt|pdf|xml)$ [OR]
+RewriteCond %{REQUEST_FILENAME} \.(gif|jpg|jpeg|png|js|css|swf|php|ico|txt|pdf|xml|mp3)$ [OR]
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -l

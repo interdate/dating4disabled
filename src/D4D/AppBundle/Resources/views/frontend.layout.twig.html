@@ -22,7 +22,10 @@
 	<link rel="stylesheet" type="text/css" href="/assets/frontend/css/only-ie7.css" />
 	<![endif]-->
 	
-	<link rel="stylesheet" href="/assets/frontend/selectbox/jquery.selectBox.css" />	
+	<link rel="stylesheet" href="/assets/frontend/selectbox/jquery.selectBox.css" />
+	{% if app.user %}
+		<link rel="stylesheet" type="text/css" href="/assets/frontend/css/messenger.css"></link>		
+	{% endif %}	
 {% endblock %}
 
 {% block js %}
@@ -30,6 +33,10 @@
 	<script type="text/javascript" src="/assets/frontend/selectbox/jquery.selectBox.js"></script> 
     {# <script type="text/javascript" src="/assets/frontend/selectbox/main.js"></script> #}
     <script type="text/javascript" src="/assets/frontend/js/main.js"></script>
+	{% if app.user %}
+		<script type="text/javascript" src="/assets/frontend/js/messenger.js"></script>
+		<script type="text/javascript" src="/assets/frontend/js/tinyscrollbar.js"></script>		
+	{% endif %}
 	<script type="text/javascript">
 	$(function () {
 		$('select').selectBox();
@@ -99,22 +106,7 @@
 		    
 		    
 		    <script type="text/javascript">
-			$(document).ready(function () {
-			    /*$('.pick-1 .select_switch #bpic').click(function () {
-                                if($(this).parent('.select_switch').hasClass('man')) {
-                                    $(this).animate({left:'-6'}, 300);
-                                    $(this).parent('.select_switch').removeClass('man');
-                                    $(this).parent('.select_switch').addClass('woman');
-                                    $('.pick-1 #gan_man').removeClass("current");
-                                    $('.pick-1 #gan_wom').addClass("current");			
-                                } else {
-                                    $(this).animate({left:'32'}, 300);
-                                    $(this).parent('.select_switch').removeClass('woman');
-                                    $(this).parent('.select_switch').addClass('man');
-                                    $('.pick-1 #gan_wom').removeClass("current");
-                                    $('.pick-1 #gan_man').addClass("current");	
-                                }
-			    });*/
+			$(document).ready(function () {			    
                             $('.pick-1 .select_switch #bpic').click(function () {
                                 if($(this).parent('.select_switch').hasClass('man')) {
                                     $(this).animate({left:'-7'}, 300);
@@ -157,6 +149,59 @@
 				});
 			</script> 
 	    </div>
+	    
+	    {% if app.user %}
+	    
+	    	<input type="hidden" id="currentUserId" value="{{ app.user.userid }}" />
+	    	
+	    	{% if app.user.mainPhoto %}	    		
+	    		<input type="hidden" id="currentUserImage" value="{{ app.user.mainPhoto.getWebPath }}" />
+	    	{% else %}
+	    		<input type="hidden" id="currentUserImage" value="{{ app.user.noPhoto }}" />
+	    	{% endif %}
+	    	
+	    		    	
+	    	<div class="chatsArea"></div>	    	
+	    		
+		    <div id="templates">		    
+			    <div id="chatTemplate">	
+					<div class="chatWindow rounded" id="[CONTACT_ID]">
+						<div class="header rounded"></div>			
+						<div class="contactName"><a onclick="viewUserProfile([CONTACT_ID], $(this).offset().top)">[CONTACT_NAME]</a></div>
+						<div class="close rounded"></div> <div class="minimize rounded"></div>
+						<div class="body">
+							<br>				
+							<div class="scrollbar1">	
+								<div class="scrollbar"><div class="track"><div class="thumb"></div></div></div>	
+							    <div class="viewport">
+							        <div class="overview">
+							
+									</div>
+							    </div>
+							</div>					
+						</div>			
+						<textarea id="message"></textarea>
+					</div>
+				</div>
+				<div id="messageSectionTemplate">
+					<div class="messageSection [DIRECTION]" id="[MESSAGE_SECTION_ID]"> 				
+						<div class="imageWrap pos rounded">
+							<a href="[PROFILE_ID]" target="_blank"><img alt="" src="[USER_PICTURE]"></a> 
+						</div>							
+						<div class="messageWrap pos rounded">
+							<div class="message">[MESSAGE]<div class="dateTime">[DATE_TIME]</div></div>				
+						</div>							
+						<div class="clear"></div>
+						<div class="date"></div>
+					</div>	
+					<div class=""></div>
+				</div>
+			</div>
+	    {% endif %}
+	    
+	    <div class="error"></div>
+	    
+	    
 	</body>
 {% endblock %}
 

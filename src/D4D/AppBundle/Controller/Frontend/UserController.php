@@ -160,6 +160,7 @@ class UserController extends Controller{
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
     	$form = $this->createForm(new SearchType($user, $this->getDoctrine()), $user);
     	$request = $this->get('request');
+    	$currentRoute = $request->get('_route');
     	
     	$action = $request->query->get('action', false);
     	$page = $request->query->get('page', 1);
@@ -168,7 +169,15 @@ class UserController extends Controller{
     	
     	$users['itemsNumber'] = 0;
     	$users['items'] = array();
-    	$searchSettings = false;
+    	$searchSettings = false;    	
+    	$header = 'Advanced Search';
+    	$perPage = ($currentRoute == 'user_search_advanced') ? 20 : 66;
+    	
+    	
+    	//$viewTypePath = ($request->get('_route') == 'user_search_advanced') ? 'user_search_advanced_gallery' : 'user_search_advanced';
+    	//$viewTypePath = ($request->get('_route') == 'user_search_advanced') ? 'user_search_advanced_gallery' : 'user_search_advanced';
+    	$viewTypeData = $usersRepo->getViewTypeDataByCurrentRoute($currentRoute);
+    	
     	
     	$post = $request->request->all();
     	$get = $request->query->all();
@@ -178,7 +187,7 @@ class UserController extends Controller{
     		$searchSettings = isset($post['users']) ? $post['users'] : $get['users'];
     		$geoip = $this->get('maxmind.geoip');
     		$page = isset($post['page']) ? $post['page'] : $page;
-    		$perPage = ($request->get('_route') == 'user_search_advanced') ? 20 : 66;
+    		
     		$users = $usersRepo->search($searchSettings, $page, $geoip, $perPage);
     		$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');	
     		
@@ -192,23 +201,61 @@ class UserController extends Controller{
     				$item->setMainPhoto( $mainPhoto );
     			}
     		}
+    		
+    		$header = 'Search Results';
 
 		}
     	
-    	return $this->render('D4DAppBundle:Frontend/User:advancedSearch.twig.html', array(    	
+    	return $this->render('D4DAppBundle:Frontend/User:search.twig.html', array(    	
     		'form' => $form->createView(),
     		'users' => $users,
-    		'page' => $page,
-    		'searchSettings' => $searchSettings,
-    		//'viewType' => $viewType,
+    		//'page' => $page,
+    		'searchSettings' => $searchSettings,    		
+	   		'header' => $header,
+    		'viewType' => $viewTypeData,
     		'pagination' => array(
     			'page' => $page,
     			'route' => $request->get('_route'),
-    			'pages_count' => ceil($users['itemsNumber'] / 20),
+    			'pages_count' => ceil($users['itemsNumber'] / $perPage),
     			'route_params' => array(),
     		)    		
     	));
     	
+    }
+    
+    public function groupAction($groupName = false){
+
+    	$request = $this->get('request');
+    	$currentRoute = $request->get('_route');
+    	$perPage = ($currentRoute == 'user_users_group') ? 20 : 66;    	
+    	$userId = $this->getUser()->getUserid();
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
+    	$geoip = $this->get('maxmind.geoip');
+    	$post = $request->request->all();
+    	$page = isset($post['page']) ? $post['page'] : 1;
+    	$users = $usersRepo->getUsersByGroup($userId, $groupName, $page, $perPage, $geoip);
+    	
+    	if(!$groupName){
+    		$groupName = $post['groupName'];
+    	}
+    	
+    	$header = $usersRepo->getGroupHeaderByGroupName($groupName);
+    	$viewTypeData = $usersRepo->getViewTypeDataByCurrentRoute($currentRoute);
+    
+    	return $this->render('D4DAppBundle:Frontend/User:search.twig.html', array(
+    		'users' => $users,
+    		'groupName' => $groupName, 
+    		//'page' => $page,
+    		'header' => $header,
+    		'viewType' => $viewTypeData,
+    		'pagination' => array(
+    			'page' => $page,
+    			'route' => $request->get('_route'),
+    			'pages_count' => ceil($users['itemsNumber'] / $perPage),
+    			'route_params' => array(),
+    		)
+    	));
+    	 
     }
     
     public function paymentAction(){
@@ -343,14 +390,14 @@ class UserController extends Controller{
                     $file = $uploadedFile['file'];
                     if($file){                                            
                         $image = new Images();
-                        $image->setImgvalidated(FALSE);
-                        $image->setHomepage(FALSE);
+                        $image->setImgvalidated(false);
+                        $image->setHomepage(false);
                         $image->setFile($file);                        
                         $image->setUserid($this->getUser());
                         if(count($photos) == 0)
-                            $image->setImgmain(TRUE);
+                            $image->setImgmain(true);
                         else
-                            $image->setImgmain(FALSE);
+                            $image->setImgmain(false);
                         $image->preUpload();
                         $em->persist($image);
                         $em->flush();                        
@@ -378,18 +425,21 @@ class UserController extends Controller{
     		$user = $usersRepo->find($userId);
     
     		$photos = $photosRepo->findBy(
-    				array('userid' => $userId),
-    				array('imgmain' => 'DESC', 'imgid' => 'ASC')
+    			array('userid' => $userId),
+    			array('imgmain' => 'DESC', 'imgid' => 'ASC')
     		);
-    
-    		$user->setMainPhoto($photos[0]);
+    		
+    		if(isset($photos[0]))    
+    			$user->setMainPhoto($photos[0]);
     
     		return $this->render('D4DAppBundle:Frontend/User:viewProfile.twig.html', array(
-    				'user' => $user,
-    				'photos' => $photos,
+    			'user' => $user,
+    			'photos' => $photos,
     		));
     	}
     }
+    
+    
 
 
 }

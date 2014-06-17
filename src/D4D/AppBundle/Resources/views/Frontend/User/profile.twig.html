@@ -29,7 +29,7 @@
                                     {{ form_row(form.userlname) }}
                                     {{ form_row(form.useremail) }}
                                     
-                                    <div class="field_text signUpCountryCode">
+                                    <div class="field_text promptToLoad">
 	                                    {{ form_label(form.countrycode) }}
 	                                    {{ form_widget(form.countrycode) }}
 	                                    {{ form_errors(form.countrycode) }}
@@ -37,7 +37,7 @@
                                     </div>                                                                        
                                     
                                     {% if user.regioncode != null %}
-                                        <div class="field_text signUpCountryCode">
+                                        <div class="field_text promptToLoad">
 		                                    {{ form_label(form.regioncode) }}
 		                                    {{ form_widget(form.regioncode) }}
 		                                    {{ form_errors(form.regioncode) }}

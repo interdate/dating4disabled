@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use D4D\AppBundle\Entity\Users;
+use D4D\AppBundle\Services\Messenger\Config;
+
 
 
 class SecurityController extends Controller{
@@ -29,6 +31,9 @@ class SecurityController extends Controller{
     
     
     public function adminLoginAction(Request $request){
+    	if( is_object($this->getUser()) ){
+    		return $this->redirect($this->generateUrl('admin_home'));
+    	}
     	$result = $this->auth($request);
     	return $this->render('D4DAppBundle:Backend/Common:login.twig.html', $result);
     }
@@ -50,7 +55,26 @@ class SecurityController extends Controller{
     
     public function securedAction(Request $request)
     {
-    	return $this->render('D4DAppBundle:Frontend/User:home.twig.html');
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    	$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
+    	
+    	$userId = $this->getUser()->getUserid();
+    	$userData = $usersRepo->getUserData($userId);
+
+    	$mainPhoto = $photosRepo->findOneBy(array(
+    		'userid' => $userId,
+    		'imgmain' => true,
+    	));
+    	 
+    	if($mainPhoto instanceof Images && is_file($mainPhoto->getAbsolutePath())){
+    		$this->getUser()->setMainPhoto( $mainPhoto );
+    	}
+    	    	
+    	$config = Config::getInstance();
+    	$noPhoto = ($this->getUser()->getUsergender() == 1) ? $config['users']['noImage']['female']: $config['users']['noImage']['male'];
+    	$this->getUser()->setNoPhoto($noPhoto);
+    	
+    	return $this->render('D4DAppBundle:Frontend/User:home.twig.html', array('userData' => $userData));
     }
     
     
