@@ -15,8 +15,8 @@
 			                                    	<div class="ribbon">&nbsp;</div>
 			                                    {% endif %}
 		                                        {% if user.mainPhoto %}
-		                                        	{# <img src="{{user.mainPhoto|imagine_filter('my_thumb2')}}"> #}
-		                                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(116, 140) }}">
+		                                        	{# <img src="{{user.mainPhoto|imagine_filter('my_thumb2')}}" alt="" /> #}
+		                                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(116, 140) }}" alt="" />
 		                                        {% endif %}
 		                                        </div>
 		                                    </div>

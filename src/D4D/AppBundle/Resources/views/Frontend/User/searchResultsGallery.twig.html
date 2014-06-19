@@ -21,7 +21,7 @@
 			                                        	<div class="ribbon">&nbsp;</div>
 			                                        {% endif %}                                     	
 			                                        {% if user.mainPhoto %} 
-			                                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(116, 140) }}" />
+			                                        	<img src="{{ web_image(user.mainPhoto.getWebPath).resize(116, 140) }}" alt="" />
 			                                        {% else %}
 			                                        	<img src="#" width="116" height="140" />
 			                                        {% endif %}

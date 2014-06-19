@@ -94,12 +94,12 @@
                             <div class="col2 cme">
                                 <h2 class="iContacted">Contacted Me</h2>
                                 <div class="action_list">
-                                    <a href="{{ path('user_users_group', {'groupName': 'conme'}) }}" class="icon5">Contacted me ({{ userData.statistics.contactedMe }}) </a>
-                                    <a href="{{ path('user_users_group', {'groupName': 'atme'}) }}" class="icon2">Viewed Your Profile ({{ userData.statistics.lookedAtMe }})</a>
-                                    <a href="{{ path('user_users_group', {'groupName': 'favme'}) }}" class="icon3">Added You To Friends ({{ userData.statistics.addedMeToFavorites }})</a>
+                                    <a href="{{ path('user_users_group', {'groupName': 'conme'}) }}" class="icon5">Contacted me {# ({{ userData.statistics.contactedMe }}) #} </a>
+                                    <a href="{{ path('user_users_group', {'groupName': 'atme'}) }}" class="icon2">Viewed Your Profile {# ({{ userData.statistics.lookedAtMe }}) #} </a>
+                                    <a href="{{ path('user_users_group', {'groupName': 'favme'}) }}" class="icon3">Added You To Friends {# ({{ userData.statistics.addedMeToFavorites }}) #} </a>
                                     <a href="#" class="icon4">Message</a>
-                                    <a href="{{ path('user_users_group', {'groupName': 'coni'}) }}" class="icon1"> People I contacted ({{ userData.statistics.contacted }})</a>
-                                    <a href="{{ path('user_users_group', {'groupName': 'black'}) }}" class="icon6"> Black Listed ({{ userData.statistics.blackList }})</a>
+                                    <a href="{{ path('user_users_group', {'groupName': 'coni'}) }}" class="icon1"> People I contacted {# ({{ userData.statistics.contacted }}) #} </a>
+                                    <a href="{{ path('user_users_group', {'groupName': 'black'}) }}" class="icon6"> Black Listed {# ({{ userData.statistics.blackList }}) #} </a>
                                 <!--end action_list--></div>
                             </div>
                             <div class="clear"></div>

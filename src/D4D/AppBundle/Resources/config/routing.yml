@@ -120,9 +120,16 @@ user_messenger_message_send:
     defaults: { _controller: D4DAppBundle:Frontend\Messenger:sendMessage }    
 
 user_messenger_message_read:
-    path:     /user/messenger/message/read/messageId:{messageId}/userId:{userId}/contactId:{contactId}
+    path:     /user/messenger/message/read/messageId:{messageId}/userId:{userId}/contactId:{contactId} 
     defaults: { _controller: D4DAppBundle:Frontend\Messenger:readMessage }
 
+user_messenger_dialog_open:
+    path:     /user/messenger/dialog/open/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:openDialog }
+    
+user_messenger_dialog_new_messages:
+    path:     /user/messenger/dialog/newMessages/contactId:{contactId}
+    defaults: { _controller: D4DAppBundle:Frontend\Messenger:dialogNewMessages }    
 
 
 

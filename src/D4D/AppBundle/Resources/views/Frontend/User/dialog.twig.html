@@ -1,0 +1,60 @@
+{% extends "D4DAppBundle::frontend.layout.twig.html" %}
+
+
+{% block content %}
+
+	
+	<div id="content-body">
+        <div class="mwarp">
+            <div class="wide">
+                <div class="bg topblock">
+                    <div class="top">&nbsp;</div>
+                    <div class="middle">
+                        <div class="warpper full-col search">
+                            <h2 class="iSearch">Conversation with {{ dialog.contact.nickName }}</h2>
+                            
+           					<div class="signup_warp">
+           					
+           						
+           						<div id="dialog">
+           							
+	           						{% for message in dialog.history %}
+	           							<div class="left"><strong>{{ message.username }}</strong></div>
+	           							<div class="dateTime">{{ message.dateTime }}</div>
+	           							<div class="clear"></div>
+	           							<p>{{ message.text }}</p>
+	           						{% endfor %}
+	           						
+           						</div>
+           						
+           						<div class="dialogInput">
+           							<textarea></textarea>
+           						</div>
+           						
+           						<input type="hidden" value="{{ dialog.contact.id }}" id="contactId" />
+           						<input type="hidden" value="{{ dialog.contact.nickName }}" id="contactNickname" />
+           						<input type="hidden" value="{{ dialog.user.nickName }}" id="userNickname" />
+           						
+	
+							</div>        
+                            
+                        </div>
+                    </div>
+                    <div class="bottom">&nbsp;</div>
+                </div>
+
+            </div>  
+
+			{{ include ('D4DAppBundle:Frontend:Common/sidebar.twig.html') }}
+
+
+        </div>
+    </div>
+    
+    
+	<input type="hidden" id="viewUserProfileRoute" value="{{ path('user_users_profile') }}" />
+	
+	
+
+{% endblock %}
+

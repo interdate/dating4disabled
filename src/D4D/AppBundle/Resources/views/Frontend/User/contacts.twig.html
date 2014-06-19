@@ -1,0 +1,14 @@
+
+
+
+{% for user in users %}
+	<div class="item rounded" onclick="window.location.href='{{ path('user_messenger_dialog_open', {'contactId': user.userid }) }}'">
+		<div class="photo">
+			<img src="{{ web_image(user.mainPhoto.getWebPath).resize(40, 40) }}" alt="" class="rounded" />	
+		</div>
+		<div class="username">
+			{{ user.usernic }}
+		</div>
+	</div>
+	<div class="clear"></div>
+{% endfor %}

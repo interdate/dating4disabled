@@ -17,12 +17,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use D4D\AppBundle\Entity\Users;
 use D4D\AppBundle\Entity\Images;
 use D4D\AppBundle\Entity\UsersSearch;
+use D4D\AppBundle\Entity\Contactedmelist;
+
 
 use D4D\AppBundle\Form\Type\UsersType;
 use D4D\AppBundle\Form\Type\SearchType;
 use D4D\AppBundle\Form\Type\SignUpType;
 use D4D\AppBundle\Form\Type\ImageType;
 
+use D4D\AppBundle\Services\Messenger\Config;
 
 class UserController extends Controller{        
 	    
@@ -155,7 +158,7 @@ class UserController extends Controller{
         ));
     }
 
-    public function advancedSearchAction(){
+    public function advancedSearchAction(){    	    	
     	$user = new UsersSearch();
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
     	$form = $this->createForm(new SearchType($user, $this->getDoctrine()), $user);
@@ -437,6 +440,75 @@ class UserController extends Controller{
     			'photos' => $photos,
     		));
     	}
+    }
+    
+    
+    public function dialogsAction(){
+    	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
+    	$userId = $this->getUser()->getUserid();
+    	$contactsRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Contactedmelist');
+    	$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
+    	
+    	$conn = $this->getDoctrine()->getConnection();
+    	//$contacts = array();
+    	$contactsArr = array();
+    	
+    	//$sql = "SELECT listmemberid FROM D4DAppBundle:Contactedmelist c WHERE listownerid = " . $userId . "' OR listmemberid = '" . $userId . "'";
+    	    	
+    	$qb = $contactsRepo->createQueryBuilder('c');
+		$qb->where(
+			$qb->expr()->orX(
+		        $qb->expr()->eq('c.listownerid', ':ownerId'),
+		        $qb->expr()->eq('c.listmemberid', ':memberId')
+		    )
+    	)
+		->setParameter('ownerId', $userId)
+		->setParameter('memberId', $userId);
+		
+		//$matches_reply = $qb->getQuery()->getSingleResult();
+		$contacts = $qb->getQuery()->getResult();
+		
+    	foreach ($contacts as $contact){
+    		$contactId = ($contact->getListmemberid() == $userId) ? $contact->getListownerid() : $contact->getListmemberid();
+    		//$user = $usersRepo->find($contactId);
+    		$contactsArr[] = $contactId;
+    	}
+    	
+    	
+    	$qb = $usersRepo->createQueryBuilder('u');
+    	$qb->where(
+    		$qb->expr()->in('u.userid', $contactsArr)
+    	);
+    	
+    	$users = $qb->getQuery()->getResult();
+    	//$users = array();
+    	
+    	$config = Config::getInstance();
+    	foreach ($users as $user){
+    		$mainPhoto = $photosRepo->findOneBy(array(
+    			'userid' => $user->getUserid(),
+    			'imgmain' => true,
+    		));
+    		
+    		if(!$mainPhoto instanceof Images){
+    			$mainPhoto = new Images();
+    			$mainPhoto->setUserid($user);
+    		}   
+    		 		
+    		$user->setMainPhoto( $mainPhoto );
+
+    		//$noPhoto = ($user->getUsergender() == 1) ? $config['users']['noImage']['female']: $config['users']['noImage']['male'];
+    		//$user->setNoPhoto($noPhoto);
+    	}
+    	
+    	
+    	return $this->render('D4DAppBundle:Frontend/User:contacts.twig.html', array(
+    		'users' => $users,
+    	));
+    	
+    	
+    	
+    	
     }
     
     

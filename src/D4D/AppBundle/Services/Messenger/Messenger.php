@@ -127,8 +127,10 @@ class Messenger{
 					$chat->setMessageAsDelivered($message['id']);
 				}
 								
-				return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));				
-				exit(0);				
+				//return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));
+				//exit(0);
+				return array("newMessages" => $result, "MinSec" => $dateTime);
+								
 			}
 		
 			usleep(500);  
@@ -137,7 +139,8 @@ class Messenger{
 		$timestamp = time();
 		$time = date("i:s", $timestamp);
 		$dateTime[] = $time;
-		return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));	
+		//return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));
+		return array("newMessages" => $result, "MinSec" => $dateTime);
 	}	
 	
 	
@@ -176,6 +179,62 @@ class Messenger{
 		}
 				
 		return $this->response(array("fromUsers" => $users));
+	}
+	
+	public function checkDialogNewMessages($options){
+		$result = array();
+		$dateTime = array();
+		$startTime = time();
+		
+		while(time() - $startTime < 10) {
+			
+			$dialog = new Dialog($options);
+			$newMessages = $dialog->getNewMessages();
+			
+			//return $this->response(array("newMessages" => $newMessages, "MinSec" => $dateTime));
+			//die();
+		
+			if(count($newMessages) > 0){
+				foreach ($newMessages as $message){
+					$this->isNewMessage = true;
+					$messageDateObject = new \DateTime($message['date']);
+					$timestamp = $messageDateObject->getTimestamp();
+					$date = date("d.m.Y", $timestamp);
+					$time = date("h:i", $timestamp);
+		
+					$result[] = array(
+						"id" => $message['messageId'],
+						"from" => $dialog->contact()->getId(),
+						"text" => urldecode($message['message']),
+						"dateTime" => $date . ' ' . $time,
+						"userImage" => $dialog->contact()->getImage(),
+						"userName" => $dialog->contact()->getNickName()
+					);
+				}
+			}			
+				
+			if($this->isNewMessage()){
+				$timestamp = time();
+				$time = date("i:s", $timestamp);
+				$dateTime[] = $time;
+		
+				foreach($result as $message){
+					$dialog->setMessageAsDelivered($message['id']);
+				}
+				
+				//return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));
+				//exit(0);
+				return array("newMessages" => $result, "MinSec" => $dateTime);
+			}
+		
+			usleep(500);
+		}
+		 
+		$timestamp = time();
+		$time = date("i:s", $timestamp);
+		$dateTime[] = $time;
+		//return $this->response(array("newMessages" => $result, "MinSec" => $dateTime));
+		return array("newMessages" => $result, "MinSec" => $dateTime);
 	}
 	
 }

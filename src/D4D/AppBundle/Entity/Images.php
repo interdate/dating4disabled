@@ -5,6 +5,7 @@ namespace D4D\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use D4D\AppBundle\Services\Messenger\Config;
 
 /**
  * Images
@@ -314,9 +315,13 @@ class Images
     
     public function getWebPath()
     {
-    	return null === $this->ext
-    	? null
-    	: $this->getUploadDir() . '/' . $this->imgid . '.' . $this->ext;
+    	if( !is_file($this->getAbsolutePath()) ){
+    		$config = Config::getInstance();
+    		$noPhoto = ($this->getUserid()->getUsergender() == 1) ? $config['users']['noImage']['female']: $config['users']['noImage']['male'];
+    		return $noPhoto;
+    	}
+    	
+    	return $this->getUploadDir() . '/' . $this->imgid . '.' . $this->ext;
     }
     
     protected function getUploadRootDir()

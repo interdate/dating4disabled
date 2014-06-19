@@ -110,7 +110,7 @@ class Chat extends Messenger{
 		
 	}
 	
-	public function getHistory(){
+	public function getHistory($messagesNumber = 30){
 		
 		$userId = $this->user->getId();
 		$contactId = $this->contact->getId();
@@ -118,7 +118,7 @@ class Chat extends Messenger{
 		$contactImage = $this->contact->getImage();
 		$result = array();
 		
-		$sql = "SELECT TOP 30 
+		$sql = "SELECT TOP " . $messagesNumber . " 
 					fromUser,toUser,message,date,isRead,messageId,isDelivered
 				FROM
 					" . $this->config->messenger->table . "
@@ -149,12 +149,12 @@ class Chat extends Messenger{
 			$image = ($userId == $message['fromUser']) ? $userImage : $contactImage;
 				
 			$result[] = array(
-					"id" => $message['messageId'],
-					"from" => $message['fromUser'],					
-					"text" => urldecode($message['message']),
-					"dateTime" => $date . ' ' . $time,
-					"userImage" => $image,
-					"isRead" => $isRead,
+				"id" => $message['messageId'],
+				"from" => $message['fromUser'],					
+				"text" => urldecode($message['message']),
+				"dateTime" => $date . ' ' . $time,
+				"userImage" => $image,
+				"isRead" => $isRead,
 			);
 			
 			if($message['fromUser'] == $contactId and $message['isDelivered'] == 0){		

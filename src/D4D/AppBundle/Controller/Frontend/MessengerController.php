@@ -18,6 +18,7 @@ use D4D\AppBundle\Entity\Users;
 use D4D\AppBundle\Entity\Images;
 
 use D4D\AppBundle\Services\Messenger\Chat;
+use D4D\AppBundle\Services\Messenger\Dialog;
 
 /*
 use D4D\AppBundle\Services\Messenger\IniStructure;
@@ -55,15 +56,27 @@ class MessengerController extends Controller{
 	public function activeChatsAction($userId){
 		$options['userId'] = $userId;				
 		$messenger = $this->get('messenger');
-		
+		 
 		return $messenger->response(array("activeChats" => $messenger->getActiveChats($options)));
 	}
 	
 	public function activeChatsNewMessagesAction($userId){
 		$options['userId'] = $userId;				
 		$messenger = $this->get('messenger');
+		$result = $messenger->checkActiveChatsNewMessages($options);
 		
-		return $messenger->checkActiveChatsNewMessages($options);
+		if(!count($result['newMessages'])){
+			$request = $this->getRequest();
+			$checkForDialogAlso = $request->query->get('checkForDialogAlso');
+			if($checkForDialogAlso){
+				$contactId = $checkForDialogAlso = $request->query->get('contactId');
+				$options['contactId'] = $contactId;
+				$result = $messenger->checkDialogNewMessages($options);
+			}
+		}
+		
+		return $messenger->response($result);
+		
 	}
 	
 	public function newMessagesAction($userId){
@@ -95,6 +108,35 @@ class MessengerController extends Controller{
 		$chat = new Chat($options);
 		$result = $chat->setMessageAsRead($messageId);
 		return $chat->response(array('success' => $result));
+	}
+	
+	public function openDialogAction($contactId){
+		$options['userId'] = $this->getUser()->getUserid();
+		$options['contactId'] = $contactId;
+	
+		//$messenger = $this->get('messenger');
+		
+		//$openDialog = $messenger->openDialog($options);
+		$dialog = new Dialog($options);
+		//$dialogHistory = $dialog->getHistory();
+	
+		return $this->render('D4DAppBundle:Frontend/User:dialog.twig.html', array(
+    		//'dialogHistory' => $dialogHistory,
+			'dialog' => $dialog, 
+    	));
+	}
+	
+	public function dialogNewMessagesAction($contactId){
+		$options['userId'] = $this->getUser()->getUserid();
+		$options['contactId'] = $contactId;
+		
+		/*
+		$dialog = new Dialog($options);	
+		$dialog->getNewMessages();
+		*/
+		
+		$messenger = $this->get('messenger');	
+		return $messenger->checkDialogNewMessages($options);
 	}
 		
 }

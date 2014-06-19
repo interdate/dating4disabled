@@ -2210,7 +2210,10 @@ class Users implements userInterface, \Serializable
     }
     
     
-    
+    public function __toString()
+    {
+    	return strval($this->userid);
+    }
     
     
 }

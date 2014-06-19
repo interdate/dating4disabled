@@ -24,7 +24,8 @@
 	
 	<link rel="stylesheet" href="/assets/frontend/selectbox/jquery.selectBox.css" />
 	{% if app.user %}
-		<link rel="stylesheet" type="text/css" href="/assets/frontend/css/messenger.css"></link>		
+		<link rel="stylesheet" type="text/css" href="/assets/frontend/css/messenger.css"></link>
+		<link rel="stylesheet" type="text/css" href="/assets/frontend/css/perfect-scrollbar.min.css"></link>				
 	{% endif %}	
 {% endblock %}
 
@@ -35,7 +36,10 @@
     <script type="text/javascript" src="/assets/frontend/js/main.js"></script>
 	{% if app.user %}
 		<script type="text/javascript" src="/assets/frontend/js/messenger.js"></script>
-		<script type="text/javascript" src="/assets/frontend/js/tinyscrollbar.js"></script>		
+		<script type="text/javascript" src="/assets/frontend/js/tinyscrollbar.js"></script>
+		
+		<script type="text/javascript" src="/assets/frontend/js/perfect-scrollbar-with-mousewheel.min.js"></script>
+		<script type="text/javascript" src="/assets/frontend/js/perfect-scrollbar.min.js"></script>		
 	{% endif %}
 	<script type="text/javascript">
 	$(function () {
@@ -183,7 +187,7 @@
 						<textarea id="message"></textarea>
 					</div>
 				</div>
-				<div id="messageSectionTemplate">
+				<div id="chatMessageSectionTemplate">
 					<div class="messageSection [DIRECTION]" id="[MESSAGE_SECTION_ID]"> 				
 						<div class="imageWrap pos rounded">
 							<a href="[PROFILE_ID]" target="_blank"><img alt="" src="[USER_PICTURE]"></a> 
@@ -196,6 +200,18 @@
 					</div>	
 					<div class=""></div>
 				</div>
+				
+				<div id="dialogMessageSectionTemplate">
+					<div class="messageSection" id="[MESSAGE_SECTION_ID]">
+						<div class="left"><strong onclick="viewProfile([PROFILE_ID]);">[USERNAME]</strong></div>
+	           			<div class="dateTime">[DATE_TIME]</div>
+	           			<div class="clear"></div>
+	           			<p>[MESSAGE]</p>
+	           			<div class="clear"></div>						
+					</div>	
+					<div class=""></div>
+				</div>
+				
 			</div>
 	    {% endif %}
 	    

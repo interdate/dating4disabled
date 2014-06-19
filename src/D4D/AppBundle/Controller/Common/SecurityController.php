@@ -15,8 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use D4D\AppBundle\Entity\Users;
-use D4D\AppBundle\Services\Messenger\Config;
-
+use D4D\AppBundle\Entity\Images;
 
 
 class SecurityController extends Controller{
@@ -58,23 +57,21 @@ class SecurityController extends Controller{
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
     	$photosRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Images');
     	
-    	$userId = $this->getUser()->getUserid();
-    	$userData = $usersRepo->getUserData($userId);
+    	$user = $this->getUser();    	
+    	//$userData = $usersRepo->getUserData($userId);
 
     	$mainPhoto = $photosRepo->findOneBy(array(
-    		'userid' => $userId,
+    		'userid' => $user->getUserid(),
     		'imgmain' => true,
-    	));
-    	 
-    	if($mainPhoto instanceof Images && is_file($mainPhoto->getAbsolutePath())){
-    		$this->getUser()->setMainPhoto( $mainPhoto );
-    	}
-    	    	
-    	$config = Config::getInstance();
-    	$noPhoto = ($this->getUser()->getUsergender() == 1) ? $config['users']['noImage']['female']: $config['users']['noImage']['male'];
-    	$this->getUser()->setNoPhoto($noPhoto);
+    	));    	 
     	
-    	return $this->render('D4DAppBundle:Frontend/User:home.twig.html', array('userData' => $userData));
+    	if(!$mainPhoto instanceof Images){
+    		$mainPhoto = new Images();
+    		$mainPhoto->setUserid($user);
+    	}
+    		
+    	$this->getUser()->setMainPhoto( $mainPhoto );
+    	return $this->render('D4DAppBundle:Frontend/User:home.twig.html'/*, array('userData' => $userData)*/);
     }
     
     

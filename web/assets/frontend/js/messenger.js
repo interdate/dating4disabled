@@ -55,9 +55,122 @@ $(document).ready(
 			
 		});
 		
-		blinkingTitle = false;
+		/*
+		$('a.dialog').click(function(){
+			var id = $(this).attr('id');
+			var idArr = id.split("_");
+			var contactId = idArr[1];
+			var contactName = idArr[2];
+			
+			var options = {
+				contactId: contactId,
+				contactName: contactName,
+				creatingInCycle: false
+			};
+			
+			var dialog = new Dialog(options);
+			dialog.open();
+			
+		});
+		*/
+		
+		blinkingTitle = false;		
+		
+		$('#dialog').perfectScrollbar({
+			wheelSpeed: 35
+		});
+		
+		$("#dialog").scrollTop( $( "#dialog" ).prop( "scrollHeight" ) );
+		$("#dialog").perfectScrollbar('update');
+						
+		
+		
+		$('.dialogInput textarea').keypress(function(e){
+			//alert(1);
+			if(dialog.enterKeyPressed(e)){
+				dialog.sendMessage($(this));
+			}
+		});
+		
 	}
 );
+
+
+
+
+function Dialog(options){
+	
+	this.sentMessagesArea = $('#dialog');
+	this.username = options.userName; 
+	this.newMessagesRequest = '';
+	
+	//Chat.apply(this, options);	
+	this.insertMessage = function(message){
+		
+		message.text = message.text.replace(/(?:(https?\:\/\/[^\s]+))/m,'<a href="$1" target="_blank">$1</a>'); 
+		
+		var html = Messenger.dialogMessageTemplate.replace(/\[MESSAGE\]/g, message.text);
+		var username = (message.from == this.contactId) ? this.contactName : this.username;
+		html = html.replace(/\[USERNAME\]/, username);
+		html = html.replace(/\[DATE_TIME\]/, message.dateTime);				
+		var profileId = (message.from == this.contactId) ? this.contactId : Messenger.currentUserId;		
+		html = html.replace(/\[PROFILE_ID\]/, profileId);		
+		html = html.replace(/\[MESSAGE_SECTION_ID\]/, message.id);		
+		this.sentMessagesArea.append(html);	
+		
+		$("#dialog").scrollTop( $( "#dialog" ).prop( "scrollHeight" ) );
+		$("#dialog").perfectScrollbar('update');		
+	};
+	
+	
+	this.checkNewMessages = function(){
+		
+		//alert('/user/messenger/dialog/newMessages/contactId:' + this.contactId);
+		//return;
+		
+		if(this.newMessagesRequest != ''){
+			this.newMessagesRequest.abort();
+			//alert(this.newMessagesRequest);
+		}	
+		
+		//return;
+		
+		console.log('START');
+		
+		this.newMessagesRequest = $.ajax({
+			url: '/user/messenger/dialog/newMessages/contactId:' + this.contactId,				
+			timeout:80000,
+			dataType: 'json',
+			//data: 'message='+message,
+			context: this,
+			error: function(response){
+				//console.log('ABORT');
+				//console.log(JSON.stringify(response));
+				$('.error').html(response.responseText);
+			},
+			success: function(response, status){				
+				console.log(JSON.stringify(response));
+				console.log('END');
+								
+				if(response.newMessages.length > 0){
+					for(var i in response.newMessages){
+						var message = response.newMessages[i];
+						this.insertMessage(message);
+						this.setMessageAsRead(message);
+					}	
+				}
+				this.checkNewMessages();
+				
+			}
+		});
+		
+		
+		
+	};
+}
+
+
+
 
 
 function Chat(options){	
@@ -80,15 +193,18 @@ function Chat(options){
 	
 	this.open = function(){
 		
-		if(ChatManager.newMessagesRequest != ''){
-			ChatManager.newMessagesRequest.abort(); 					
+		if(Messenger.newMessagesRequest != ''){
+			Messenger.newMessagesRequest.abort(); 					
 		}
 		
-		
+		/*
+		alert('/user/messenger/chat/open/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId);
+		return;
+		*/
 		
 		$.ajax({
-			url: '/user/messenger/chat/open/userId:' + ChatManager.currentUserId + '/contactId:' + this.contactId,
-			//url: '/chat/index.php?openChat=true&userId='+ChatManager.currentUserId+'&contactId='+this.contactId,
+			url: '/user/messenger/chat/open/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId,
+			//url: '/chat/index.php?openChat=true&userId='+Messenger.currentUserId+'&contactId='+this.contactId,
 			timeout:10000,
 			dataType: 'json',
 			context: this,
@@ -100,16 +216,16 @@ function Chat(options){
 				
 				//console.log(JSON.stringify(response.chatHistory));
 								
-				var chat = ChatManager.getChat(this.contactId); 
+				var chat = Messenger.getChat(this.contactId); 
 				
 				if(!chat){					
-					ChatManager.setChat(this);
+					Messenger.setChat(this);
 					
-					var html = ChatManager.template.html.replace(/\[CONTACT_ID\]/g, this.contactId);					
+					var html = Messenger.template.html.replace(/\[CONTACT_ID\]/g, this.contactId);					
 					html = html.replace(/\[CONTACT_NAME\]/g, this.contactName);
 					
-					var activeChatsNumber = ChatManager.getAllChats().length;
-					var position = ChatManager.calculateChatPosition(activeChatsNumber - 1);
+					var activeChatsNumber = Messenger.getAllChats().length;
+					var position = Messenger.calculateChatPosition(activeChatsNumber - 1);
 					
 					var thisChat = this;
 					
@@ -174,15 +290,14 @@ function Chat(options){
 									this.setMessageAsRead(message);
 								else
 									this.addMessageToWaiting(message);								
-							}
-								//
+							}							
 						}				
 					}
 					
 					if(isNew && this.isMinimized){
 						this.blinkingStart();
-						ChatManager.blinkingTitleStart();
-						//ChatManager.play('newMessageSound');
+						Messenger.blinkingTitleStart();
+						//Messenger.play('newMessageSound');
 						$('body').append('<embed src="/assets/frontend/media/newMessage.mp3" autoplay="true" autostart="true" type="audio/x-wav" width="1" height="1">');
 					}	
 					
@@ -191,10 +306,10 @@ function Chat(options){
 					}
 					
 					if(!this.creatingInCycle)				
-						ChatManager.checkActiveChatsNewMessages();
+						Messenger.checkActiveWindowsNewMessages();
 					else
 						setTimeout(function(){
-							ChatManager.checkActiveChatsNewMessages();  
+							Messenger.checkActiveWindowsNewMessages();  
 						}, 200);
 						
 					
@@ -209,16 +324,16 @@ function Chat(options){
 	this.close = function(){
 		
 		/*
-		if(ChatManager.newMessagesRequest != '')
-			ChatManager.newMessagesRequest.abort();
+		if(Messenger.newMessagesRequest != '')
+			Messenger.newMessagesRequest.abort();
 		*/
 		
-		//alert('/user/messenger/chat/close/userId:' + ChatManager.currentUserId + '/contactId:' + this.contactId);
+		//alert('/user/messenger/chat/close/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId);
 		//return;
 		
 		$.ajax({
-			url: '/user/messenger/chat/close/userId:' + ChatManager.currentUserId + '/contactId:' + this.contactId,
-			//url: '/chat/index.php?closeChat=true&userId='+ChatManager.currentUserId+'&contactId='+this.contactId,
+			url: '/user/messenger/chat/close/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId,
+			//url: '/chat/index.php?closeChat=true&userId='+Messenger.currentUserId+'&contactId='+this.contactId,
 			error:function(error){
 				console.log(JSON.stringify(error));
 				$('.error').html(error.responseText);
@@ -229,10 +344,10 @@ function Chat(options){
 			success: function(response, status){				
 				if(response.success){					
 					$('.chatsArea').find('#'+this.contactId).remove();					
-					ChatManager.unsetChat(this);
-					ChatManager.relocateChats();
-					//ChatManager.checkActiveChatsNewMessages();
-					ChatManager.blinkingTitleStop();
+					Messenger.unsetChat(this);
+					Messenger.relocateChats();
+					//Messenger.checkActiveWindowsNewMessages();
+					Messenger.blinkingTitleStop();
 				}
 			}
 		});		
@@ -258,7 +373,7 @@ function Chat(options){
 			}
 			
 			this.blinkingStop();
-			ChatManager.blinkingTitleStop();
+			Messenger.blinkingTitleStop();
 			
 			this.setOverAll();
 			
@@ -282,14 +397,14 @@ function Chat(options){
 		
 		message.text = message.text.replace(/(?:(https?\:\/\/[^\s]+))/m,'<a href="$1" target="_blank">$1</a>'); 
 		
-		var html = ChatManager.messageTemplate.replace(/\[MESSAGE\]/g, message.text);		
+		var html = Messenger.chatMessageTemplate.replace(/\[MESSAGE\]/g, message.text);		
 		html = html.replace(/\[USER_PICTURE\]/, message.userImage);		
 		html = html.replace(/\[DATE_TIME\]/, message.dateTime);
 		
 		var direction = (message.from == this.contactId) ? "in" : "out";
 		html = html.replace(/\[DIRECTION\]/, direction);
 		
-		var profileId = (message.from == this.contactId) ? this.contactId : ChatManager.currentUserId;		
+		var profileId = (message.from == this.contactId) ? this.contactId : Messenger.currentUserId;		
 		html = html.replace(/\[PROFILE_ID\]/, profileId);
 		
 		html = html.replace(/\[MESSAGE_SECTION_ID\]/, message.id);
@@ -315,8 +430,8 @@ function Chat(options){
 	this.setMessageAsRead = function(message){
 		
 		$.ajax({
-			url: '/user/messenger/message/read/messageId:' + message.id + '/userId:' + ChatManager.currentUserId + '/contactId:' + this.contactId,
-			//url: '/chat/index.php?setMessageAsRead=true&userId='+ChatManager.currentUserId+'&contactId='+this.contactId+'&messageId='+message.id,
+			url: '/user/messenger/message/read/messageId:' + message.id + '/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId,
+			//url: '/chat/index.php?setMessageAsRead=true&userId='+Messenger.currentUserId+'&contactId='+this.contactId+'&messageId='+message.id,
 			timeout:10000,
 			dataType: 'json',
 			context: this,
@@ -339,9 +454,9 @@ function Chat(options){
 		
 		textarea.val('');
 		var messageOptions = {
-			id: ChatManager.createRandomId(),
+			id: Messenger.createRandomId(),
 			text: message,
-			userImage: ChatManager.currentUserImage,			
+			userImage: Messenger.currentUserImage,			
 			dateTime: "",
 		};
 		
@@ -350,8 +465,8 @@ function Chat(options){
 		//console.log('START SENDING');
 				
 		$.ajax({
-			url: '/user/messenger/message/send/userId:' + ChatManager.currentUserId + '/contactId:' + this.contactId,
-			//url: '/chat/index.php?sendMessage=true&userId='+ChatManager.currentUserId+'&contactId='+this.contactId,
+			url: '/user/messenger/message/send/userId:' + Messenger.currentUserId + '/contactId:' + this.contactId,
+			//url: '/chat/index.php?sendMessage=true&userId='+Messenger.currentUserId+'&contactId='+this.contactId,
 			timeout:80000,
 			dataType: 'json',
 			type: 'Post',
@@ -366,9 +481,9 @@ function Chat(options){
 			success: function(response, status){				
 				if(response.success){
 					//console.log('END SENDING');
-					console.log('MESSAGE:' + JSON.stringify(response.message));
+					//console.log('MESSAGE:' + JSON.stringify(response.message));
 					var message = response.message;
-					$('#'+messageOptions.id).find('.message .dateTime').text(message.dateTime);
+					$('#'+messageOptions.id).find('.dateTime').text(message.dateTime);
 					/*
 					if(!message.contactIsOnline){
 						alert('‫המשתמש/ת נמצא/ת במצב לא מקוון. הודעות שיישלחו יועברו כאשר המשתמש/ת ת/ימצא במצב מקוון.‬');
@@ -393,7 +508,14 @@ function Chat(options){
 
 
 
-var ChatManager = {		
+
+
+
+
+
+
+
+var Messenger = {		
 	
 	currentUserId : '',
 	currentUserImage: '',
@@ -401,38 +523,38 @@ var ChatManager = {
 	//activeSessions : [],
 	templateHolder: '',
 	template : {},
-	messageTemplate : '',
+	chatMessageTemplate : '',
+	dialogMessageTemplate : '',
 	newMessagesRequest : '',
 	docTitle : document.title,
 		
 	init: function(){
 		
-		
-		
 		$.ajaxSetup({ cache: false });
 		
-		ChatManager.currentUserId = $('#currentUserId').val(),
-		ChatManager.currentUserImage = $('#currentUserImage').val(),
-		ChatManager.templateHolder = $('#chatTemplate'),
-		ChatManager.template = {
-			html: ChatManager.templateHolder.html(),
-			width: ChatManager.templateHolder.find('.chatWindow').width(),
+		Messenger.currentUserId = $('#currentUserId').val(),
+		Messenger.currentUserImage = $('#currentUserImage').val(),
+		Messenger.templateHolder = $('#chatTemplate'),
+		Messenger.template = {
+			html: Messenger.templateHolder.html(),
+			width: Messenger.templateHolder.find('.chatWindow').width(),
 			header: {
-				height: ChatManager.templateHolder.find('.header').height() 
+				height: Messenger.templateHolder.find('.header').height() 
 			}
 		};
 		
-		ChatManager.messageTemplate = $('#messageSectionTemplate').html();		
+		Messenger.chatMessageTemplate = $('#chatMessageSectionTemplate').html();
+		Messenger.dialogMessageTemplate = $('#dialogMessageSectionTemplate').html();
 		
-		//$('body').append('<embed src="/assets/frontend/media/newMessage.mp3" autoplay="false" autostart="false" type="audio/wav" width="1" height="1" id="newMessageSound" enablejavascript="true">');		
 		
-		ChatManager.checkNewMessages();
-		ChatManager.openChatsByActiveSessions();		
+		Messenger.checkNewMessages();
+		Messenger.openChatsByActiveSessions();
+		
+		
+		
 		$(window).resize(function(){
-			ChatManager.relocateChats();
+			Messenger.relocateChats();
 		});
-		
-		//console.log('INIT CHAT');
 		
 	},
 	
@@ -441,9 +563,9 @@ var ChatManager = {
 	},
 	
 	getChat: function(contactId){	
-		if(ChatManager.chats.length > 0){		
-			for(var i in ChatManager.chats){
-				var chat = ChatManager.chats[i];
+		if(Messenger.chats.length > 0){		
+			for(var i in Messenger.chats){
+				var chat = Messenger.chats[i];
 				if(chat.contactId == contactId){
 					return chat;
 				}
@@ -454,38 +576,38 @@ var ChatManager = {
 	},
 	
 	setChat: function(chat){		
-		ChatManager.chats.push(chat);
+		Messenger.chats.push(chat);
 	},
 	
 	unsetChat: function(chat){
 		
-		var index = ChatManager.chats.indexOf(chat);
+		var index = Messenger.chats.indexOf(chat);
 		if (index > -1) {
-			ChatManager.chats.splice(index, 1);
+			Messenger.chats.splice(index, 1);
 		}
 	},
 	
 	relocateChats: function(){		
-		for(var i in ChatManager.chats){
-			var chat = ChatManager.chats[i];
-			var position = ChatManager.calculateChatPosition(i);
+		for(var i in Messenger.chats){
+			var chat = Messenger.chats[i];
+			var position = Messenger.calculateChatPosition(i);
 			$('.chatsArea').find('#'+chat.contactId).css({"right":position.x, "bottom": position.y});
 		}	
 	},
 	
 	calculateChatPosition: function(i){
 		
-		var chatsNumberInRow = Math.floor($(window).width() / (ChatManager.template.width + 20) );
+		var chatsNumberInRow = Math.floor($(window).width() / (Messenger.template.width + 20) );
 		var currentRowIndex =  Math.floor( i / chatsNumberInRow );		
 		
 		var chatsNumberIncurrentRow = i - (chatsNumberInRow * currentRowIndex);
-		var chatPositionX = chatsNumberIncurrentRow * ChatManager.template.width + (chatsNumberIncurrentRow * 20) + 20;
+		var chatPositionX = chatsNumberIncurrentRow * Messenger.template.width + (chatsNumberIncurrentRow * 20) + 20;
 		
 		if(chatPositionX == 0){
 			chatPositionX = 20;
 		}
 		
-		var chatPositionY = currentRowIndex * ChatManager.template.header.height + 20;
+		var chatPositionY = currentRowIndex * Messenger.template.header.height + 20;
 		
 		if(chatPositionY > 20){
 			chatPositionY += currentRowIndex * 20;       
@@ -498,48 +620,72 @@ var ChatManager = {
 	},
 	  
 	
-	checkActiveChatsNewMessages: function(){				
-		if(ChatManager.getAllChats().length > 0){
+	checkActiveWindowsNewMessages: function(){
+		
+		//alert(1); 
+		
+		if(Messenger.getAllChats().length > 0 || dialog){
 			
-			if(ChatManager.newMessagesRequest != '')
-				ChatManager.newMessagesRequest.abort();
+			if(Messenger.newMessagesRequest != '')
+				Messenger.newMessagesRequest.abort();
 			
-			//console.log('START');
-			ChatManager.newMessagesRequest = $.ajax({
-				url: '/user/messenger/activeChats/newMessages/userId:' + ChatManager.currentUserId,				
+			var checkForDialogAlso = false;
+			var contactId = false;
+			
+			if(dialog){
+				checkForDialogAlso = true;
+				contactId = dialog.contactId;
+			}
+			
+			console.log('START ActiveChatsNewMessages');
+			Messenger.newMessagesRequest = $.ajax({
+				url: '/user/messenger/activeChats/newMessages/userId:' + Messenger.currentUserId,				
 				timeout:80000,
 				dataType: 'json',
-				//data: 'message='+message,
+				data: 'checkForDialogAlso=' + checkForDialogAlso + '&contactId=' + contactId,
 				context: this,
 				error: function(response){
-					//console.log('ABORT');
+					console.log('ABORT ActiveChatsNewMessages');
 					//console.log(JSON.stringify(response));
 					$('.error').html(response.responseText);
 				},
 				success: function(response, status){				
 					console.log(JSON.stringify(response));
-					//console.log('END');
+					console.log('END ActiveChatsNewMessages');
 									
 					if(response.newMessages.length > 0){
 						for(var i in response.newMessages){
 							var message = response.newMessages[i];					
-							var chat = ChatManager.getChat(message.from);
+							var chat = Messenger.getChat(message.from);
 													
-							if(chat){							
+							if(chat){
+								
+								//alert(dialog.contactId); 
+								
+								if(dialog && chat.contactId == dialog.contactId){									
+									dialog.insertMessage(message);	
+									dialog.setMessageAsRead(message);
+								}
+								
 								chat.insertMessage(message);
 								
 								if(chat.isMinimized){
 									chat.addMessageToWaiting(message);									
 									chat.blinkingStart();
-									ChatManager.blinkingTitleStart();
-									//ChatManager.play('newMessageSound');
+									Messenger.blinkingTitleStart();
+									//Messenger.play('newMessageSound');
 									$('body').append('<embed src="/assets/frontend/media/newMessage.mp3" autoplay="true" autostart="true" type="audio/x-wav" width="1" height="1">');
 								}else{								
 									chat.setMessageAsRead(message);
 									chat.blinkingStop();
-									ChatManager.blinkingTitleStop();
+									Messenger.blinkingTitleStop();
 								}								
-							}
+							}							
+							else if(dialog && message.from == dialog.contactId){
+								//alert(dialog.contactId);
+								dialog.insertMessage(message);	
+								dialog.setMessageAsRead(message);
+							}							
 							else{
 								//console.log("This chat is not active.");
 								var options = {
@@ -556,7 +702,7 @@ var ChatManager = {
 							
 					}								  
 					
-					ChatManager.checkActiveChatsNewMessages();
+					Messenger.checkActiveWindowsNewMessages();
 					
 				}
 			});
@@ -570,16 +716,16 @@ var ChatManager = {
 		console.log("START CHECK NEW MESSAGES");
 		
 		$.ajax({
-			url: '/user/messenger/newMessages/userId:' + ChatManager.currentUserId,
-			//url: '/chat/index.php?checkNewMessages=true&userId='+ChatManager.currentUserId,
+			url: '/user/messenger/newMessages/userId:' + Messenger.currentUserId,
+			//url: '/chat/index.php?checkNewMessages=true&userId='+Messenger.currentUserId,
 			timeout:80000,
 			dataType: 'json',
 			//data: 'message='+message,
 			context: this,
 			error: function(response){
-				//console.log('ABORT');
-				//console.log(JSON.stringify(response));
-				//ChatManager.checkActiveChatsNewMessages();
+				console.log('ABORT');
+				console.log(JSON.stringify(response));
+				//Messenger.checkActiveWindowsNewMessages();
 				$('.error').html(response.responseText);
 			},
 			success: function(newMessages, status){				
@@ -595,13 +741,16 @@ var ChatManager = {
 							creatingInCycle: true
 						};
 						
-						var chat = new Chat(options);
-						chat.open();
+						if(!dialog || (dialog && user.id != dialog.contactId) ){
+							var chat = new Chat(options);
+							chat.open();
+						}
+						
 					}				
 				}
 				
 				setTimeout(function(){
-					ChatManager.checkNewMessages();
+					Messenger.checkNewMessages();
 				}, 15000);
 		 
 			}
@@ -613,8 +762,8 @@ var ChatManager = {
 		
 		
 		$.ajax({
-			url: '/user/messenger/activeChats/userId:' + ChatManager.currentUserId,
-			//url: '/chat/index.php?getActiveChats=true&userId='+ChatManager.currentUserId,
+			url: '/user/messenger/activeChats/userId:' + Messenger.currentUserId,
+			//url: '/chat/index.php?getActiveChats=true&userId='+Messenger.currentUserId,
 			timeout:80000,
 			dataType: 'json',			
 			context: this,
@@ -644,11 +793,14 @@ var ChatManager = {
 						chat.open();
 						
 					}
+				}
+				else{
+					Messenger.checkActiveWindowsNewMessages();
 				}	
 				
 				/*
 				setTimeout(function(){
-					ChatManager.checkActiveChatsNewMessages();  
+					Messenger.checkActiveWindowsNewMessages();  
 				}, 200);
 				*/
 				
@@ -657,9 +809,9 @@ var ChatManager = {
 	},	
 	
 	blinkingTitleStart: function(){	
-		ChatManager.blinkingTitleStop();
+		Messenger.blinkingTitleStop();
 		blinkingTitle = setInterval(function(){
-			document.title = (document.title == "***New Message***" ? ChatManager.docTitle : "***New Message***");
+			document.title = (document.title == "***New Message***" ? Messenger.docTitle : "***New Message***");
 		}, 500);
 		
 	},
@@ -667,7 +819,7 @@ var ChatManager = {
 	blinkingTitleStop: function(){
 		if( blinkingTitle ){
 			clearInterval(blinkingTitle);
-			document.title = ChatManager.docTitle;
+			document.title = Messenger.docTitle;
 		}
 	}, 
 	
@@ -693,4 +845,29 @@ var ChatManager = {
 
 
 
-window.onload = ChatManager.init;
+window.onload = function(){
+	
+	Messenger.init();
+	
+	dialog = false;
+	
+	var contactId = $('#contactId').val();
+	
+	if(contactId){
+		
+		var options = {
+			contactId: contactId,
+			contactName: $('#contactNickname').val(),
+			userName: $('#userNickname').val(),
+			creatingInCycle: false
+		};
+	
+		Dialog.prototype = new Chat(options);
+		Dialog.prototype.constructor = Dialog;
+		dialog = new Dialog(options);	
+	}
+	
+	//dialog.checkNewMessages();
+	
+}; 
+

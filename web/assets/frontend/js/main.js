@@ -39,6 +39,10 @@ $(document).ready(
 			$('.selectBox-label').css({'width':'159px'});
 		});
 		
+		$('.dialogs').perfectScrollbar({
+			wheelSpeed: 35
+		});
+		
 	}
 );
 
@@ -205,3 +209,5 @@ function viewUserProfile(userId, offSetTop){
 		},
 	});	
 }
+
+
