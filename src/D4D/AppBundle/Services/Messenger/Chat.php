@@ -80,13 +80,11 @@ class Chat extends Messenger{
 			$userAttributes->post($this->config->messenger,
 				array(					
 					$this->message->from, 
-					$this->message->to,
-					//iconv("windows-1255", "utf-8", $this->message->text), 
+					$this->message->to,					 
 					$this->message->text,
 					$this->message->date,
 					$this->message->isRead,
 					$this->message->isDelivered,
-					//null,
 				)
 			);
 			
@@ -94,6 +92,45 @@ class Chat extends Messenger{
 			$timestamp = $messageDateObject->getTimestamp();
 			$date = date("d/m/Y", $timestamp);
 			$time = date("h:i", $timestamp);
+			
+			
+			$sql = "				
+				SELECT listMemberId FROM contactedMeList WHERE
+					(listOwnerId = ? AND listMemberId = ?)
+						OR
+					(listOwnerId = ? AND listMemberId = ?)		
+			";
+			
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindParam(1, $this->message->from, \PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->message->to, \PDO::PARAM_INT);
+			$stmt->bindParam(3, $this->message->to, \PDO::PARAM_INT);
+			$stmt->bindParam(4, $this->message->from, \PDO::PARAM_INT);
+			$stmt->execute();
+			
+			$contacted = $stmt->fetchAll();
+			
+			if(!count($contacted)){				
+				$userAttributes->post($this->config->contacted,
+					array(						
+						$this->message->from,
+						$this->message->to,
+						$this->message->date,	
+					)
+				);			
+			}
+			
+			$userAttributes->post($this->config->messages,
+				array(
+					$this->message->date,
+					$this->message->from,
+					$this->message->to,					
+					$this->message->isRead,
+					$this->message->text,
+					0,
+					0,
+				)
+			);			
 			
 			return array(
 				"id" => $userAttributes->getLastId(),	

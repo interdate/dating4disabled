@@ -1,0 +1,65 @@
+	{% extends "D4DAppBundle::frontend.layout.twig.html" %}
+
+	{% if form is defined and form %}{% form_theme form 'D4DAppBundle:Common/Form:frontend_form_layout.html.twig' %}{% endif %}
+
+	{% block content %}
+		<div id="content-body">
+			<div class="mwarp">
+				<div class="wide">
+					<div class="bg topblock">
+						<div class="top">&nbsp;</div>
+						<div class="middle">
+							<div class="warpper full-col">
+								<h2 class="iMatches">Settings</h2>
+								<div class="signup_warp"{% if formView %} style="display:none;"{% endif %}>  
+									<input id="userSettigs" type="hidden" value="{{ path('user_settings') }}"/>
+									<h3 style="width: 100%;margin:0 0 10px -12px;">General Settings</h3>
+									<div class="profile_line">									
+										<div class="actions" style="text-align: left;padding-top: 0px;">
+											<a href="{{ path('user_profile') }}" class="view_profile">Edit Profile</a>
+											<a href="{{ path('user_photos') }}" class="add">Edit Photos</a>
+										</div>  																		
+									<div class="clear"></div>
+									</div> 
+									<h3 style="width: 100%;margin:20px 0 10px -12px;">Advanced Settings</h3>
+									<div class="profile_line">									
+										<div class="actions" style="text-align: left;padding-top: 0px;">
+											<a href="{{ path('user_users_group', {'groupName': 'favi','settings': '1'}) }}" class="view_profile">Manage Your Friends List</a>
+											<!--<a href="{{ path('user_users_group', {'groupName': 'black','settings': '1'}) }}" onclick="return false;" class="add">Manage Your Black List</a>-->
+										</div>  																		
+									<div class="clear"></div>
+									</div>
+									<h3 style="width: 100%;margin:20px 0 10px -12px;">Freeze Account</h3>
+									<div class="profile_line">									
+										<div class="actions" style="text-align: left;padding-top: 0px;">
+											<a href="" onclick="$('.signup_warp').hide();$('.wrap').show();return false;" class="view_profile" style="padding: 0px 0px 3px 36px;">Put your account on hold. 
+						After freezing your account members will not be able to see your profile or contact you in dating4disabled.com. 
+						To re-activate your account, just enter the site as usual.</a>											
+										</div>  																		
+									<div class="clear"></div>
+									</div>
+								</div> 
+								<div class="wrap"{% if formView == false %} style="display:none;"{% endif %}>
+									<div style="text-shadow:0px 0px 1px red;color:#fff;font-size:17px;background:#de4f15;text-align:center;padding:10px;border-radius: 18px; margin-bottom: 10px;">
+										For your information: Freezing your account does not automatically cancel payed subscription. If you have a payed subscription and you wish to freeze your account, send us an email , with your request.
+									</div>
+									{{ form_start(form, {'attr': {'id': 'freeze_form', 'class': 'signform_01'}}) }}
+										{{ form_row(form.userwhyfrozen, {'attr': {'class': 'freezeTextarea'}}) }}
+										<div class="field_text" style="width:480px;">
+											<div class="submit" style="margin-top:10px;" onclick="$('#freeze_submit').click();">Freeze</div>
+										</div>
+										<div class="clear"></div>   
+										<input style="display: none;" id="freeze_submit" type="submit" name="user(add)" value="add"/>
+									{{ form_end(form) }}
+								</div>
+								<div class="clear"></div>                           
+							</div>
+						</div>
+						<div class="bottom">&nbsp;</div>
+					</div>
+				</div>
+				{{ include ('D4DAppBundle:Frontend:Common/sidebar.twig.html') }}
+			</div>
+		</div>
+
+	{% endblock %}

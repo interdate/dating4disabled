@@ -211,3 +211,30 @@ function viewUserProfile(userId, offSetTop){
 }
 
 
+function changeUserGroup(groupName,userId,act,el){
+	var route = $('#userSettingsRoute').val();
+	$.ajax({
+		url: route,
+		type: 'post',
+		data: 'userId=' + userId + '&mode=' + groupName + '&act=' + act,
+		success: function(data){
+			//alert(data);
+			if($(el).size() > 0 && act == '0'){
+				if($(el).parent().parent().attr('class') == 'list-text'){
+					$(el).parent().parent().parent().remove();
+				}else
+					$(el).parent().parent().remove();
+			}
+			if($(el).size() > 0 && act == '1'){
+				$(el).remove();
+			}
+		},
+		error: function(error){
+			//alert('This member i');
+			if($(el).size() > 0 && act == '1'){
+				$(el).remove();
+			}
+		}
+	});	
+}
+

@@ -1542,7 +1542,6 @@ table tr th:first-child{border-radius: 7px 0 0; }
 	margin-bottom: 4px;	
 }
 
-
 .dialogs{		
 	-moz-border-radius: 17px;
     -webkit-border-radius: 17px;
@@ -1629,5 +1628,10 @@ table tr th:first-child{border-radius: 7px 0 0; }
 
 #dialog p{
 	margin-top: 5px;
-	margin-bottom: 30px;	
+	margin-bottom: 30px;
+}
+
+.freezeTextarea{
+	width: 400px;
+	height: 100px;
 }

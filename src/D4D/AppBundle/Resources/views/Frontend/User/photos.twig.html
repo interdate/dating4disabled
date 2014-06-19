@@ -26,13 +26,14 @@
                                 </div>
                                 <div id="images" class="frow" style="display: inline-block;">
                                     <div class="image-main" style="float: left;width: 286px;margin-right: 20px;">
+										{% set imgMain = false %}
                                         {% for photo in photos %}
-                                            {% if photo.imgmain and imgMain is not defined %}
-                                                {% set imgMain = photo.getWebPath %}
+                                            {% if photo.imgmain and imgMain == false %}
+                                                {% set imgMain = true %}
                                                 <img style="margin-bottom: 15px;" width="286" height="370" approved="{{ photo.imgvalidated }}" imgMain="{{ photo.imgmain }}" src="{{ photo.getWebPath }}" />
                                             {% endif %}
                                         {% endfor %}
-                                        {% if photos[0] is not defined and imgMain is not defined %}
+                                        {% if photos[0] is defined and imgMain == false %}											
                                             <img style="margin-bottom: 15px;" width="286" height="370" approved="{{ photos[0].imgvalidated }}" imgMain="{{ photos[0].imgmain }}" src="{{ photos[0].getWebPath }}" />
                                         {% endif %}
                                         <div class="clear"></div>

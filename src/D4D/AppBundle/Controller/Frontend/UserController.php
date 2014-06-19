@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,9 +50,10 @@ class UserController extends Controller{
                     $factory = $this->get('security.encoder_factory');
                     $encoder = $factory->getEncoder($user);
                     $pass = $user->getUserpass();
-                    $password = $encoder->encodePassword($user->getUserpass(), $user->getSalt());
+                    $password = $encoder->encodePassword($pass, $user->getSalt());
                     $user->setUserpass($password);
                     $user->setUserip($request->getClientIp());
+					$user->setUserregistrationdate(new \DateTime('now'));
                    
                     $em->persist($user);
                     $em->flush();
@@ -146,6 +148,10 @@ class UserController extends Controller{
             $codeCheck = md5($user->getUseremail() . $user->getUsernic() . $user->getUserId());
             if($codeCheck === $code){
                 $user->setUsernotcomlitedregistration(0);
+				$user->setUsernotapproved(0);
+				$user->setUsernotactivated(0);
+				$user->setUserfrozen(0);
+				$user->setUserblocked(0);
                 $em = $doctrine->getManager();
                 $em->persist($user);
                 $em->flush();
@@ -200,9 +206,18 @@ class UserController extends Controller{
     				'imgmain' => true,    						
     			));
     			    			 
+    			if(!$mainPhoto instanceof Images){
+    				$mainPhoto = new Images();
+    				$mainPhoto->setUserid($item);
+    			}
+    			
+    			$item->setMainPhoto( $mainPhoto );
+    			
+    			/*
     			if($mainPhoto instanceof Images && is_file($mainPhoto->getAbsolutePath())){
     				$item->setMainPhoto( $mainPhoto );
     			}
+    			*/
     		}
     		
     		$header = 'Search Results';
@@ -231,12 +246,13 @@ class UserController extends Controller{
     	$request = $this->get('request');
     	$currentRoute = $request->get('_route');
     	$perPage = ($currentRoute == 'user_users_group') ? 20 : 66;    	
-    	$userId = $this->getUser()->getUserid();
+    	$userId = $this->getUser()->getUserid();//61498;		
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');    	
     	$geoip = $this->get('maxmind.geoip');
     	$post = $request->request->all();
     	$page = isset($post['page']) ? $post['page'] : 1;
-    	$users = $usersRepo->getUsersByGroup($userId, $groupName, $page, $perPage, $geoip);
+    	$users = $usersRepo->getUsersByGroup($userId, $groupName, $page-1, $perPage, $geoip);
+		$settings = (isset($post['settings']) || $request->get('settings')!=null) ? true : false;
     	
     	if(!$groupName){
     		$groupName = $post['groupName'];
@@ -248,7 +264,7 @@ class UserController extends Controller{
     	return $this->render('D4DAppBundle:Frontend/User:search.twig.html', array(
     		'users' => $users,
     		'groupName' => $groupName, 
-    		//'page' => $page,
+    		'settings' => $settings,
     		'header' => $header,
     		'viewType' => $viewTypeData,
     		'pagination' => array(
@@ -442,7 +458,6 @@ class UserController extends Controller{
     	}
     }
     
-    
     public function dialogsAction(){
     	$usersRepo = $this->getDoctrine()->getRepository('D4DAppBundle:Users');
     	$userId = $this->getUser()->getUserid();
@@ -510,8 +525,85 @@ class UserController extends Controller{
     	
     	
     }
-    
-    
+
+	public function settingsAction(){
+		$isAjax = $this->getRequest()->isXmlHttpRequest();
+		$request = $this->get('request');
+		$doctrine = $this->getDoctrine();
+		$user = $this->getUser();
+		if($isAjax){			
+			$usersRepo = $doctrine->getRepository('D4DAppBundle:Users');  
+			$userId = $user->getUserid();
+			$post = $request->request->all();			
+			$result = $usersRepo->changeUserGroup($post['mode'], $userId, $post['userId'], $post['act']);
+			echo $result; exit();			
+		}else{
+			$formView = false;
+			$form = $this->createFormBuilder($user)
+				->add('userwhyfrozen', 'textarea', array(
+					'label' => 'Tell us why'
+				))->getForm();
+			if($request->isMethod('POST')){
+				$formView = true;
+				$form->submit($request);
+				if($form->isValid()){
+					$em = $doctrine->getManager();
+					$em->persist($user);
+                    $em->flush();
+					$formView = false;
+				}
+			}
+		}
+		return $this->render('D4DAppBundle:Frontend/User:settings.twig.html', array(
+			'form' => $form->createView(),
+			'formView' => $formView
+		));
+	}
+	
+	public function recoveryPasswordAction(){
+		$success = false;
+		$request = $this->get('request');
+		$form = $this->createFormBuilder()
+			->add('email', 'text', array(
+				'label' => 'Email',
+				'constraints' => array(
+					new Constraints\NotBlank(),
+					new Constraints\Email(array(
+						'message' => 'The email "{{ value }}" is not a valid email.', 
+						'checkMX' => true
+					))
+				)
+			))->getForm();
+		if($request->isMethod('POST')){
+			$form->submit($request);
+			if($form->isValid()){
+				$success = true;
+				$formRequect = $request->get('form');
+				$email = $formRequect['email'];
+				$doctrine = $this->getDoctrine();
+				$user = $doctrine->getRepository('D4DAppBundle:Users')->findOneByUseremail($email);
+				if($user){
+					$em = $doctrine->getManager();
+					$factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($user);
+					$pass = substr(sha1(uniqid(mt_rand(), true)), 0 , 7);					
+					//$pass = '1234';
+                    $password = $encoder->encodePassword($pass, $user->getSalt());
+                    $user->setUserpass($password);
+					
+					$em->persist($user);
+                    $em->flush();
+					$this->sendMailAction($user, $pass, array('password'));
+				}else{
+					$success = 'error';
+				}
+			}
+		}				
+		return $this->render('D4DAppBundle:Frontend/User:recoveryPassword.twig.html', array(
+			'form' => $form->createView(),
+			'success' => $success
+		));
+	}
 
 
 }

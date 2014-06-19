@@ -14,4 +14,8 @@
  .col-lg-offset-2 input[type="submit"]{margin-right: 5px;}
  .btn-toolbar:last-child{margin: 5px 0 0 -5px}
  .btn-toolbar:first-child{margin: 0}
+ .iForum + .wrap form label{
+ 	width: 100px;
+    font-weight: bold;
+}
  
