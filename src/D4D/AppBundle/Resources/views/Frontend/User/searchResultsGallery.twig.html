@@ -28,8 +28,12 @@
 			                                        </div>
 			                                    </div>
 			                                    <div class="list-links">
-			                                        <a href="#" class="message">Send Message</a>
-			                                        <a class="chat" id="chat_{{ user.userid }}_{{user.usernic}}">Chat</a>
+													{% if settings is defined and settings and groupName == 'favi' %}
+														<a href="" onclick="changeUserGroup('{{ groupName }}','{{ user.userid }}','0',this);return false;" id="remove" class="close" style="float: none;padding: 7px 0 5px 37px;background: url(/assets/frontend/images/profile-sprite.png) no-repeat;">Remove</a>
+													{% else %}														
+														<a href="#" class="message">Send Message</a>
+														<a class="chat" id="chat_{{ user.userid }}_{{user.usernic}}">Chat</a>
+													{% endif %}
 			                                    </div>
 			                                </div>
 			                            

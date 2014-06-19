@@ -55,7 +55,10 @@
 										{% endif %}						
 									{% endfor %}
 								{% endif %}
-								
+								{% if settings is defined and settings and groupName == 'favi' %}
+									<input type="hidden" name="settings" value="{{ settings }}" />
+								{% endif %}
 								<input type="hidden" name="page" value="" id="requestedPage">
+								
 							</form>
 							

@@ -24,10 +24,16 @@
 		                                        <h4>{{ user.usernic }}</h4>
 		                                        <p>{{ user.useraboutme|raw }}</p>
 		                                        <div class="list-links">
-		                                            <a class="profile" onclick="viewUserProfile({{ user.userid }}, $(this).offset().top)">View Profile</a>
-		                                            <a href="#" class="message">Send Message</a>
-		                                            <a href="#" class="friend">Add Friend</a>
-		                                            <a class="chat" id="chat_{{ user.userid }}_{{user.usernic}}">Chat</a>
+													{% if settings is defined and settings and groupName == 'favi' %}
+														<a href="" onclick="changeUserGroup('{{ groupName }}','{{ user.userid }}','0',this);return false;" id="remove" class="close" style="float: none;padding: 7px 0 5px 37px;background: url(/assets/frontend/images/profile-sprite.png) no-repeat;">Remove</a>
+													{% else %}														
+														<a class="profile" onclick="viewUserProfile({{ user.userid }}, $(this).offset().top)">View Profile</a>
+														<a href="#" class="message">Send Message</a>
+														{% if (groupName is defined and groupName != 'favi') or groupName is not defined %} 
+															<a href="" onclick="changeUserGroup('favi','{{ user.userid }}','1',this);return false;" class="friend">Add Friend</a> 
+														{% endif %}
+														<a class="chat" id="chat_{{ user.userid }}_{{user.usernic}}">Chat</a>
+													{% endif %}
 		                                        </div>
 		                                    </div>
 		                                    <div class="clear"></div>

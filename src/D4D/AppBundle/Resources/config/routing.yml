@@ -61,6 +61,13 @@ user_photos:
     path:     /user/photos
     defaults: { _controller: D4DAppBundle:Frontend\User:photos}
     
+user_settings:
+    path:			/user/settings
+    defaults: { _controller: D4DAppBundle:Frontend\User:settings}
+    
+user_recovery_password:   
+    path:			/recovery
+    defaults: { _controller: D4DAppBundle:Frontend\User:recoveryPassword}
     
 
 

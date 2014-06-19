@@ -349,6 +349,18 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 	
 		return $users;
 	}
+	
+	public function changeUserGroup($groupName, $userOwnerId, $userMemberId, $act){
+		//$act  0 - delete, 1 - insert
+		$sql = "EXEC site_lists_do " . $groupName . ", " . $userOwnerId . ", " . $userMemberId . ", " . $act;
+		$this->connection = $this->getEntityManager()->getConnection();
+		$stmt = $this->connection->query($sql);
+		$stmt->nextRowset();
+		if($act == '1') $stmt->nextRowset();
+		$result = $stmt->fetchAll();
+
+		return ($act == '1') ? $result[0]['addedMsg'] : $result[0]['removedMsg'];
+	}
 
 	public function  getUsersByGroup($userId, $groupName, $page, $perPage, $geoip){
 				
@@ -358,9 +370,10 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 		$result = $stmt->fetchAll();
 		
 		//print_r($result);
+		//var_dump($result);die;
 		
 		$users['items'] = array();		
-		$users['itemsNumber'] = $result[0][""];
+		$users['itemsNumber'] = (isset($result[0][""])) ? $result[0][""] : $result[0]["countUsers"];
 		
 		if($users['itemsNumber'] > 0){
 			$stmt->nextRowset();
@@ -374,7 +387,16 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 				$user = $this->find($row['userId']);
 				$user->setUserPaying($row['isUserPaying']);				
 				$user->setAge($row['userAge']);
+				$photosRepo = $this->getEntityManager()->getRepository('D4DAppBundle:Images');
+				$mainPhoto = $photosRepo->findOneBy(array(
+    				'userid' => $user->getUserid(),
+    				'imgmain' => true,    						
+    			));    			    			 
+    			if($mainPhoto instanceof Images && is_file($mainPhoto->getAbsolutePath())){
+    				$user->setMainPhoto( $mainPhoto );
+    			}
 				$users['items'][] = $this->setUserGeoData($user, $geoip);
+				
 				
 			}
 		}
@@ -414,8 +436,8 @@ class UsersRepository extends EntityRepository implements UserProviderInterface
 	public function getGroupHeaderByGroupName($groupName){
 		
 		switch ($groupName) {
-			case 'fav':
-				return 'Added You To Friends';
+			case 'favi':
+				return 'Friends';
 			
 			case 'coni': 
 				return 'People I contacted';

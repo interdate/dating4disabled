@@ -65,7 +65,7 @@
 		                            {% else %}
 		                                {{ include ('D4DAppBundle:Frontend:User/searchResultsGallery.twig.html', { 'users': users }) }}
 		                            {% endif %}
-	                            
+									<input type="hidden" value="{{ path('user_settings') }}" id="userSettingsRoute"/>
 	                            {% endif %}
 	                            
 	                            {#	                            

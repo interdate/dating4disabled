@@ -81,7 +81,7 @@ class LangDyncpagesRepository extends EntityRepository{
                 elseif(stripos($costant, 'region') !== false)
                     $response['values'][] = $regionName;
                 elseif(stripos($costant, 'pic') !== false)
-                    $response['values'][] = $photo ? $photo->getPath() : '';
+                    $response['values'][] = $photo ? $photo->getWebPath() : '';
                 else
                     $response['values'][] = '';
         }
